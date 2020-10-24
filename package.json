@@ -5,5 +5,12 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel src/index.html"
+  },
+  "dependencies": {
+    "webmidi": "^2.5.1"
+  },
+  "devDependencies": {
+    "sass": "^1.27.0",
+    "typescript": "^4.0.3"
   }
 }
