@@ -1,5 +1,10 @@
 import WebMidi, { InputEventNoteoff, InputEventNoteon } from "webmidi";
 
+const soundPaths = Object.values(require("./sounds/*.mp3"));
+const sounds = soundPaths.map((path: string) => new Audio(path));
+const keys = ["C4", "D4", "E4"];
+const keyMap = Object.fromEntries(sounds.map((sound, i) => [keys[i], sound]));
+
 WebMidi.enable((err) => {
   if (err) {
     console.log("WebMidi could not be enabled.", err);
@@ -20,14 +25,9 @@ const lightOff = (square: HTMLElement): void => {
   square.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
 };
 
-function playback(note) {
-  // const audioSample = document.getElementById(
-  //   `audio-${note}`
-  // ) as HTMLAudioElement;
-  // audioSample.play();
-  const sound = new Audio(`./mouth_kick.467237a6.mp3`);
-  sound.play();
-}
+const playback = (note: string): void => {
+  keyMap[note].play();
+};
 
 function handleNoteOnEvent(event: InputEventNoteon) {
   console.log("event", event);
@@ -38,8 +38,6 @@ function handleNoteOnEvent(event: InputEventNoteon) {
   const square = document.getElementById(note);
   lightUp(square);
   playback(note);
-  // const audio = new Audio("./mouth_kick.mp3");
-  // audio.play();
 }
 
 function handleNoteOffEvent(event: InputEventNoteoff) {
