@@ -30,7 +30,7 @@ const playback = (note: string): void => {
 };
 
 function handleNoteOnEvent(event: InputEventNoteon) {
-  console.log("event", event);
+  console.debug("event", event);
   const {
     note: { name, octave },
   } = event;
@@ -41,7 +41,7 @@ function handleNoteOnEvent(event: InputEventNoteon) {
 }
 
 function handleNoteOffEvent(event: InputEventNoteoff) {
-  console.log("event", event);
+  console.debug("event", event);
   const {
     note: { name, octave },
   } = event;
