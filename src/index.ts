@@ -69,5 +69,7 @@ const onSquareClick = (element: HTMLElement) => {
 
 const squares = document.getElementsByClassName("square");
 Array.from(squares).forEach((element: HTMLElement) =>
-  element.addEventListener("click", () => onSquareClick(element))
+  ["click", "touchstart"].forEach((event) =>
+    element.addEventListener(event, () => onSquareClick(element))
+  )
 );
