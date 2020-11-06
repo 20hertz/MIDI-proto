@@ -1,20 +1,31 @@
-import WebMidi, {
-  Input as MidiPortInput,
-  InputEventNoteoff,
-  InputEventNoteon,
-} from "webmidi";
+import WebMidi, { Input as MidiPortInput, InputEvents } from "webmidi";
 
 enum Keys {
   C4 = "C4",
   D4 = "D4",
   E4 = "E4",
+  G4 = "G4",
+  A4 = "A4",
+  B4 = "B4",
 }
+const keys = Object.values(Keys);
+
+type Key = Record<string, AudioBuffer>;
+let keyMap: Key;
+
 const BUCKET_URL =
   "https://boomtap-proto-test-sample-bucket.s3.ca-central-1.amazonaws.com/";
 
-const SAMPLE_NAMES = ["mouth_snare.mp3", "mouth_kick.mp3", "mouth_hihat.mp3"];
+const SAMPLE_NAMES = [
+  "mouth_snare.mp3",
+  "mouth_kick.mp3",
+  "mouth_hihat.mp3",
+  "mouth_tom1.mp3",
+  "mouth_tom2.mp3",
+  "mouth_tom3.mp3",
+];
 
-async function fetchSamples() {
+async function fetchSamples(): Promise<AudioBuffer[]> {
   let sampleBuffers = [];
   await Promise.all(
     SAMPLE_NAMES.map(async (name) => {
@@ -27,6 +38,8 @@ async function fetchSamples() {
   return sampleBuffers;
 }
 
+// TODO:  Only create AudioContext when user has interacted with the domain (click, tap, etc.),
+//        or else it will be created in the "suspended" state
 const audioCtx = new AudioContext();
 
 function play(audioBuffer: AudioBuffer) {
@@ -36,15 +49,12 @@ function play(audioBuffer: AudioBuffer) {
   source.start();
 }
 
-let keyMap;
-
-const keys = [Keys.C4, Keys.D4, Keys.E4];
-
 const createKeyMap = async () => {
   const sampleBuffers = await fetchSamples();
   keyMap = Object.fromEntries(
     sampleBuffers.map((sound, i) => [keys[i], sound])
   );
+  console.log("createKeyMap -> keyMap", keyMap);
 };
 
 createKeyMap();
@@ -57,10 +67,10 @@ const playback = (note: Keys): void => {
   play(keyMap[note]);
 };
 
-type MidiEventTypes = "noteon" | "noteoff";
-
-const listenTo = (eventTypes: MidiEventTypes[]) => (input: MidiPortInput) => {
-  eventTypes.forEach((eventType: MidiEventTypes) =>
+const listenTo = <T extends keyof InputEvents>(eventTypes: T[]) => (
+  input: MidiPortInput
+) => {
+  eventTypes.forEach((eventType: T) =>
     input.addListener(eventType, "all", (event) => onMidiEvent(event))
   );
 };
@@ -77,8 +87,22 @@ WebMidi.enable((err) => {
   listenTo(["noteon", "noteoff"])(input);
 });
 
-function onMidiEvent(event: InputEventNoteon | InputEventNoteoff) {
+function onMidiEvent<T extends keyof InputEvents>(event: InputEvents[T]) {
   console.debug("event", event);
+  switch (event.type) {
+    case "noteon":
+    case "noteoff":
+      midiNoteEvent(event as InputEvents["noteoff" | "noteon"]);
+      break;
+
+    default:
+      break;
+  }
+}
+
+type MidiNoteEvent = InputEvents["noteon" | "noteoff"];
+
+function midiNoteEvent(event: MidiNoteEvent) {
   const {
     note: { name, octave },
     type,
@@ -101,17 +125,20 @@ const onSquareClick = (element: HTMLElement) => {
   }, 50);
 };
 
-const squares = document.getElementsByClassName("square");
-Array.from(squares).forEach((element: HTMLElement) =>
+const squares = document.getElementsByClassName("square") as HTMLCollectionOf<
+  HTMLElement
+>;
+
+for (const square of squares) {
   ["click", "touchstart"].forEach((event) =>
-    element.addEventListener(event, () => onSquareClick(element))
-  )
-);
+    square.addEventListener(event, () => onSquareClick(square))
+  );
+}
 
-// function GetChar(event) {
-//   const chCode = "charCode" in event ? event.charCode : event.keyCode;
-//   console.log("The Unicode character code is: " + chCode);
-//   play(sampleBuffer);
-// }
+enum keyboardToNoteMap {
+  a = Keys.C4,
+}
 
-// document.onkeypress = (event) => GetChar(event);
+const keyboardPlay = (key: string) => playback(keyboardToNoteMap[key] as Keys);
+
+document.onkeypress = (event) => keyboardPlay(event.key);
