@@ -38,6 +38,8 @@ async function fetchSamples(): Promise<AudioBuffer[]> {
   return sampleBuffers;
 }
 
+// TODO:  Only create AudioContext when user has interacted with the domain (click, tap, etc.),
+//        or else it will be created in the "suspended" state
 const audioCtx = new AudioContext();
 
 function play(audioBuffer: AudioBuffer) {
@@ -90,7 +92,7 @@ function onMidiEvent<T extends keyof InputEvents>(event: InputEvents[T]) {
   switch (event.type) {
     case "noteon":
     case "noteoff":
-      midiNoteEvent(event);
+      midiNoteEvent(event as InputEvents["noteoff" | "noteon"]);
       break;
 
     default:
@@ -98,7 +100,9 @@ function onMidiEvent<T extends keyof InputEvents>(event: InputEvents[T]) {
   }
 }
 
-function midiNoteEvent(event) {
+type MidiNoteEvent = InputEvents["noteon" | "noteoff"];
+
+function midiNoteEvent(event: MidiNoteEvent) {
   const {
     note: { name, octave },
     type,
