@@ -52,6 +52,7 @@ const createKeyMap = async () => {
   keyMap = Object.fromEntries(
     sampleBuffers.map((sound, i) => [keys[i], sound])
   );
+  console.log("createKeyMap -> keyMap", keyMap);
 };
 
 createKeyMap();
@@ -113,7 +114,6 @@ function midiNoteEvent(event: MidiNoteEvent) {
 }
 
 // Mouse events
-
 interface PadEvent extends Omit<Event, "target"> {
   target: HTMLElement;
 }
