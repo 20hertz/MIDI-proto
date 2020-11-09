@@ -10,8 +10,7 @@ enum Keys {
 }
 const keys = Object.values(Keys);
 
-type Key = Record<string, AudioBuffer>;
-let keyMap: Key;
+let keyMap: Record<string, AudioBuffer>;
 
 const BUCKET_URL =
   "https://boomtap-proto-test-sample-bucket.s3.ca-central-1.amazonaws.com/";
@@ -25,42 +24,40 @@ const SAMPLE_NAMES = [
   "mouth_tom3.mp3",
 ];
 
-async function fetchSamples(): Promise<AudioBuffer[]> {
-  let sampleBuffers = [];
-  await Promise.all(
-    SAMPLE_NAMES.map(async (name) => {
-      const response = await fetch(BUCKET_URL + name);
-      const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-      sampleBuffers.push(audioBuffer);
-    })
-  );
-  return sampleBuffers;
-}
+let sampleBuffers: AudioBuffer[] = [];
+
+const fetchSample = async (name: string) => {
+  const response = await fetch(BUCKET_URL + name);
+  const arrayBuffer = await response.arrayBuffer();
+  const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+  sampleBuffers.push(audioBuffer);
+};
+
+const downloadSamples = async () =>
+  await Promise.all(SAMPLE_NAMES.map(fetchSample)).catch(console.error);
 
 // TODO:  Only create AudioContext when user has interacted with the domain (click, tap, etc.),
 //        or else it will be created in the "suspended" state
 const audioCtx = new AudioContext();
 
-function play(audioBuffer: AudioBuffer) {
+const play = (audioBuffer: AudioBuffer) => {
   const source = audioCtx.createBufferSource();
   source.buffer = audioBuffer;
   source.connect(audioCtx.destination);
   source.start();
-}
+};
 
 const createKeyMap = async () => {
-  const sampleBuffers = await fetchSamples();
+  await downloadSamples();
   keyMap = Object.fromEntries(
     sampleBuffers.map((sound, i) => [keys[i], sound])
   );
-  console.log("createKeyMap -> keyMap", keyMap);
 };
 
 createKeyMap();
 
-const toggleColor = (square: HTMLElement): void => {
-  square.classList.toggle("lit");
+const toggleColor = (pad: HTMLElement) => {
+  pad.classList.toggle("lit");
 };
 
 const playback = (note: Keys): void => {
@@ -108,32 +105,42 @@ function midiNoteEvent(event: MidiNoteEvent) {
     type,
   } = event;
   const note = (name + octave) as Keys;
-  const square = document.getElementById(note);
-  toggleColor(square);
+  const pad = document.getElementById(note);
+  toggleColor(pad);
   if (type === "noteon") {
     playback(note);
   }
 }
 
 // Mouse events
-const onSquareClick = (element: HTMLElement) => {
-  const { id } = element;
-  toggleColor(element);
-  playback(id as Keys);
-  setTimeout(() => {
-    toggleColor(element);
-  }, 50);
+
+interface PadEvent extends Omit<Event, "target"> {
+  target: HTMLElement;
+}
+
+const onPadClick = ({ target, type }: PadEvent) => {
+  toggleColor(target);
+  if (type === "mousedown" || type === "touchstart") {
+    playback(target.id as Keys);
+  }
 };
 
-const squares = document.getElementsByClassName("square") as HTMLCollectionOf<
-  HTMLElement
->;
+const controller = document.getElementById("controller");
 
-for (const square of squares) {
-  ["click", "touchstart"].forEach((event) =>
-    square.addEventListener(event, () => onSquareClick(square))
-  );
-}
+const controllerListener: EventListener = (event: PadEvent) => {
+  const target = event.target as HTMLElement;
+  if (target.matches("div.pad")) {
+    onPadClick(event);
+  }
+};
+
+["mousedown", "mouseup", "touchstart", "touchend"].forEach(
+  (eventName: keyof GlobalEventHandlersEventMap) => {
+    controller.addEventListener(eventName, controllerListener, {
+      passive: eventName === "touchstart",
+    });
+  }
+);
 
 enum keyboardToNoteMap {
   a = Keys.C4,
