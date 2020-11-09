@@ -146,6 +146,4 @@ enum keyboardToNoteMap {
   a = Keys.C4,
 }
 
-const keyboardPlay = (key: string) => playback(keyboardToNoteMap[key] as Keys);
-
-document.onkeypress = (event) => keyboardPlay(event.key);
+document.onkeypress = (event) => playback(keyboardToNoteMap[event.key] as Keys);
