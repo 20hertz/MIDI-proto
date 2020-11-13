@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@types/node": "^14.14.2",
-    "googleapis": "^64.0.0",
     "preact": "^10.5.5",
+    "standardized-audio-context": "^25.1.5",
     "webmidi": "^2.5.1"
   },
   "devDependencies": {
