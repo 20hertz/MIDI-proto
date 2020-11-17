@@ -1,5 +1,5 @@
 import WebMidi, { Input as MidiPortInput, InputEvents } from 'webmidi';
-import { Keys } from './constants';
+import { Keys, keyboardToNoteMap } from './constants';
 import { audioContext } from './index';
 
 // Mouse events
@@ -7,9 +7,15 @@ interface PadEvent extends Omit<Event, 'target'> {
   target: HTMLElement;
 }
 
-const keys = Object.values(Keys);
+type MidiNoteEvent = InputEvents['noteon' | 'noteoff'];
 
+const toggleColor = (pad: HTMLElement) => {
+  pad.classList.toggle('lit');
+};
+
+// const play = (audioBuffer: AudioBuffer) => {
 const play = (audioBuffer: AudioBuffer) => {
+  console.log('play -> audioBuffer', audioBuffer);
   // Create an AudioNode in order to play an AudioBuffer
   const source = audioContext.createBufferSource();
   source.buffer = audioBuffer;
@@ -17,19 +23,8 @@ const play = (audioBuffer: AudioBuffer) => {
   source.start();
 };
 
-const toggleColor = (pad: HTMLElement) => {
-  pad.classList.toggle('lit');
-};
-
-const createKeyMap = (sampleBuffers: AudioBuffer[]) =>
-  Object.fromEntries(sampleBuffers.map((sound, i) => [keys[i], sound]));
-
-type MidiNoteEvent = InputEvents['noteon' | 'noteoff'];
-
-export const createKit = (sampleBuffers: AudioBuffer[]) => {
+export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
   const controller = document.getElementById('controller');
-
-  const keyMap: Record<string, AudioBuffer> = createKeyMap(sampleBuffers);
 
   const playback = (note: Keys) => {
     play(keyMap[note]);
@@ -49,13 +44,13 @@ export const createKit = (sampleBuffers: AudioBuffer[]) => {
     }
   };
 
-  for (const eventName of ['mousedown', 'mouseup', 'touchstart', 'touchend']) {
+  for (let eventName of ['mousedown', 'mouseup', 'touchstart', 'touchend']) {
     controller.addEventListener(eventName, controllerListener, {
       passive: eventName === 'touchstart',
     });
   }
 
-  function midiNoteEvent(event: MidiNoteEvent) {
+  const midiNoteEvent = (event: MidiNoteEvent) => {
     const {
       note: { name, octave },
       type,
@@ -66,7 +61,7 @@ export const createKit = (sampleBuffers: AudioBuffer[]) => {
     if (type === 'noteon') {
       playback(note);
     }
-  }
+  };
 
   const onMidiEvent = <T extends keyof InputEvents>(event: InputEvents[T]) => {
     console.debug('event', event);
@@ -85,12 +80,11 @@ export const createKit = (sampleBuffers: AudioBuffer[]) => {
     input: MidiPortInput
   ) => {
     eventTypes.forEach((eventType: T) =>
-      input.addListener(eventType, 'all', (event) => onMidiEvent(event))
+      input.addListener(eventType, 'all', onMidiEvent)
     );
   };
 
-  // MIDI events
-  WebMidi.enable((err) => {
+  const addMidiListener = (err: Error) => {
     if (err) {
       console.log('WebMidi could not be enabled.', err);
       return;
@@ -100,11 +94,12 @@ export const createKit = (sampleBuffers: AudioBuffer[]) => {
     const input = WebMidi.inputs[0];
 
     listenTo(['noteon', 'noteoff'])(input);
-  });
+  };
 
-  enum keyboardToNoteMap {
-    a = Keys.C4,
-  }
+  // MIDI events
+  WebMidi.enable(addMidiListener);
+
+  const removeMidiListener = () => WebMidi.disable();
 
   const keyboardListener: EventListener = (event: KeyboardEvent) => {
     const pad = document.getElementById(keyboardToNoteMap[event.key]);
@@ -114,8 +109,22 @@ export const createKit = (sampleBuffers: AudioBuffer[]) => {
     }
   };
 
-  // TODO: Remove event listener when component unmounts
   for (const eventName of ['keydown', 'keyup']) {
-    document.addEventListener(eventName, keyboardListener);
+    window.addEventListener(eventName, keyboardListener);
   }
+
+  const removeKeyboardListener = () => {
+    for (const eventName of ['keydown', 'keyup']) {
+      window.removeEventListener(eventName, keyboardListener);
+    }
+  };
+
+  const removeAllListeners = () => {
+    removeKeyboardListener();
+    removeMidiListener();
+  };
+
+  return {
+    removeAllListeners,
+  };
 };
