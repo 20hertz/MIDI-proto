@@ -1,9 +1,14 @@
 import WebMidi, { Input as MidiPortInput, InputEvents } from 'webmidi';
-import { Keys, keyboardToNoteMap } from './constants';
+import {
+  Keys,
+  keyboardToNoteMap,
+  KEYBOARD_EVENTS,
+  MOUSE_EVENTS,
+} from './constants';
 import { audioContext } from './index';
 
 // Mouse events
-interface PadEvent extends Omit<Event, 'target'> {
+interface PadSelectEvent extends Omit<MouseEvent, 'target'> {
   target: HTMLElement;
 }
 
@@ -13,9 +18,7 @@ const toggleColor = (pad: HTMLElement) => {
   pad.classList.toggle('lit');
 };
 
-// const play = (audioBuffer: AudioBuffer) => {
 const play = (audioBuffer: AudioBuffer) => {
-  console.log('play -> audioBuffer', audioBuffer);
   // Create an AudioNode in order to play an AudioBuffer
   const source = audioContext.createBufferSource();
   source.buffer = audioBuffer;
@@ -24,32 +27,42 @@ const play = (audioBuffer: AudioBuffer) => {
 };
 
 export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
+  console.log('addAllListeners -> keyMap inside', keyMap);
   const controller = document.getElementById('controller');
-
   const playback = (note: Keys) => {
     play(keyMap[note]);
   };
 
-  const onPadClick = ({ target, type }: PadEvent) => {
+  // Mouse events
+  const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
     if (type === 'mousedown' || type === 'touchstart') {
       playback(target.id as Keys);
     }
   };
 
-  const controllerListener: EventListener = (event: PadEvent) => {
+  const selectListener: EventListener = (event: PadSelectEvent) => {
     const target = event.target as HTMLElement;
     if (target.matches('div.pad')) {
-      onPadClick(event);
+      onPadSelect(event);
     }
   };
 
-  for (let eventName of ['mousedown', 'mouseup', 'touchstart', 'touchend']) {
-    controller.addEventListener(eventName, controllerListener, {
-      passive: eventName === 'touchstart',
-    });
-  }
+  const addSelectListener = () => {
+    for (const eventName of MOUSE_EVENTS) {
+      controller.addEventListener(eventName, selectListener, {
+        passive: eventName === 'touchstart',
+      });
+    }
+  };
 
+  const removeMouseListener = () => {
+    for (const eventName of MOUSE_EVENTS) {
+      controller.removeEventListener(eventName, selectListener);
+    }
+  };
+
+  // MIDI events
   const midiNoteEvent = (event: MidiNoteEvent) => {
     const {
       note: { name, octave },
@@ -84,23 +97,20 @@ export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
     );
   };
 
-  const addMidiListener = (err: Error) => {
+  const midiListener = (err: Error) => {
     if (err) {
       console.log('WebMidi could not be enabled.', err);
-      return;
     }
 
     // Retrieve an input by index
     const input = WebMidi.inputs[0];
-
     listenTo(['noteon', 'noteoff'])(input);
   };
 
-  // MIDI events
-  WebMidi.enable(addMidiListener);
-
+  const addMidiListener = () => WebMidi.enable(midiListener);
   const removeMidiListener = () => WebMidi.disable();
 
+  // Keyboard events
   const keyboardListener: EventListener = (event: KeyboardEvent) => {
     const pad = document.getElementById(keyboardToNoteMap[event.key]);
     toggleColor(pad);
@@ -109,19 +119,26 @@ export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
     }
   };
 
-  for (const eventName of ['keydown', 'keyup']) {
-    window.addEventListener(eventName, keyboardListener);
-  }
+  const addKeyboardListener = () => {
+    for (const eventName of KEYBOARD_EVENTS) {
+      window.addEventListener(eventName, keyboardListener);
+    }
+  };
 
   const removeKeyboardListener = () => {
-    for (const eventName of ['keydown', 'keyup']) {
+    for (const eventName of KEYBOARD_EVENTS) {
       window.removeEventListener(eventName, keyboardListener);
     }
   };
 
+  addKeyboardListener();
+  // addMidiListener();
+  addSelectListener();
+
   const removeAllListeners = () => {
     removeKeyboardListener();
-    removeMidiListener();
+    // removeMidiListener();
+    removeMouseListener();
   };
 
   return {

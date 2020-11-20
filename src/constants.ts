@@ -29,3 +29,6 @@ export enum keyboardToNoteMap {
   e = Keys.E4,
   r = Keys.F4,
 }
+
+export const MOUSE_EVENTS = ['mousedown', 'mouseup', 'touchstart', 'touchend'];
+export const KEYBOARD_EVENTS = ['keydown', 'keyup'];

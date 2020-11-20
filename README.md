@@ -22,12 +22,8 @@ Ex: name, samples
 Kit class needs to have the ability to store some data, retrieve it, and change it.
 Also needs to have the ability to notify the rest of the app when some data is changed.
 
-<<<<<<< HEAD
 ### Sample model
 
 
 Direct download link equivalent: https://drive.google.com/uc?export=download&id=FILE_ID
 e.g. curl -L -o mouth_hihat.mp3 "https://drive.google.com/uc?export=download&id=1znjQcqgcYE2-aoxYf8pWpsbqBHALKqBn"
-=======
-### Sample model
->>>>>>> main
