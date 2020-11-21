@@ -1,11 +1,9 @@
 import { h } from 'preact';
 import { useContext, useEffect } from 'preact/hooks';
-import { addAllListeners } from '../listeners';
+import { makeListeners } from '../listeners';
 import Pad from './Pad';
-import { Keys } from '../constants';
 import { SamplesContext } from './SamplesLoader';
-
-const keys = Object.values(Keys);
+import { makeKit, keys } from '../kit';
 
 const slots = (samples: AudioBuffer[]) => {
   const { length } = samples;
@@ -14,17 +12,15 @@ const slots = (samples: AudioBuffer[]) => {
   return length;
 };
 
-export const createKeyMap = (sampleBuffers: AudioBuffer[]) =>
-  Object.fromEntries(sampleBuffers.map((sound, i) => [keys[i], sound]));
-
 const Controller = () => {
   const { samples } = useContext(SamplesContext);
-  const keyMap = createKeyMap(samples);
+  const kit = makeKit(samples);
 
   useEffect(() => {
-    const { removeAllListeners } = addAllListeners(keyMap);
+    const { addAllListeners, removeAllListeners } = makeListeners(kit);
+    addAllListeners();
     return () => removeAllListeners();
-  }, [keyMap]);
+  }, [samples]);
 
   const renderPads = keys
     .slice(0, slots(samples))

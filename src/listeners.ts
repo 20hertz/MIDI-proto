@@ -5,7 +5,7 @@ import {
   KEYBOARD_EVENTS,
   MOUSE_EVENTS,
 } from './constants';
-import { audioContext } from './index';
+import { Kit } from './kit';
 
 // Mouse events
 interface PadSelectEvent extends Omit<MouseEvent, 'target'> {
@@ -18,26 +18,15 @@ const toggleColor = (pad: HTMLElement) => {
   pad.classList.toggle('lit');
 };
 
-const play = (audioBuffer: AudioBuffer) => {
-  // Create an AudioNode in order to play an AudioBuffer
-  const source = audioContext.createBufferSource();
-  source.buffer = audioBuffer;
-  source.connect(audioContext.destination);
-  source.start();
-};
-
-export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
-  console.log('addAllListeners -> keyMap inside', keyMap);
+export const makeListeners = (kit: Kit) => {
   const controller = document.getElementById('controller');
-  const playback = (note: Keys) => {
-    play(keyMap[note]);
-  };
+  const play = (note: Keys) => kit.play(note);
 
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
     if (type === 'mousedown' || type === 'touchstart') {
-      playback(target.id as Keys);
+      play(target.id as Keys);
     }
   };
 
@@ -72,7 +61,7 @@ export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
     const pad = document.getElementById(note);
     toggleColor(pad);
     if (type === 'noteon') {
-      playback(note);
+      play(note);
     }
   };
 
@@ -115,7 +104,7 @@ export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
     const pad = document.getElementById(keyboardToNoteMap[event.key]);
     toggleColor(pad);
     if (event.type === 'keydown') {
-      playback(keyboardToNoteMap[event.key] as Keys);
+      play(keyboardToNoteMap[event.key] as Keys);
     }
   };
 
@@ -131,9 +120,11 @@ export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
     }
   };
 
-  addKeyboardListener();
-  // addMidiListener();
-  addSelectListener();
+  const addAllListeners = () => {
+    addKeyboardListener();
+    // addMidiListener();
+    addSelectListener();
+  };
 
   const removeAllListeners = () => {
     removeKeyboardListener();
@@ -141,7 +132,8 @@ export const addAllListeners = (keyMap: { [k: string]: AudioBuffer }) => {
     removeMouseListener();
   };
 
-  return {
+  return Object.freeze({
+    addAllListeners,
     removeAllListeners,
-  };
+  });
 };

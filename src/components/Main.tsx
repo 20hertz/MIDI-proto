@@ -10,11 +10,20 @@ const App = () => {
 
   return (
     <>
-      <h1 className="header">Tap dat</h1>
+      <h1 className="header">boomTap</h1>
       {!!samples && !fetchIsInError && <Controller />}
       {samplesAreLoading && <div>Loading</div>}
-      <button>Allow sounds</button>
-      <h4>Made with ♥️ by Lø</h4>
+      <select>
+        <optgroup label="MIDI Devices">
+          <option value="midi">MIDI</option>
+        </optgroup>
+        <optgroup label="Others">
+          <option value="midi">Keyboard</option>
+        </optgroup>
+      </select>
+      <footer>
+        <h4>Made with ♥️ by Lø</h4>
+      </footer>
     </>
   );
 };
