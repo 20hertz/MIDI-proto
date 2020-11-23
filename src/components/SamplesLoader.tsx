@@ -1,19 +1,24 @@
 import { createContext, h, JSX } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { audioContext } from '../index';
-import { BUCKET_URL } from '../constants';
-import fetchSamples from '../fetch';
+import { ACCEPTED_MIME_TYPES, BUCKET_URL } from '../constants';
+import fetchSamples from '../fetchSamples';
+import webmidi from 'webmidi';
 
 export const SamplesContext = createContext({
   fetchIsInError: false,
+  selectedMidiInputId: 'noinput',
   samples: [],
   samplesAreLoading: false,
 });
 
 const SamplesContextProvider = (props) => {
+  const [midiIsConnected, setMidiIsConnected] = useState(false);
+  const [midiInputs, setMidiInputs] = useState([]);
+  const [selectedMidiInputId, selectMidiInputId] = useState('noinput');
   const [samples, setSamples] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const loadSamples = async () => {
     setIsLoading(true);
@@ -22,10 +27,37 @@ const SamplesContextProvider = (props) => {
       setSamples(sampleBuffers);
     } catch (error) {
       alert(error);
-      setIsError(true);
+      setHasError(true);
     }
     setIsLoading(false);
   };
+
+  const scanForMidiInputs = (err: Error) => {
+    if (err) {
+      console.log('WebMidi could not be enabled.', err);
+    }
+
+    const { inputs } = webmidi;
+    if (inputs.length && inputs[0].state === 'connected') {
+      setMidiIsConnected(true);
+    }
+  };
+
+  const createDeviceSelection = () => {
+    if (midiIsConnected) {
+      setMidiInputs(webmidi.inputs);
+      selectMidiInputId(webmidi.inputs[0].id);
+    }
+  };
+
+  useEffect(() => {
+    webmidi.enable(scanForMidiInputs);
+    return () => webmidi.disable();
+  }, []);
+
+  useEffect(() => {
+    createDeviceSelection();
+  }, [midiIsConnected]);
 
   // Fetch samples
   useEffect(() => {
@@ -57,11 +89,25 @@ const SamplesContextProvider = (props) => {
     reader.readAsArrayBuffer(file);
   };
 
+  const deviceOptions = () => {
+    for (const input of midiInputs) {
+      return <option value={input.id}>{input.name}</option>;
+    }
+  };
+
+  const handleSelectChange = (
+    event: JSX.TargetedEvent<HTMLSelectElement, Event>
+  ) => {
+    const { value } = event.target as HTMLSelectElement;
+    selectMidiInputId(value);
+  };
+
   return (
     <SamplesContext.Provider
       value={{
-        fetchIsInError: isError,
-        samples: samples,
+        fetchIsInError: hasError,
+        selectedMidiInputId,
+        samples,
         samplesAreLoading: isLoading,
       }}
     >
@@ -69,15 +115,24 @@ const SamplesContextProvider = (props) => {
         <label>
           Upload
           <input
-            type="file"
+            accept={ACCEPTED_MIME_TYPES}
+            multiple
             name="url"
             onChange={onChange}
-            accept="audio/mpeg, audio/wave, audio/wav, audio/x-wav, audio/x-pn-wav, audio/flac"
-            multiple
+            type="file"
           />
         </label>
       </form>
       {props.children}
+      <select value={selectedMidiInputId} onChange={handleSelectChange}>
+        {midiInputs.length ? (
+          deviceOptions()
+        ) : (
+          <option value="noinput" disabled>
+            No MIDI devices
+          </option>
+        )}
+      </select>
     </SamplesContext.Provider>
   );
 };

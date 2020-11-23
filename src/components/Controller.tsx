@@ -13,14 +13,14 @@ const slots = (samples: AudioBuffer[]) => {
 };
 
 const Controller = () => {
-  const { samples } = useContext(SamplesContext);
+  const { selectedMidiInputId, samples } = useContext(SamplesContext);
   const kit = makeKit(samples);
 
   useEffect(() => {
-    const { addAllListeners, removeAllListeners } = makeListeners(kit);
-    addAllListeners();
-    return () => removeAllListeners();
-  }, [samples]);
+    const { addListeners, removeAllListeners } = makeListeners(kit);
+    addListeners(selectedMidiInputId);
+    return () => removeAllListeners(selectedMidiInputId);
+  }, [selectedMidiInputId, samples]);
 
   const renderPads = keys
     .slice(0, slots(samples))

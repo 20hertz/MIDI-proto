@@ -7,6 +7,9 @@ export const SAMPLE_NAMES = [
   'mouth_tom3.mp3',
 ];
 
+export const ACCEPTED_MIME_TYPES =
+  'audio/mpeg, audio/wave, audio/wav, audio/x-wav, audio/x-pn-wav, audio/flac';
+
 export const BUCKET_URL =
   'https://boomtap-proto-test-sample-bucket.s3.ca-central-1.amazonaws.com/';
 
