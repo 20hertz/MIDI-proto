@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { useContext, useEffect } from 'preact/hooks';
 import { makeListeners } from '../listeners';
 import Pad from './Pad';
-import { AppContext } from '../AppContext';
+import { AppContext } from './AppContextProvider';
 import { makeKit, keys } from '../kit';
 
 const slots = (samples: AudioBuffer[]) => {
