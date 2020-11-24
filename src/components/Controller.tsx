@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { useContext, useEffect } from 'preact/hooks';
 import { makeListeners } from '../listeners';
 import Pad from './Pad';
-import { SamplesContext } from './SamplesLoader';
+import { AppContext } from '../AppContext';
 import { makeKit, keys } from '../kit';
 
 const slots = (samples: AudioBuffer[]) => {
@@ -13,7 +13,7 @@ const slots = (samples: AudioBuffer[]) => {
 };
 
 const Controller = () => {
-  const { selectedMidiInputId, samples } = useContext(SamplesContext);
+  const { selectedMidiInputId, samples } = useContext(AppContext);
   const kit = makeKit(samples);
 
   useEffect(() => {

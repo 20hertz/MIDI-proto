@@ -1,17 +1,17 @@
 import { h, Fragment } from 'preact';
-import { useContext, useState } from 'preact/hooks';
+import { useContext } from 'preact/hooks';
 import Controller from './Controller';
-import { SamplesContext } from './SamplesLoader';
+import { AppContext } from '../AppContext';
+import SamplesLoader from './SamplesLoader';
 
 const App = () => {
-  const { fetchIsInError, samples, samplesAreLoading } = useContext(
-    SamplesContext
-  );
+  const { fetchHasError, samples, samplesAreLoading } = useContext(AppContext);
 
   return (
     <>
       <h1 className="header">boomTap</h1>
-      {!!samples && !fetchIsInError && <Controller />}
+      <SamplesLoader />
+      {!!samples && !fetchHasError && <Controller />}
       {samplesAreLoading && <div>Loading</div>}
       <footer>
         <h4>Made with ♥️ by Lø</h4>
