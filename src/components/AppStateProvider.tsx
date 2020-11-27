@@ -28,7 +28,7 @@ export const AppContext = createContext<AppContextType>({
   selectMidiInputId: () => {},
 });
 
-const AppContextProvider = (props: Props) => {
+const AppStateProvider = (props: Props) => {
   const [selectedMidiInputId, selectMidiInputId] = useState('noinput');
   const [samples, setSamples] = useState([]);
   const [samplesAreLoading, setSamplesAreLoading] = useState(false);
@@ -52,4 +52,4 @@ const AppContextProvider = (props: Props) => {
   );
 };
 
-export default AppContextProvider;
+export default AppStateProvider;

@@ -1,12 +1,12 @@
 import { h } from 'preact';
 import Home from './components/Home';
-import AppContextProvider from './components/AppContextProvider';
+import AppStateProvider from './components/AppStateProvider';
 
 const App = () => {
   return (
-    <AppContextProvider>
+    <AppStateProvider>
       <Home />
-    </AppContextProvider>
+    </AppStateProvider>
   );
 };
 

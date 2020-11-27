@@ -1,7 +1,7 @@
 import { h, JSX } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 import webmidi, { Input as MidiInput } from 'webmidi';
-import { AppContext } from './AppContextProvider';
+import { AppContext } from './AppStateProvider';
 
 const MidiConnector = () => {
   const [midiIsConnected, setMidiIsConnected] = useState(false);

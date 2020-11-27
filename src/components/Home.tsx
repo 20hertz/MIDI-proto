@@ -1,7 +1,7 @@
 import { h, Fragment } from 'preact';
 import { useContext } from 'preact/hooks';
 import Controller from './Controller';
-import { AppContext } from './AppContextProvider';
+import { AppContext } from './AppStateProvider';
 import SamplesLoader from './SamplesLoader';
 import MidiConnector from './MidiConnector';
 

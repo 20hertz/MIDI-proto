@@ -2,15 +2,8 @@ import { h } from 'preact';
 import { useContext, useEffect } from 'preact/hooks';
 import { makeListeners } from '../listeners';
 import Pad from './Pad';
-import { AppContext } from './AppContextProvider';
+import { AppContext } from './AppStateProvider';
 import { makeKit, keys } from '../kit';
-
-const slots = (samples: AudioBuffer[]) => {
-  const { length } = samples;
-  if (length < 6) return 6;
-  if (length > 16) return 16;
-  return length;
-};
 
 const Controller = () => {
   const { selectedMidiInputId, samples } = useContext(AppContext);
@@ -22,13 +15,15 @@ const Controller = () => {
     return () => removeAllListeners(selectedMidiInputId);
   }, [selectedMidiInputId, samples]);
 
-  const renderPads = keys
-    .slice(0, slots(samples))
-    .map((key) => <Pad id={key} />);
+  const renderPads = keys.map((key) => <Pad id={key} />);
 
   return (
-    <div id="controller" className="grid">
-      {renderPads}
+    <div className="playground">
+      <div></div>
+      <div id="controller" className="grid">
+        {renderPads}
+      </div>
+      <div className="selector">Samples</div>
     </div>
   );
 };

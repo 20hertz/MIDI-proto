@@ -18,11 +18,16 @@ export const MOUTHKIT_URL =
 
 export enum Keys {
   C4 = 'C4',
+  C4sharp = 'C#',
   D4 = 'D4',
+  D4sharp = 'D4#',
   E4 = 'E4',
   F4 = 'F4',
+  F4sharp = 'F4#',
   G4 = 'G4',
+  G4sharp = 'G4#',
   A4 = 'A4',
+  A4sharp = 'A4#',
   B4 = 'B4',
 }
 
