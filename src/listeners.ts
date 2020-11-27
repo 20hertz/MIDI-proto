@@ -86,19 +86,22 @@ export const makeListeners = (kit: Kit) => {
     );
   };
 
-  const midiListener = (err: Error) => {
-    if (err) {
-      console.log('WebMidi could not be enabled.', err);
-    }
-
-    // Retrieve an input by index
-    const input = WebMidi.inputs[0];
-    listenTo(['noteon', 'noteoff'])(input);
+  const dontListenTo = <T extends keyof InputEvents>(eventTypes: T[]) => (
+    input: MidiPortInput
+  ) => {
+    eventTypes.forEach((eventType: T) =>
+      input.removeListener(eventType, 'all', onMidiEvent)
+    );
   };
 
-  const addMidiListener = () => WebMidi.enable(midiListener);
-  const removeMidiListener = () => WebMidi.disable();
-
+  const addMidiListener = (inputId) => {
+    const input = WebMidi.inputs.find(({ id }) => id === inputId);
+    listenTo(['noteon', 'noteoff'])(input);
+  };
+  const removeMidiListener = (inputId) => {
+    const input = WebMidi.inputs.find(({ id }) => id === inputId);
+    dontListenTo(['noteon', 'noteoff'])(input);
+  };
   // Keyboard events
   const keyboardListener: EventListener = (event: KeyboardEvent) => {
     const pad = document.getElementById(keyboardToNoteMap[event.key]);
@@ -110,30 +113,34 @@ export const makeListeners = (kit: Kit) => {
 
   const addKeyboardListener = () => {
     for (const eventName of KEYBOARD_EVENTS) {
-      window.addEventListener(eventName, keyboardListener);
+      document.addEventListener(eventName, keyboardListener);
     }
   };
 
   const removeKeyboardListener = () => {
     for (const eventName of KEYBOARD_EVENTS) {
-      window.removeEventListener(eventName, keyboardListener);
+      document.removeEventListener(eventName, keyboardListener);
     }
   };
 
-  const addAllListeners = () => {
-    addKeyboardListener();
-    // addMidiListener();
+  const addListeners = (inputId?: string) => {
     addSelectListener();
+    addKeyboardListener();
+    if (inputId && inputId !== 'noinput') {
+      addMidiListener(inputId);
+    }
   };
 
-  const removeAllListeners = () => {
+  const removeAllListeners = (inputId?: string) => {
     removeKeyboardListener();
-    // removeMidiListener();
     removeMouseListener();
+    if (inputId && inputId !== 'noinput') {
+      removeMidiListener(inputId);
+    }
   };
 
   return Object.freeze({
-    addAllListeners,
+    addListeners,
     removeAllListeners,
   });
 };

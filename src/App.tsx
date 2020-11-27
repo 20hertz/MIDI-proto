@@ -1,12 +1,12 @@
 import { h } from 'preact';
-import Main from './components/Main';
-import SamplesContextProvider from './components/SamplesLoader';
+import Home from './components/Home';
+import AppStateProvider from './components/AppStateProvider';
 
 const App = () => {
   return (
-    <SamplesContextProvider>
-      <Main />
-    </SamplesContextProvider>
+    <AppStateProvider>
+      <Home />
+    </AppStateProvider>
   );
 };
 

@@ -1,30 +1,25 @@
-import { createContext, h, JSX } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { h, JSX } from 'preact';
+import { useContext, useEffect } from 'preact/hooks';
 import { audioContext } from '../index';
-import { BUCKET_URL } from '../constants';
-import fetchSamples from '../fetch';
+import { ACCEPTED_MIME_TYPES, BUCKET_URL } from '../constants';
+import fetchSamples from '../fetchSamples';
+import { AppContext } from './AppStateProvider';
 
-export const SamplesContext = createContext({
-  fetchIsInError: false,
-  samples: [],
-  samplesAreLoading: false,
-});
-
-const SamplesContextProvider = (props) => {
-  const [samples, setSamples] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+const SamplesLoader = () => {
+  const { setSamples, setSamplesAreLoading, setFetchHasError } = useContext(
+    AppContext
+  );
 
   const loadSamples = async () => {
-    setIsLoading(true);
+    setSamplesAreLoading(true);
     try {
       const sampleBuffers = await fetchSamples(BUCKET_URL);
       setSamples(sampleBuffers);
     } catch (error) {
       alert(error);
-      setIsError(true);
+      setFetchHasError(true);
     }
-    setIsLoading(false);
+    setSamplesAreLoading(false);
   };
 
   // Fetch samples
@@ -36,7 +31,7 @@ const SamplesContextProvider = (props) => {
     const file = (event.target as HTMLInputElement).files[0];
     const reader = new FileReader();
     reader.onload = async (event: any) => {
-      setIsLoading(true);
+      setSamplesAreLoading(true);
       try {
         const decodedData = await audioContext.decodeAudioData(
           event.target.result
@@ -48,7 +43,7 @@ const SamplesContextProvider = (props) => {
           event
         );
       }
-      setIsLoading(false);
+      setSamplesAreLoading(false);
     };
     reader.onerror = (event) => {
       console.error('An error ocurred reading the file: ', event);
@@ -58,28 +53,19 @@ const SamplesContextProvider = (props) => {
   };
 
   return (
-    <SamplesContext.Provider
-      value={{
-        fetchIsInError: isError,
-        samples: samples,
-        samplesAreLoading: isLoading,
-      }}
-    >
-      <form>
-        <label>
-          Upload
-          <input
-            type="file"
-            name="url"
-            onChange={onChange}
-            accept="audio/mpeg, audio/wave, audio/wav, audio/x-wav, audio/x-pn-wav, audio/flac"
-            multiple
-          />
-        </label>
-      </form>
-      {props.children}
-    </SamplesContext.Provider>
+    <form>
+      <label>
+        Upload
+        <input
+          accept={ACCEPTED_MIME_TYPES}
+          multiple
+          name="url"
+          onChange={onChange}
+          type="file"
+        />
+      </label>
+    </form>
   );
 };
 
-export default SamplesContextProvider;
+export default SamplesLoader;

@@ -7,6 +7,9 @@ export const SAMPLE_NAMES = [
   'mouth_tom3.mp3',
 ];
 
+export const ACCEPTED_MIME_TYPES =
+  'audio/mpeg, audio/wave, audio/wav, audio/x-wav, audio/x-pn-wav, audio/flac';
+
 export const BUCKET_URL =
   'https://boomtap-proto-test-sample-bucket.s3.ca-central-1.amazonaws.com/';
 
@@ -15,11 +18,16 @@ export const MOUTHKIT_URL =
 
 export enum Keys {
   C4 = 'C4',
+  C4sharp = 'C#',
   D4 = 'D4',
+  D4sharp = 'D4#',
   E4 = 'E4',
   F4 = 'F4',
+  F4sharp = 'F4#',
   G4 = 'G4',
+  G4sharp = 'G4#',
   A4 = 'A4',
+  A4sharp = 'A4#',
   B4 = 'B4',
 }
 
@@ -27,7 +35,9 @@ export enum keyboardToNoteMap {
   q = Keys.C4,
   w = Keys.D4,
   e = Keys.E4,
-  r = Keys.F4,
+  a = Keys.F4,
+  s = Keys.G4,
+  d = Keys.A4,
 }
 
 export const MOUSE_EVENTS = ['mousedown', 'mouseup', 'touchstart', 'touchend'];
