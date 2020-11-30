@@ -1,5 +1,5 @@
 import { audioContext } from './index';
-import { Keys } from './constants';
+import { Keys, BaseKeys } from './constants';
 
 export interface Kit {
   play: (note: Keys) => void;
@@ -14,6 +14,8 @@ export const makeKit = (samples: AudioBuffer[]) => {
 };
 
 export const keys = Object.values(Keys);
+
+export const baseKeys = Object.values(BaseKeys);
 
 const start = (audioBuffer: AudioBuffer) => {
   // Create an AudioNode in order to play an AudioBuffer

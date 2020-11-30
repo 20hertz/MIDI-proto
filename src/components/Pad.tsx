@@ -1,8 +1,9 @@
 import { h } from 'preact';
-import { Keys } from '../constants';
+import { BaseKeys } from '../constants';
 
 interface Props {
-  id: Keys;
+  // id: BaseKeys;
+  id: string;
 }
 
 const Pad = ({ id }: Props) => <div id={id} className="pad"></div>;

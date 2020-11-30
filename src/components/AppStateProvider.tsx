@@ -17,22 +17,26 @@ type AppContextType = {
   selectMidiInputId: (input: string) => void;
 };
 
-export const AppContext = createContext<AppContextType>({
-  samples: [],
-  setSamples: () => {},
-  samplesAreLoading: false,
-  setSamplesAreLoading: () => {},
-  fetchHasError: false,
-  setFetchHasError: () => {},
-  selectedMidiInputId: 'noinput',
-  selectMidiInputId: () => {},
-});
+export const AppContext = createContext<AppContextType>({} as AppContextType);
+// export const AppContext = createContext<AppContextType>({
+//   samples: [],
+//   setSamples: () => {},
+//   samplesAreLoading: false,
+//   setSamplesAreLoading: () => {},
+//   fetchHasError: false,
+//   setFetchHasError: () => {},
+//   selectedMidiInputId: 'noinput',
+//   selectMidiInputId: () => {},
+// });
 
-const AppStateProvider = (props: Props) => {
-  const [selectedMidiInputId, selectMidiInputId] = useState('noinput');
+const AppStateProvider = ({ children }: Props) => {
+  const [selectedMidiInputId, setSelectedMidiInputId] = useState('noinput');
   const [samples, setSamples] = useState([]);
   const [samplesAreLoading, setSamplesAreLoading] = useState(false);
   const [fetchHasError, setFetchHasError] = useState(false);
+
+  const selectMidiInputId = (inputId: string) =>
+    setSelectedMidiInputId(inputId);
 
   return (
     <AppContext.Provider
@@ -47,7 +51,7 @@ const AppStateProvider = (props: Props) => {
         selectMidiInputId,
       }}
     >
-      {props.children}
+      {children}
     </AppContext.Provider>
   );
 };

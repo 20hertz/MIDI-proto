@@ -5,14 +5,14 @@ import { AppContext } from './AppStateProvider';
 import SamplesLoader from './SamplesLoader';
 import MidiConnector from './MidiConnector';
 
-const App = () => {
+const Home = () => {
   const { fetchHasError, samples, samplesAreLoading } = useContext(AppContext);
-
+  console.log('render');
   return (
     <>
       <h1 className="header">boomTap</h1>
       <SamplesLoader />
-      {!!samples && !fetchHasError && <Controller />}
+      {Boolean(samples) && !fetchHasError && <Controller />}
       {samplesAreLoading && <div>Loading</div>}
       <MidiConnector />
       <footer>
@@ -22,4 +22,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;

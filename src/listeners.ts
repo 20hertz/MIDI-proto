@@ -131,7 +131,7 @@ export const makeListeners = (kit: Kit) => {
     }
   };
 
-  const removeAllListeners = (inputId?: string) => {
+  const removeListeners = (inputId?: string) => {
     removeKeyboardListener();
     removeMouseListener();
     if (inputId && inputId !== 'noinput') {
@@ -141,6 +141,6 @@ export const makeListeners = (kit: Kit) => {
 
   return Object.freeze({
     addListeners,
-    removeAllListeners,
+    removeListeners,
   });
 };

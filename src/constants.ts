@@ -31,6 +31,21 @@ export enum Keys {
   B4 = 'B4',
 }
 
+export enum BaseKeys {
+  C = 'C',
+  Csharp = 'C#',
+  D = 'D',
+  Dsharp = 'D#',
+  E = 'E',
+  F = 'F',
+  Fsharp = 'F#',
+  G = 'G',
+  Gsharp = 'G#',
+  A = 'A',
+  Asharp = 'A#',
+  B = 'B',
+}
+
 export enum keyboardToNoteMap {
   q = Keys.C4,
   w = Keys.D4,
