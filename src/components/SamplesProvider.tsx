@@ -6,36 +6,26 @@ interface Props {
   children: JSX.Element;
 }
 
-type AppContextType = {
+type SamplesContextType = {
   samples: AudioBuffer[];
   setSamples: (buffer: AudioBuffer[]) => void;
   samplesAreLoading: boolean;
   setSamplesAreLoading: (loading: boolean) => void;
   fetchHasError: boolean;
   setFetchHasError: (error: boolean) => void;
-  selectedMidiInputId: string;
-  selectMidiInputId: (input: string) => void;
 };
 
-export const AppContext = createContext<AppContextType>({
-  samples: [],
-  setSamples: () => {},
-  samplesAreLoading: false,
-  setSamplesAreLoading: () => {},
-  fetchHasError: false,
-  setFetchHasError: () => {},
-  selectedMidiInputId: 'noinput',
-  selectMidiInputId: () => {},
-});
+export const SamplesContext = createContext<SamplesContextType | undefined>(
+  undefined
+);
 
-const AppStateProvider = (props: Props) => {
-  const [selectedMidiInputId, selectMidiInputId] = useState('noinput');
+const SamplesProvider = ({ children }: Props) => {
   const [samples, setSamples] = useState([]);
   const [samplesAreLoading, setSamplesAreLoading] = useState(false);
   const [fetchHasError, setFetchHasError] = useState(false);
 
   return (
-    <AppContext.Provider
+    <SamplesContext.Provider
       value={{
         samples,
         setSamples,
@@ -43,13 +33,11 @@ const AppStateProvider = (props: Props) => {
         setSamplesAreLoading,
         fetchHasError,
         setFetchHasError,
-        selectedMidiInputId,
-        selectMidiInputId,
       }}
     >
-      {props.children}
-    </AppContext.Provider>
+      {children}
+    </SamplesContext.Provider>
   );
 };
 
-export default AppStateProvider;
+export default SamplesProvider;

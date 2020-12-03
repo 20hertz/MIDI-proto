@@ -3,11 +3,11 @@ import { useContext, useEffect } from 'preact/hooks';
 import { audioContext } from '../index';
 import { ACCEPTED_MIME_TYPES, BUCKET_URL } from '../constants';
 import fetchSamples from '../fetchSamples';
-import { AppContext } from './AppStateProvider';
+import { SamplesContext } from './SamplesProvider';
 
 const SamplesLoader = () => {
   const { setSamples, setSamplesAreLoading, setFetchHasError } = useContext(
-    AppContext
+    SamplesContext
   );
 
   const loadSamples = async () => {

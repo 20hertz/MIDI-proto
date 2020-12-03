@@ -1,27 +1,30 @@
 import { h } from 'preact';
 import { useContext, useEffect } from 'preact/hooks';
 import { makeListeners } from '../listeners';
-import Pad from './Pad';
-import { AppContext } from './AppStateProvider';
-import { makeKit, keys } from '../kit';
+import Pads from './Pads';
+import { SamplesContext } from './SamplesProvider';
+import { MidiContext } from './MidiProvider';
+import { makeKit, setAvailableKeys } from '../kit';
 
 const Controller = () => {
-  const { selectedMidiInputId, samples } = useContext(AppContext);
-  const kit = makeKit(samples);
-
+  const { fetchHasError, samples, samplesAreLoading } = useContext(
+    SamplesContext
+  );
+  const { selectedMidiInputId } = useContext(MidiContext);
+  const keys = setAvailableKeys(16, 4);
+  const kit = makeKit(samples, keys);
   useEffect(() => {
-    const { addListeners, removeAllListeners } = makeListeners(kit);
+    const { addListeners, removeListeners } = makeListeners(kit);
     addListeners(selectedMidiInputId);
-    return () => removeAllListeners(selectedMidiInputId);
+    return () => removeListeners(selectedMidiInputId);
   }, [selectedMidiInputId, samples]);
-
-  const renderPads = keys.map((key) => <Pad id={key} />);
 
   return (
     <div className="playground">
       <div></div>
       <div id="controller" className="grid">
-        {renderPads}
+        {Boolean(samples) && !fetchHasError && <Pads keys={keys} />}
+        {samplesAreLoading && <div>Loading</div>}
       </div>
       <div className="selector">Samples</div>
     </div>

@@ -1,13 +1,15 @@
 import { h, JSX } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 import webmidi, { Input as MidiInput } from 'webmidi';
-import { AppContext } from './AppStateProvider';
+import { MidiContext } from './MidiProvider';
 
 const MidiConnector = () => {
   const [midiIsConnected, setMidiIsConnected] = useState(false);
   const [midiInputs, setMidiInputs] = useState<MidiInput[]>([]);
 
-  const { selectedMidiInputId, selectMidiInputId } = useContext(AppContext);
+  const { selectedMidiInputId, setSelectedMidiInputId } = useContext(
+    MidiContext
+  );
 
   const scanForMidiInputs = (err: Error) => {
     if (err) {
@@ -21,7 +23,7 @@ const MidiConnector = () => {
   const createDeviceSelection = () => {
     if (midiIsConnected) {
       setMidiInputs(webmidi.inputs);
-      selectMidiInputId(webmidi.inputs[0].id);
+      setSelectedMidiInputId(webmidi.inputs[0].id);
     }
   };
 
@@ -44,7 +46,7 @@ const MidiConnector = () => {
     event: JSX.TargetedEvent<HTMLSelectElement, Event>
   ) => {
     const { value } = event.target as HTMLSelectElement;
-    selectMidiInputId(value);
+    setSelectedMidiInputId(value);
   };
 
   return (
