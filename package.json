@@ -8,9 +8,9 @@
     "start": "parcel src/index.html"
   },
   "dependencies": {
-    "@types/node": "^14.14.9",
+    "@types/node": "^14.14.10",
     "preact": "^10.5.7",
-    "standardized-audio-context": "^25.1.5",
+    "standardized-audio-context": "^25.1.6",
     "webmidi": "^2.5.1"
   },
   "devDependencies": {
