@@ -1,17 +1,18 @@
 import { h } from 'preact';
 import { useContext, useEffect } from 'preact/hooks';
 import { makeListeners } from '../listeners';
-import Pad from './Pad';
-import { AppContext } from './AppStateProvider';
+import Pads from './Pads';
+import { SamplesContext } from './SamplesProvider';
+import { MidiContext } from './MidiProvider';
 import { makeKit, setAvailableKeys } from '../kit';
 
-const renderPads = (keys: string[]) => keys.map((key) => <Pad id={key} />);
-const availableKeys = setAvailableKeys(16, 4);
-
 const Controller = () => {
-  const { selectedMidiInputId, samples } = useContext(AppContext);
-  const kit = makeKit(samples);
-
+  const { fetchHasError, samples, samplesAreLoading } = useContext(
+    SamplesContext
+  );
+  const { selectedMidiInputId } = useContext(MidiContext);
+  const keys = setAvailableKeys(16, 4);
+  const kit = makeKit(samples, keys);
   useEffect(() => {
     const { addListeners, removeListeners } = makeListeners(kit);
     addListeners(selectedMidiInputId);
@@ -22,7 +23,8 @@ const Controller = () => {
     <div className="playground">
       <div></div>
       <div id="controller" className="grid">
-        {renderPads(availableKeys)}
+        {Boolean(samples) && !fetchHasError && <Pads keys={keys} />}
+        {samplesAreLoading && <div>Loading</div>}
       </div>
       <div className="selector">Samples</div>
     </div>

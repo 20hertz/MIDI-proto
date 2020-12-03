@@ -5,15 +5,13 @@ export interface Kit {
   play: (note: Keys) => void;
 }
 
-export const makeKit = (samples: AudioBuffer[]) => {
-  const keyMap = createKeyMap(samples);
+export const makeKit = (samples: AudioBuffer[], keys) => {
+  const keyMap = createKeyMap(samples, keys);
 
   const play = (note: Keys) => start(keyMap[note]);
 
   return Object.freeze({ play });
 };
-
-export const keys = Object.values(Keys);
 
 export const baseKeys = Object.values(BaseKeys);
 
@@ -25,7 +23,7 @@ const start = (audioBuffer: AudioBuffer) => {
   source.start();
 };
 
-export const createKeyMap = (sampleBuffers: AudioBuffer[]) =>
+export const createKeyMap = (sampleBuffers: AudioBuffer[], keys: string) =>
   Object.fromEntries(sampleBuffers.map((sound, i) => [keys[i], sound]));
 
 /**
