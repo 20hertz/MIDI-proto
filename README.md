@@ -1,6 +1,3 @@
-# Boomtap
-A homemade drum machine to kill time while stuck at home.
-
 ## MIDI browser support
 MIDI doesn't work on all browsers.  See [Caniuse](https://caniuse.com/midi) for browser support.  No Safari nor FireFox up until now.
 
