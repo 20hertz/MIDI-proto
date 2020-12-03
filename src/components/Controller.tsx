@@ -1,16 +1,14 @@
 import { h } from 'preact';
-import { useContext, useEffect } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 import { makeListeners } from '../listeners';
 import Pads from './Pads';
-import { SamplesContext } from './SamplesProvider';
-import { MidiContext } from './MidiProvider';
+import { useSamplesContext } from './SamplesProvider';
+import { useMidiContext } from './MidiProvider';
 import { makeKit, setAvailableKeys } from '../kit';
 
 const Controller = () => {
-  const { fetchHasError, samples, samplesAreLoading } = useContext(
-    SamplesContext
-  );
-  const { selectedMidiInputId } = useContext(MidiContext);
+  const { fetchHasError, samples, samplesAreLoading } = useSamplesContext();
+  const { selectedMidiInputId } = useMidiContext();
   const keys = setAvailableKeys(16, 4);
   const kit = makeKit(samples, keys);
   useEffect(() => {

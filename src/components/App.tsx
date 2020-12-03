@@ -1,12 +1,12 @@
 import { h, Fragment } from 'preact';
-import AppStateProvider from './components/SamplesProvider';
-import MidiProvider from './components/MidiProvider';
-import Controller from './components/Controller';
-import SamplesLoader from './components/SamplesLoader';
-import MidiConnector from './components/MidiConnector';
+import { SamplesProvider } from './SamplesProvider';
+import { MidiProvider } from './MidiProvider';
+import Controller from './Controller';
+import SamplesLoader from './SamplesLoader';
+import MidiConnector from './MidiConnector';
 
 const App = () => (
-  <AppStateProvider>
+  <SamplesProvider>
     <MidiProvider>
       <>
         <h1 className="header">boomTap</h1>
@@ -18,7 +18,7 @@ const App = () => (
         </footer>
       </>
     </MidiProvider>
-  </AppStateProvider>
+  </SamplesProvider>
 );
 
 export default App;

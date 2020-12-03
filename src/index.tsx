@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 import { h, render } from 'preact';
 import { AudioContext } from 'standardized-audio-context';
-import App from './App';
+import App from './components/App';
 
 /**
  * @todo

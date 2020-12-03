@@ -1,14 +1,16 @@
 import { h, JSX } from 'preact';
-import { useContext, useEffect } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 import { audioContext } from '../index';
 import { ACCEPTED_MIME_TYPES, BUCKET_URL } from '../constants';
 import fetchSamples from '../fetchSamples';
-import { SamplesContext } from './SamplesProvider';
+import { useSamplesContext } from './SamplesProvider';
 
 const SamplesLoader = () => {
-  const { setSamples, setSamplesAreLoading, setFetchHasError } = useContext(
-    SamplesContext
-  );
+  const {
+    setSamples,
+    setSamplesAreLoading,
+    setFetchHasError,
+  } = useSamplesContext();
 
   const loadSamples = async () => {
     setSamplesAreLoading(true);

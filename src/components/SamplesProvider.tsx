@@ -1,6 +1,6 @@
 import { h, JSX } from 'preact';
 import { createContext } from 'preact';
-import { useState } from 'preact/hooks';
+import { useContext, useState } from 'preact/hooks';
 
 interface Props {
   children: JSX.Element;
@@ -15,29 +15,36 @@ type SamplesContextType = {
   setFetchHasError: (error: boolean) => void;
 };
 
-export const SamplesContext = createContext<SamplesContextType | undefined>(
-  undefined
-);
+const SamplesContext = createContext<SamplesContextType | undefined>(undefined);
 
-const SamplesProvider = ({ children }: Props) => {
+export const useSamplesContext = () => {
+  const store = useContext(SamplesContext);
+
+  if (!store) {
+    throw new Error(
+      'Cannot use `useSamplesContext` outside of a SamplesProvider'
+    );
+  }
+
+  return store;
+};
+
+const SampleStore = () => {
   const [samples, setSamples] = useState([]);
   const [samplesAreLoading, setSamplesAreLoading] = useState(false);
   const [fetchHasError, setFetchHasError] = useState(false);
-
-  return (
-    <SamplesContext.Provider
-      value={{
-        samples,
-        setSamples,
-        samplesAreLoading,
-        setSamplesAreLoading,
-        fetchHasError,
-        setFetchHasError,
-      }}
-    >
-      {children}
-    </SamplesContext.Provider>
-  );
+  return {
+    samples,
+    setSamples,
+    samplesAreLoading,
+    setSamplesAreLoading,
+    fetchHasError,
+    setFetchHasError,
+  };
 };
 
-export default SamplesProvider;
+export const SamplesProvider = ({ children }: Props) => (
+  <SamplesContext.Provider value={SampleStore()}>
+    {children}
+  </SamplesContext.Provider>
+);
