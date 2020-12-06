@@ -1,4 +1,4 @@
-import { h, JSX } from 'preact';
+import { h } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { audioContext } from '../index';
 import { ACCEPTED_MIME_TYPES, BUCKET_URL } from '../constants';
@@ -29,14 +29,14 @@ const SamplesLoader = () => {
     loadSamples();
   }, [BUCKET_URL]);
 
-  const onChange = (event: JSX.TargetedEvent<HTMLInputElement, Event>) => {
-    const file = (event.target as HTMLInputElement).files[0];
+  const handleOnChange = ({ target }) => {
+    const file = (target as HTMLInputElement).files[0];
     const reader = new FileReader();
-    reader.onload = async (event: any) => {
+    reader.onload = async () => {
       setSamplesAreLoading(true);
       try {
         const decodedData = await audioContext.decodeAudioData(
-          event.target.result
+          reader.result as ArrayBuffer
         );
         setSamples([decodedData]);
       } catch (event) {
@@ -56,13 +56,13 @@ const SamplesLoader = () => {
 
   return (
     <form>
-      <label>
+      <label for="upload">
         Upload
         <input
           accept={ACCEPTED_MIME_TYPES}
+          id="upload"
           multiple
-          name="url"
-          onChange={onChange}
+          onChange={handleOnChange}
           type="file"
         />
       </label>
