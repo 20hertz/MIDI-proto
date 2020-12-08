@@ -43,8 +43,6 @@ const SampleStore = () => {
   };
 };
 
-export const SamplesProvider = ({ children }: Props) => (
-  <SamplesContext.Provider value={SampleStore()}>
-    {children}
-  </SamplesContext.Provider>
+export const SamplesProvider = (props: Props) => (
+  <SamplesContext.Provider value={SampleStore()} {...props} />
 );

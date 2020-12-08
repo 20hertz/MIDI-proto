@@ -31,6 +31,11 @@ const SamplesLoader = () => {
 
   const handleOnChange = ({ target }) => {
     const file = (target as HTMLInputElement).files[0];
+    // TODO
+    // for(let i = 0; i < files.length; i++) {
+    //       let f = files[i];
+    //       ...
+    //   }
     const reader = new FileReader();
     reader.onload = async () => {
       setSamplesAreLoading(true);
@@ -56,7 +61,7 @@ const SamplesLoader = () => {
 
   return (
     <form>
-      <label for="upload">
+      <label htmlFor="upload">
         Upload
         <input
           accept={ACCEPTED_MIME_TYPES}

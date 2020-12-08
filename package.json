@@ -24,6 +24,6 @@
     "react-dom": "preact/compat"
   },
   "browserslist": [
-    "last 4 Chrome versions"
+    "since 2017-06"
   ]
 }
