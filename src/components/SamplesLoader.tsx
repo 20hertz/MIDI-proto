@@ -1,33 +1,13 @@
 import { h } from 'preact';
 import { audioContext } from '../index';
-import { ACCEPTED_MIME_TYPES, BUCKET_URL } from '../constants';
+import { ACCEPTED_MIME_TYPES } from '../constants';
 import { useSamplesContext, getSamples } from './SamplesProvider';
-import fetchSamples from '../fetchSamples';
-import { useEffect } from 'preact/hooks';
+import { useInitSampleLoad } from '../hooks/useInitSampleLoad';
 
 const SamplesLoader = () => {
-  const {
-    dispatch,
-    setFetchHasError,
-    setSamplesAreLoading,
-  } = useSamplesContext();
+  const { dispatch, setSamplesAreLoading } = useSamplesContext();
 
-  const loadSamples = async () => {
-    setSamplesAreLoading(true);
-    try {
-      const sampleBuffers = await fetchSamples(BUCKET_URL);
-      dispatch(getSamples(sampleBuffers));
-    } catch (error) {
-      alert(error);
-      setFetchHasError(true);
-    }
-    setSamplesAreLoading(false);
-  };
-
-  // Fetch samples
-  useEffect(() => {
-    loadSamples();
-  }, [BUCKET_URL]);
+  useInitSampleLoad();
 
   const handleOnChange = ({ target }) => {
     const file = (target as HTMLInputElement).files[0];

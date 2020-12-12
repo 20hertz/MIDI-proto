@@ -34,16 +34,19 @@ export const createKeyMap = (sampleBuffers: AudioBuffer[], keys: string) =>
 export const setAvailableKeys = (slots: number, octave: number): string[] => {
   let renderedKeys = [];
 
+  const appendKey = (key: number) =>
+    renderedKeys.push(baseKeys[key] + String(octave));
+
   const renderKeys = (slotsLeft: number) => {
     if (slotsLeft > baseKeys.length) {
       for (let i = 0; i < baseKeys.length; i++) {
-        renderedKeys.push(baseKeys[i] + String(octave));
+        appendKey(i);
       }
       octave++;
       renderKeys(slotsLeft - baseKeys.length);
     } else {
       for (let i = 0; i < slotsLeft; i++) {
-        renderedKeys.push(baseKeys[i] + String(octave));
+        appendKey(i);
       }
     }
   };
