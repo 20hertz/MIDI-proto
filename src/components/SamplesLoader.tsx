@@ -1,22 +1,22 @@
 import { h } from 'preact';
-import { useEffect } from 'preact/hooks';
 import { audioContext } from '../index';
 import { ACCEPTED_MIME_TYPES, BUCKET_URL } from '../constants';
+import { useSamplesContext, getSamples } from './SamplesProvider';
 import fetchSamples from '../fetchSamples';
-import { useSamplesContext } from './SamplesProvider';
+import { useEffect } from 'preact/hooks';
 
 const SamplesLoader = () => {
   const {
-    setSamples,
-    setSamplesAreLoading,
+    dispatch,
     setFetchHasError,
+    setSamplesAreLoading,
   } = useSamplesContext();
 
   const loadSamples = async () => {
     setSamplesAreLoading(true);
     try {
       const sampleBuffers = await fetchSamples(BUCKET_URL);
-      setSamples(sampleBuffers);
+      dispatch(getSamples(sampleBuffers));
     } catch (error) {
       alert(error);
       setFetchHasError(true);
@@ -43,7 +43,7 @@ const SamplesLoader = () => {
         const decodedData = await audioContext.decodeAudioData(
           reader.result as ArrayBuffer
         );
-        setSamples([decodedData]);
+        dispatch(getSamples([decodedData]));
       } catch (event) {
         console.log(
           'Sorry this browser unable to download this file... try Chrome',

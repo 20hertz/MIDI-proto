@@ -6,19 +6,21 @@ import SamplesLoader from './SamplesLoader';
 import MidiConnector from './MidiConnector';
 
 const App = () => (
-  <SamplesProvider>
-    <MidiProvider>
-      <>
-        <h1 className="header">boomTap</h1>
-        <SamplesLoader />
-        <Controller />
-        <MidiConnector />
-        <footer>
-          <h4>Made with ♥️ by Lø</h4>
-        </footer>
-      </>
-    </MidiProvider>
-  </SamplesProvider>
+  <>
+    <h1 className="header">boomTap</h1>
+    <SamplesProvider>
+      <MidiProvider>
+        <>
+          <SamplesLoader />
+          <Controller />
+          <MidiConnector />
+        </>
+      </MidiProvider>
+    </SamplesProvider>
+    <footer>
+      <h4>Made with ♥️ by Lø</h4>
+    </footer>
+  </>
 );
 
 export default App;
