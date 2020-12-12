@@ -1,15 +1,13 @@
 import { h, JSX } from 'preact';
-import { useContext, useEffect, useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import webmidi, { Input as MidiInput } from 'webmidi';
-import { MidiContext } from './MidiProvider';
+import { useMidiContext } from './MidiProvider';
 
 const MidiConnector = () => {
   const [midiIsConnected, setMidiIsConnected] = useState(false);
   const [midiInputs, setMidiInputs] = useState<MidiInput[]>([]);
 
-  const { selectedMidiInputId, setSelectedMidiInputId } = useContext(
-    MidiContext
-  );
+  const { selectedMidiInputId, setSelectedMidiInputId } = useMidiContext();
 
   const scanForMidiInputs = (err: Error) => {
     if (err) {
