@@ -1,20 +1,16 @@
-import { h } from 'preact';
+import { h, JSX } from 'preact';
 import { audioContext } from '../index';
 import { ACCEPTED_MIME_TYPES } from '../constants';
 import { useSamplesContext, getSamples } from './SamplesProvider';
 import { useInitSampleLoad } from '../hooks/useInitSampleLoad';
-
-interface Event<T = EventTarget> {
-  target: T;
-}
 
 const SamplesLoader = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
 
   useInitSampleLoad();
 
-  const handleOnChange = (event: Event<HTMLInputElement>) => {
-    const file = event.target.files[0];
+  const handleOnChange: JSX.GenericEventHandler<EventTarget> = ({ target }) => {
+    const file = (target as HTMLInputElement).files[0];
     // TODO
     // for(let i = 0; i < files.length; i++) {
     //       let f = files[i];
@@ -51,7 +47,7 @@ const SamplesLoader = () => {
           accept={ACCEPTED_MIME_TYPES}
           id="upload"
           multiple
-          onChange={handleOnChange}
+          onInput={handleOnChange}
           type="file"
         />
       </label>
