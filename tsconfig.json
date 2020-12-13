@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2019",
     "moduleResolution": "node",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "skipLibCheck": true
   }

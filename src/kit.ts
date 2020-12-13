@@ -1,11 +1,13 @@
-import { audioContext } from './index';
+import { AudioContext } from 'standardized-audio-context';
 import { Keys, BaseKeys } from './constants';
 
 export interface Kit {
   play: (note: Keys) => void;
 }
 
-export const makeKit = (samples: AudioBuffer[], keys) => {
+const audioContext = new AudioContext();
+
+export const makeKit = (samples: AudioBuffer[], keys: string[]) => {
   const keyMap = createKeyMap(samples, keys);
 
   const play = (note: Keys) => start(keyMap[note]);
@@ -23,7 +25,7 @@ const start = (audioBuffer: AudioBuffer) => {
   source.start();
 };
 
-export const createKeyMap = (sampleBuffers: AudioBuffer[], keys: string) =>
+export const createKeyMap = (sampleBuffers: AudioBuffer[], keys: string[]) =>
   Object.fromEntries(sampleBuffers.map((sound, i) => [keys[i], sound]));
 
 /**

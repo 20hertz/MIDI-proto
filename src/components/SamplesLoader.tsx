@@ -1,8 +1,10 @@
 import { h, JSX } from 'preact';
-import { audioContext } from '../index';
+import { AudioContext } from 'standardized-audio-context';
 import { ACCEPTED_MIME_TYPES } from '../constants';
 import { useSamplesContext, getSamples } from './SamplesProvider';
 import { useInitSampleLoad } from '../hooks/useInitSampleLoad';
+
+const audioContext = new AudioContext();
 
 const SamplesLoader = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
