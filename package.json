@@ -1,8 +1,8 @@
 {
   "name": "boomtap",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "main": "src/index.tsx",
+  "license": "GPLv3",
   "scripts": {
     "build": "parcel build src/index.html",
     "start": "parcel src/index.html"
