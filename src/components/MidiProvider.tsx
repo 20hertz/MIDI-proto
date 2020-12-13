@@ -1,5 +1,4 @@
-import { h, JSX, createContext } from 'preact';
-import { useContext, useState } from 'preact/hooks';
+import React, { useContext, useState, createContext } from 'react';
 
 interface Props {
   children: JSX.Element;

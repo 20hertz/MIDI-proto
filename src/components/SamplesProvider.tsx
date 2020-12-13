@@ -1,8 +1,7 @@
-import { h, JSX, createContext } from 'preact';
-import { useContext, useReducer, useState } from 'preact/hooks';
+import React, { ReactNode } from 'react';
 
 interface Props {
-  children: JSX.Element;
+  children: ReactNode;
 }
 
 type Action = { type: string; payload: AudioBuffer[] };
@@ -17,10 +16,10 @@ type SamplesContextType = {
   setSamplesAreLoading: (loading: boolean) => void;
 };
 
-const SamplesContext = createContext<SamplesContextType>(undefined);
+const SamplesContext = React.createContext<SamplesContextType>(undefined);
 
 const useSamplesContext = () => {
-  const store = useContext(SamplesContext);
+  const store = React.useContext(SamplesContext);
 
   if (!store) {
     throw new Error(
@@ -46,9 +45,9 @@ const getSamples = (data: AudioBuffer[]) => ({
 });
 
 const SampleStore = () => {
-  const [samplesAreLoading, setSamplesAreLoading] = useState(false);
-  const [fetchHasError, setFetchHasError] = useState(false);
-  const [samples, dispatch] = useReducer(reducer, []);
+  const [samplesAreLoading, setSamplesAreLoading] = React.useState(false);
+  const [fetchHasError, setFetchHasError] = React.useState(false);
+  const [samples, dispatch] = React.useReducer(reducer, []);
 
   return {
     dispatch,

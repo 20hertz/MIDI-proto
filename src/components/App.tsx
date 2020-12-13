@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import * as React from 'react';
 import { SamplesProvider } from './SamplesProvider';
 import { MidiProvider } from './MidiProvider';
 import Controller from './Controller';

@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "esModuleInterop": true,
+    "jsx": "react",
     "moduleResolution": "node",
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact",
-    "skipLibCheck": true
-  }
+    "target": "ES2019"
+    // "jsxImportSource": "preact",
+    // "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
 }

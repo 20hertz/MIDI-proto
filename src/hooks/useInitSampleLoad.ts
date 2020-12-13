@@ -1,4 +1,4 @@
-import { useEffect } from 'preact/hooks';
+import { useEffect } from 'react';
 import { getSamples, useSamplesContext } from '../components/SamplesProvider';
 import { BUCKET_URL } from '../constants';
 import fetchSamples from '../fetchSamples';

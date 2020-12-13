@@ -1,4 +1,4 @@
-import { h, JSX } from 'preact';
+import React, { ChangeEvent } from 'react';
 import { AudioContext } from 'standardized-audio-context';
 import { ACCEPTED_MIME_TYPES } from '../constants';
 import { useSamplesContext, getSamples } from './SamplesProvider';
@@ -11,8 +11,8 @@ const SamplesLoader = () => {
 
   useInitSampleLoad();
 
-  const handleOnChange: JSX.GenericEventHandler<EventTarget> = ({ target }) => {
-    const file = (target as HTMLInputElement).files[0];
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files[0];
     // TODO
     // for(let i = 0; i < files.length; i++) {
     //       let f = files[i];
@@ -49,7 +49,7 @@ const SamplesLoader = () => {
           accept={ACCEPTED_MIME_TYPES}
           id="upload"
           multiple
-          onInput={handleOnChange}
+          onChange={handleOnChange}
           type="file"
         />
       </label>

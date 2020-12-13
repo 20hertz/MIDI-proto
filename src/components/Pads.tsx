@@ -1,5 +1,4 @@
-import { h, Fragment } from 'preact';
-import { useEffect } from 'preact/hooks';
+import React, { useEffect } from 'react';
 import { BaseKeys } from '../constants';
 import { makeKit, setAvailableKeys } from '../kit';
 import { makeListeners } from '../listeners';
@@ -24,7 +23,7 @@ const Pads = () => {
   return (
     <>
       {keys.map((key) => (
-        <Pad id={key} loading={samplesAreLoading} />
+        <Pad id={key} key={key} loading={samplesAreLoading} />
       ))}
     </>
   );
@@ -37,7 +36,11 @@ interface Props {
 }
 
 const Pad = ({ id, loading }: Props) => (
-  <div id={id} className="pad" style={loading && { backgroundColor: 'grey' }} />
+  <div
+    id={id}
+    className="pad"
+    style={loading ? { backgroundColor: 'grey' } : {}}
+  />
 );
 
 export default Pads;

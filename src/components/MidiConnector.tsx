@@ -1,5 +1,4 @@
-import { h, JSX } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import webmidi, { Input as MidiInput } from 'webmidi';
 import { useMidiContext } from './MidiProvider';
 
@@ -40,10 +39,8 @@ const MidiConnector = () => {
     }
   };
 
-  const handleSelectChange = (
-    event: JSX.TargetedEvent<HTMLSelectElement, Event>
-  ) => {
-    const { value } = event.target as HTMLSelectElement;
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
     setSelectedMidiInputId(value);
   };
 
