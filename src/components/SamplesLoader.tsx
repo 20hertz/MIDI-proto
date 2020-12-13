@@ -4,13 +4,17 @@ import { ACCEPTED_MIME_TYPES } from '../constants';
 import { useSamplesContext, getSamples } from './SamplesProvider';
 import { useInitSampleLoad } from '../hooks/useInitSampleLoad';
 
+interface Event<T = EventTarget> {
+  target: T;
+}
+
 const SamplesLoader = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
 
   useInitSampleLoad();
 
-  const handleOnChange = ({ target }) => {
-    const file = (target as HTMLInputElement).files[0];
+  const handleOnChange = (event: Event<HTMLInputElement>) => {
+    const file = event.target.files[0];
     // TODO
     // for(let i = 0; i < files.length; i++) {
     //       let f = files[i];
