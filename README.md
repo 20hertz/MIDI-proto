@@ -3,7 +3,10 @@ MIDI doesn't work on all browsers.  See [Caniuse](https://caniuse.com/midi) for 
 
 
 ## Getting started
-To run the application bundler, you need [Parcel](https://parceljs.org/getting_started.html) installed on your system.
+Install dependencies:
+```
+yarn
+```
 
 To run the dev server:
 ```

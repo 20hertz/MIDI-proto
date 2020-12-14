@@ -2,14 +2,10 @@ import React, { ChangeEvent } from 'react';
 import { AudioContext } from 'standardized-audio-context';
 import { ACCEPTED_MIME_TYPES } from '../constants';
 import { useSamplesContext, getSamples } from './SamplesProvider';
-import { useInitSampleLoad } from '../hooks/useInitSampleLoad';
-
-const audioContext = new AudioContext();
 
 const SamplesLoader = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
-
-  useInitSampleLoad();
+  const audioContext = new AudioContext();
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
@@ -34,7 +30,7 @@ const SamplesLoader = () => {
       }
       setSamplesAreLoading(false);
     };
-    reader.onerror = (event) => {
+    reader.onerror = event => {
       console.error('An error ocurred reading the file: ', event);
     };
 

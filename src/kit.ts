@@ -5,8 +5,6 @@ export interface Kit {
   play: (note: Keys) => void;
 }
 
-const audioContext = new AudioContext();
-
 export const makeKit = (samples: AudioBuffer[], keys: string[]) => {
   const keyMap = createKeyMap(samples, keys);
 
@@ -18,6 +16,7 @@ export const makeKit = (samples: AudioBuffer[], keys: string[]) => {
 export const baseKeys = Object.values(BaseKeys);
 
 const start = (audioBuffer: AudioBuffer) => {
+  const audioContext = new AudioContext();
   // Create an AudioNode in order to play an AudioBuffer
   const source = audioContext.createBufferSource();
   source.buffer = audioBuffer;

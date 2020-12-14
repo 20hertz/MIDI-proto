@@ -5,10 +5,6 @@ import { makeListeners } from '../listeners';
 import { useMidiContext } from './MidiProvider';
 import { useSamplesContext } from './SamplesProvider';
 
-// interface PadsProps {
-//   keys: string[];
-// }
-
 const Pads = () => {
   const { samples, samplesAreLoading } = useSamplesContext();
   const { selectedMidiInputId } = useMidiContext();
@@ -22,7 +18,7 @@ const Pads = () => {
 
   return (
     <>
-      {keys.map((key) => (
+      {keys.map(key => (
         <Pad id={key} key={key} loading={samplesAreLoading} />
       ))}
     </>
