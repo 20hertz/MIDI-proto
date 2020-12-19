@@ -1,13 +1,5 @@
-import React, {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react';
-import { BUCKET_URL } from '../constants';
-import { actions, fetchSamples, reducer, types } from '../services/samples';
+import React, { ReactNode, createContext, useContext } from 'react';
+import { hooks, types } from '../services/samples';
 
 interface Props {
   children: ReactNode;
@@ -28,40 +20,9 @@ const useSamplesContext = () => {
 };
 
 const SamplesProvider = ({ children }: Props) => {
-  const [samplesAreLoading, setSamplesAreLoading] = useState(false);
-  const [fetchHasError, setFetchHasError] = useState(false);
-  const [samples, dispatch] = useReducer(reducer, []);
+  const store = hooks.useInitSamples();
 
-  const loadInitialSamples = async () => {
-    setSamplesAreLoading(true);
-    try {
-      const sampleBuffers = await fetchSamples(BUCKET_URL);
-      dispatch(actions.getSamples(sampleBuffers));
-    } catch (error) {
-      window.alert(error);
-      setFetchHasError(true);
-    }
-    setSamplesAreLoading(false);
-  };
-
-  // Fetch samples
-  useEffect(() => {
-    loadInitialSamples();
-  }, [BUCKET_URL]);
-
-  return (
-    <SamplesContext.Provider
-      value={{
-        dispatch,
-        fetchHasError,
-        samples,
-        samplesAreLoading,
-        setFetchHasError,
-        setSamplesAreLoading,
-      }}
-      children={children}
-    />
-  );
+  return <SamplesContext.Provider value={store} children={children} />;
 };
 
-export { getSamples, SamplesProvider, useSamplesContext };
+export { SamplesProvider, useSamplesContext };

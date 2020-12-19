@@ -1,7 +1,8 @@
 import React, { ChangeEvent } from 'react';
 import { AudioContext } from 'standardized-audio-context';
 import { ACCEPTED_MIME_TYPES } from '../constants';
-import { useSamplesContext, getSamples } from './SamplesProvider';
+import { getSamples } from '../services/samples/actions';
+import { useSamplesContext } from './SamplesProvider';
 
 const SamplesLoader = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
