@@ -6,6 +6,7 @@ import {
   MOUSE_EVENTS,
 } from './constants';
 import { Kit } from './kit';
+import { Sampler } from './sampler';
 
 // Mouse events
 interface PadSelectEvent extends Omit<MouseEvent, 'target'> {
@@ -18,9 +19,9 @@ const toggleColor = (pad: HTMLElement) => {
   pad.classList.toggle('lit');
 };
 
-export const makeListeners = (kit: Kit) => {
+export const makeListeners = (sampler: Sampler) => {
   const controller = document.getElementById('controller');
-  const play = (note: Keys) => kit.play(note);
+  const play = (note: Keys) => sampler.trigger(note);
 
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
@@ -94,11 +95,11 @@ export const makeListeners = (kit: Kit) => {
     );
   };
 
-  const addMidiListener = (inputId) => {
+  const addMidiListener = inputId => {
     const input = WebMidi.inputs.find(({ id }) => id === inputId);
     listenTo(['noteon', 'noteoff'])(input);
   };
-  const removeMidiListener = (inputId) => {
+  const removeMidiListener = inputId => {
     const input = WebMidi.inputs.find(({ id }) => id === inputId);
     dontListenTo(['noteon', 'noteoff'])(input);
   };

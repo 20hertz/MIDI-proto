@@ -1,20 +1,19 @@
 import React, { useEffect } from 'react';
-import { BaseKeys } from '../constants';
-import { makeKit, setAvailableKeys } from '../kit';
+import { Keys } from '../constants';
+import { setAvailableKeys } from '../kit';
 import { makeListeners } from '../listeners';
 import { useMidiContext } from './MidiProvider';
 import { useSamplesContext } from './SamplesProvider';
 
 const Pads = () => {
-  const { samples, samplesAreLoading } = useSamplesContext();
+  const { sampler, samplesAreLoading } = useSamplesContext();
   const { selectedMidiInputId } = useMidiContext();
   const keys = setAvailableKeys(16, 4);
-  const kit = makeKit(samples, keys);
   useEffect(() => {
-    const { addListeners, removeListeners } = makeListeners(kit);
+    const { addListeners, removeListeners } = makeListeners(sampler);
     addListeners(selectedMidiInputId);
     return () => removeListeners(selectedMidiInputId);
-  }, [selectedMidiInputId, samples]);
+  }, [selectedMidiInputId, sampler]);
 
   return (
     <>
@@ -26,8 +25,7 @@ const Pads = () => {
 };
 
 interface Props {
-  // id: BaseKeys;
-  id: string;
+  id: Keys;
   loading: boolean;
 }
 

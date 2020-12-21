@@ -31,6 +31,10 @@ export enum Keys {
   B4 = 'B4',
 }
 
+export const DEFAULT_KIT = Object.fromEntries(
+  SAMPLE_NAMES.map((name, i) => [Object.values(Keys)[i], BUCKET_URL + name])
+);
+
 export enum BaseKeys {
   C = 'C',
   Csharp = 'C#',

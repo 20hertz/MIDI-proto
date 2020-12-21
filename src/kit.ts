@@ -1,38 +1,18 @@
-import { AudioContext } from 'standardized-audio-context';
 import { Keys, BaseKeys } from './constants';
-
-export interface Kit {
-  play: (note: Keys) => void;
-}
-
-export const makeKit = (samples: AudioBuffer[], keys: string[]) => {
-  const keyMap = createKeyMap(samples, keys);
-
-  const play = (note: Keys) => start(keyMap[note]);
-
-  return Object.freeze({ play });
-};
 
 export const baseKeys = Object.values(BaseKeys);
 
-const start = (audioBuffer: AudioBuffer) => {
-  const audioContext = new AudioContext();
-  // Create an AudioNode in order to play an AudioBuffer
-  const source = audioContext.createBufferSource();
-  source.buffer = audioBuffer;
-  source.connect(audioContext.destination);
-  source.start();
-};
-
-export const createKeyMap = (sampleBuffers: AudioBuffer[], keys: string[]) =>
-  Object.fromEntries(sampleBuffers.map((sound, i) => [keys[i], sound]));
+export const createSamplesMap = (
+  sampleBuffers: AudioBuffer[],
+  keys: string[]
+) => Object.fromEntries(sampleBuffers.map((sound, i) => [keys[i], sound]));
 
 /**
  *
  * @param slots Number of pads that will be visible to user
  * @param octave The starting octave number on a MIDI device
  */
-export const setAvailableKeys = (slots: number, octave: number): string[] => {
+export const setAvailableKeys = (slots: number, octave: number): Keys[] => {
   let renderedKeys = [];
 
   const appendKey = (key: number) =>

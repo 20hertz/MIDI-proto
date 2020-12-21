@@ -1,19 +1,19 @@
 import { useEffect, useReducer, useState } from 'react';
 import { reducer } from './reducer';
-import fetchSamples from './fetch';
-import { BUCKET_URL } from '../../constants';
-import { getSamples } from './actions';
+import { DEFAULT_KIT } from '../../constants';
+import { getSampler } from './actions';
+import makeSampler, { Sampler } from '../../sampler';
 
 export const useInitSamples = () => {
   const [fetchHasError, setFetchHasError] = useState(false);
-  const [samples, dispatch] = useReducer(reducer, []);
+  const [sampler, dispatch] = useReducer(reducer, []);
   const [samplesAreLoading, setSamplesAreLoading] = useState(false);
 
-  const loadInitialSamples = async () => {
+  const createSampler = async () => {
     setSamplesAreLoading(true);
     try {
-      const sampleBuffers = await fetchSamples(BUCKET_URL);
-      dispatch(getSamples(sampleBuffers));
+      const sampler = await makeSampler(DEFAULT_KIT);
+      dispatch(getSampler(sampler));
     } catch (error) {
       alert(error);
       setFetchHasError(true);
@@ -22,13 +22,13 @@ export const useInitSamples = () => {
   };
 
   useEffect(() => {
-    loadInitialSamples();
-  }, [BUCKET_URL]);
+    createSampler();
+  }, [DEFAULT_KIT]);
 
   return {
     dispatch,
     fetchHasError,
-    samples,
+    sampler,
     samplesAreLoading,
     setFetchHasError,
     setSamplesAreLoading,

@@ -1,9 +1,11 @@
+import { Sampler } from '../../sampler';
+
 export type State = AudioBuffer[];
-export type Action = { type: string; payload: AudioBuffer[] };
+export type Action = { type: string; payload: Readonly<Sampler> };
 export type SamplesContextType = {
   dispatch: (action: Action) => void;
   fetchHasError: boolean;
-  samples: AudioBuffer[];
+  sampler: Sampler;
   samplesAreLoading: boolean;
   setFetchHasError: (error: boolean) => void;
   setSamplesAreLoading: (loading: boolean) => void;
