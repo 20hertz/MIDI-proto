@@ -10,7 +10,7 @@ export const defaultKit = Object.fromEntries(
 
 export const useInitSamples = () => {
   const [fetchHasError, setFetchHasError] = useState(false);
-  const [sampler, dispatch] = useReducer(reducer, []);
+  const [sampler, dispatch] = useReducer(reducer, undefined);
   const [samplesAreLoading, setSamplesAreLoading] = useState(false);
 
   const createSampler = async () => {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Keys } from '../constants';
+import { SPN } from '../constants';
 import { setAvailableKeys } from '../kit';
 import { makeListeners } from '../listeners';
 import { useMidiContext } from './MidiProvider';
@@ -25,7 +25,7 @@ const Pads = () => {
 };
 
 interface Props {
-  id: Keys;
+  id: SPN;
   loading: boolean;
 }
 

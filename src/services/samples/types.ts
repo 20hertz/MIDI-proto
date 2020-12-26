@@ -1,6 +1,6 @@
 import { Sampler } from '../../sampler';
 
-export type State = AudioBuffer[];
+export type State = Readonly<Sampler>;
 export type Action = { type: string; payload: Readonly<Sampler> };
 export type SamplesContextType = {
   dispatch: (action: Action) => void;
