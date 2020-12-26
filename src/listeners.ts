@@ -1,11 +1,10 @@
 import WebMidi, { Input as MidiPortInput, InputEvents } from 'webmidi';
 import {
-  Keys,
   keyboardToNoteMap,
   KEYBOARD_EVENTS,
   MOUSE_EVENTS,
+  SPN,
 } from './constants';
-import { Kit } from './kit';
 import { Sampler } from './sampler';
 
 // Mouse events
@@ -21,13 +20,13 @@ const toggleColor = (pad: HTMLElement) => {
 
 export const makeListeners = (sampler: Sampler) => {
   const controller = document.getElementById('controller');
-  const play = (note: Keys) => sampler.trigger(note);
+  const play = (note: SPN) => sampler.trigger(note);
 
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
     if (type === 'mousedown' || type === 'touchstart') {
-      play(target.id as Keys);
+      play(target.id as SPN);
     }
   };
 
@@ -58,7 +57,7 @@ export const makeListeners = (sampler: Sampler) => {
       note: { name, octave },
       type,
     } = event;
-    const note = (name + octave) as Keys;
+    const note = (name + octave) as SPN;
     const pad = document.getElementById(note);
     toggleColor(pad);
     if (type === 'noteon') {
@@ -108,7 +107,7 @@ export const makeListeners = (sampler: Sampler) => {
     const pad = document.getElementById(keyboardToNoteMap[event.key]);
     toggleColor(pad);
     if (event.type === 'keydown') {
-      play(keyboardToNoteMap[event.key] as Keys);
+      play(keyboardToNoteMap[event.key] as SPN);
     }
   };
 

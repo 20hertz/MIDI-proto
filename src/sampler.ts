@@ -1,13 +1,16 @@
 import { AudioContext } from 'standardized-audio-context';
-import { Keys } from './constants';
+import { FileObject } from './components/SamplesLoader';
+import { SPN } from './constants';
 
 export interface Sampler {
-  trigger: (note: Keys) => void;
+  trigger: (note: SPN) => void;
 }
 
-interface SamplesMap {
-  [note: string]: string | ArrayBuffer;
+export interface SamplesMap {
+  [note: string]: string | FileObject;
 }
+
+const isString = (arg: any) => typeof arg === 'string';
 
 const makeSampler = async (kit: SamplesMap) => {
   const audioContext = new AudioContext();
@@ -21,15 +24,16 @@ const makeSampler = async (kit: SamplesMap) => {
 
   const buffers = await Object.keys(kit).reduce(async (map, note) => {
     let buffer: AudioBuffer;
-    if (kit[note] instanceof ArrayBuffer) {
-      buffer = await audioContext.decodeAudioData(kit[note] as ArrayBuffer);
-    } else {
+    if (isString(kit[note])) {
       buffer = await fetchSample(kit[note] as string);
+    } else {
+      const arrayBuffer = (kit[note] as FileObject).result;
+      buffer = await audioContext.decodeAudioData(arrayBuffer);
     }
     return (await map).set(note, buffer);
   }, Promise.resolve(<Map<string, AudioBuffer>>new Map()));
 
-  const trigger = (note: Keys) => {
+  const trigger = (note: SPN) => {
     const source = audioContext.createBufferSource();
     source.buffer = buffers.get(note);
     source.connect(audioContext.destination);

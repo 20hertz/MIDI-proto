@@ -1,22 +1,17 @@
-import { Keys, BaseKeys } from './constants';
+import { PitchClass, SPN } from './constants';
 
-export const baseKeys = Object.values(BaseKeys);
-
-export const createSamplesMap = (
-  sampleBuffers: AudioBuffer[],
-  keys: string[]
-) => Object.fromEntries(sampleBuffers.map((sound, i) => [keys[i], sound]));
-
+export const baseKeys = Object.values(PitchClass);
 /**
  *
  * @param slots Number of pads that will be visible to user
  * @param octave The starting octave number on a MIDI device
  */
-export const setAvailableKeys = (slots: number, octave: number): Keys[] => {
+export const setAvailableKeys = (slots: number, octave: number): SPN[] => {
   let renderedKeys = [];
 
-  const appendKey = (key: number) =>
+  const appendKey = (key: number) => {
     renderedKeys.push(baseKeys[key] + String(octave));
+  };
 
   const renderKeys = (slotsLeft: number) => {
     if (slotsLeft > baseKeys.length) {

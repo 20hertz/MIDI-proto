@@ -1,8 +1,12 @@
 import { useEffect, useReducer, useState } from 'react';
 import { reducer } from './reducer';
-import { DEFAULT_KIT } from '../../constants';
+import { BUCKET_URL, Keys, SAMPLE_NAMES } from '../../constants';
 import { getSampler } from './actions';
-import makeSampler, { Sampler } from '../../sampler';
+import makeSampler from '../../sampler';
+
+export const defaultKit = Object.fromEntries(
+  SAMPLE_NAMES.map((name, i) => [Object.values(Keys)[i], BUCKET_URL + name])
+);
 
 export const useInitSamples = () => {
   const [fetchHasError, setFetchHasError] = useState(false);
@@ -12,7 +16,7 @@ export const useInitSamples = () => {
   const createSampler = async () => {
     setSamplesAreLoading(true);
     try {
-      const sampler = await makeSampler(DEFAULT_KIT);
+      const sampler = await makeSampler(defaultKit);
       dispatch(getSampler(sampler));
     } catch (error) {
       alert(error);
@@ -23,7 +27,7 @@ export const useInitSamples = () => {
 
   useEffect(() => {
     createSampler();
-  }, [DEFAULT_KIT]);
+  }, [defaultKit]);
 
   return {
     dispatch,

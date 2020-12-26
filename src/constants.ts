@@ -18,24 +18,20 @@ export const MOUTHKIT_URL =
 
 export enum Keys {
   C4 = 'C4',
-  C4sharp = 'C#',
+  C4sharp = 'C#4',
   D4 = 'D4',
-  D4sharp = 'D4#',
+  D4sharp = 'D#4',
   E4 = 'E4',
   F4 = 'F4',
-  F4sharp = 'F4#',
+  F4sharp = 'F#4',
   G4 = 'G4',
-  G4sharp = 'G4#',
+  G4sharp = 'G#4',
   A4 = 'A4',
-  A4sharp = 'A4#',
+  A4sharp = 'A#4',
   B4 = 'B4',
 }
 
-export const DEFAULT_KIT = Object.fromEntries(
-  SAMPLE_NAMES.map((name, i) => [Object.values(Keys)[i], BUCKET_URL + name])
-);
-
-export enum BaseKeys {
+export enum PitchClass {
   C = 'C',
   Csharp = 'C#',
   D = 'D',
@@ -49,6 +45,21 @@ export enum BaseKeys {
   Asharp = 'A#',
   B = 'B',
 }
+
+const octaves = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+
+type Octave = typeof octaves[number];
+
+// Scientific Pitch Notation
+export type SPN = `${PitchClass}${Octave}`;
+
+const appendOctave = (octave: number) => (note: PitchClass) =>
+  note + String(octave);
+
+const assembleOctave = (octave: number) =>
+  Object.values(PitchClass).map(appendOctave(octave));
+
+export const pitches = octaves.flatMap(assembleOctave);
 
 export enum keyboardToNoteMap {
   q = Keys.C4,

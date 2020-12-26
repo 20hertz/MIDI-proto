@@ -1,41 +1,48 @@
 import React, { ChangeEvent } from 'react';
 import { ACCEPTED_MIME_TYPES } from '../constants';
-import makeSampler from '../sampler';
+import makeSampler, { SamplesMap } from '../sampler';
 import { getSampler } from '../services/samples/actions';
 import { useSamplesContext } from './SamplesProvider';
 import { Keys } from '../constants';
 
+const keys = Object.values(Keys);
+
+export interface FileObject {
+  file: File;
+  result: ArrayBuffer;
+}
+
 const SamplesLoader = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
 
-  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
-    // TODO
-    // for(let i = 0; i < files.length; i++) {
-    //       let f = files[i];
-    //       ...
-    //   }
-    const reader = new FileReader();
-    reader.onload = async () => {
-      setSamplesAreLoading(true);
-      try {
-        const sampler = await makeSampler({
-          [Keys.C4]: reader.result as ArrayBuffer,
-        });
-        dispatch(getSampler(sampler));
-      } catch (event) {
-        console.log(
-          'Sorry this browser unable to download this file... try Chrome',
-          event
-        );
-      }
-      setSamplesAreLoading(false);
-    };
-    reader.onerror = event => {
-      console.error('An error ocurred reading the file: ', event);
-    };
+  const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    setSamplesAreLoading(true);
+    const { files } = event.target;
 
-    reader.readAsArrayBuffer(file);
+    const results: FileObject[] = (await Promise.all(
+      Array.from(files).map(
+        file =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve({ result: reader.result, file });
+            reader.readAsArrayBuffer(file);
+          })
+      )
+    )) as FileObject[];
+    const sampleMap = Object.fromEntries(
+      results.map((result, i) => [keys[i], result])
+    );
+
+    try {
+      const sampler = await makeSampler(sampleMap as SamplesMap);
+      dispatch(getSampler(sampler));
+    } catch (event) {
+      console.log(
+        'Sorry this browser unable to download this file... try Chrome',
+        event
+      );
+    }
+    setSamplesAreLoading(false);
   };
 
   return (
