@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import React from 'react';
 import Pads from './Pads';
 import { useSamplesContext } from './SamplesProvider';
 

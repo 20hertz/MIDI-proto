@@ -1,62 +1,48 @@
-import { h } from 'preact';
-import { audioContext } from '../index';
-import { ACCEPTED_MIME_TYPES, BUCKET_URL } from '../constants';
-import { useSamplesContext, getSamples } from './SamplesProvider';
-import fetchSamples from '../fetchSamples';
-import { useEffect } from 'preact/hooks';
+import React, { ChangeEvent } from 'react';
+import { ACCEPTED_MIME_TYPES } from '../constants';
+import makeSampler, { SamplesMap } from '../sampler';
+import { getSampler } from '../services/samples/actions';
+import { useSamplesContext } from './SamplesProvider';
+import { Keys } from '../constants';
+
+const keys = Object.values(Keys);
+
+export interface FileObject {
+  file: File;
+  result: ArrayBuffer;
+}
 
 const SamplesLoader = () => {
-  const {
-    dispatch,
-    setFetchHasError,
-    setSamplesAreLoading,
-  } = useSamplesContext();
+  const { dispatch, setSamplesAreLoading } = useSamplesContext();
 
-  const loadSamples = async () => {
+  const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setSamplesAreLoading(true);
+    const { files } = event.target;
+
+    const results: FileObject[] = (await Promise.all(
+      Array.from(files).map(
+        file =>
+          new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve({ result: reader.result, file });
+            reader.readAsArrayBuffer(file);
+          })
+      )
+    )) as FileObject[];
+    const sampleMap = Object.fromEntries(
+      results.map((result, i) => [keys[i], result])
+    );
+
     try {
-      const sampleBuffers = await fetchSamples(BUCKET_URL);
-      dispatch(getSamples(sampleBuffers));
-    } catch (error) {
-      alert(error);
-      setFetchHasError(true);
+      const sampler = await makeSampler(sampleMap as SamplesMap);
+      dispatch(getSampler(sampler));
+    } catch (event) {
+      console.log(
+        'Sorry this browser unable to download this file... try Chrome',
+        event
+      );
     }
     setSamplesAreLoading(false);
-  };
-
-  // Fetch samples
-  useEffect(() => {
-    loadSamples();
-  }, [BUCKET_URL]);
-
-  const handleOnChange = ({ target }) => {
-    const file = (target as HTMLInputElement).files[0];
-    // TODO
-    // for(let i = 0; i < files.length; i++) {
-    //       let f = files[i];
-    //       ...
-    //   }
-    const reader = new FileReader();
-    reader.onload = async () => {
-      setSamplesAreLoading(true);
-      try {
-        const decodedData = await audioContext.decodeAudioData(
-          reader.result as ArrayBuffer
-        );
-        dispatch(getSamples([decodedData]));
-      } catch (event) {
-        console.log(
-          'Sorry this browser unable to download this file... try Chrome',
-          event
-        );
-      }
-      setSamplesAreLoading(false);
-    };
-    reader.onerror = (event) => {
-      console.error('An error ocurred reading the file: ', event);
-    };
-
-    reader.readAsArrayBuffer(file);
   };
 
   return (

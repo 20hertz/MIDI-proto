@@ -1,24 +1,11 @@
-import { h, JSX } from 'preact';
-import { createContext } from 'preact';
-import { useContext, useReducer, useState } from 'preact/hooks';
+import React, { ReactNode, createContext, useContext } from 'react';
+import { hooks, types } from '../services/samples';
 
 interface Props {
-  children: JSX.Element;
+  children: ReactNode;
 }
 
-type Action = { type: string; payload: AudioBuffer[] };
-type State = AudioBuffer[];
-
-type SamplesContextType = {
-  dispatch: (action: Action) => void;
-  fetchHasError: boolean;
-  samples: AudioBuffer[];
-  samplesAreLoading: boolean;
-  setFetchHasError: (error: boolean) => void;
-  setSamplesAreLoading: (loading: boolean) => void;
-};
-
-const SamplesContext = createContext<SamplesContextType | undefined>(undefined);
+const SamplesContext = createContext<types.SamplesContextType>(undefined);
 
 const useSamplesContext = () => {
   const store = useContext(SamplesContext);
@@ -32,38 +19,10 @@ const useSamplesContext = () => {
   return store;
 };
 
-const reducer = (state: State, action: Action) => {
-  switch (action.type) {
-    case 'GET_SAMPLES':
-      return action.payload;
-    default:
-      return state;
-  }
+const SamplesProvider = ({ children }: Props) => {
+  const store = hooks.useInitSamples();
+
+  return <SamplesContext.Provider value={store} children={children} />;
 };
 
-const getSamples = (data: AudioBuffer[]) => ({
-  type: 'GET_SAMPLES',
-  payload: data,
-});
-
-const SampleStore = () => {
-  const [samplesAreLoading, setSamplesAreLoading] = useState(false);
-  const [fetchHasError, setFetchHasError] = useState(false);
-
-  const [samples, dispatch] = useReducer(reducer, []);
-
-  return {
-    dispatch,
-    fetchHasError,
-    samples,
-    samplesAreLoading,
-    setFetchHasError,
-    setSamplesAreLoading,
-  };
-};
-
-const SamplesProvider = (props: Props) => (
-  <SamplesContext.Provider value={SampleStore()} {...props} />
-);
-
-export { getSamples, SamplesProvider, useSamplesContext };
+export { SamplesProvider, useSamplesContext };

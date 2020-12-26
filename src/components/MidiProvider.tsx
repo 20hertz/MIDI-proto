@@ -1,6 +1,4 @@
-import { h, JSX } from 'preact';
-import { createContext } from 'preact';
-import { useContext, useState } from 'preact/hooks';
+import React, { useContext, useState, createContext } from 'react';
 
 interface Props {
   children: JSX.Element;
@@ -11,7 +9,7 @@ type MidiContextType = {
   setSelectedMidiInputId: (input: string) => void;
 };
 
-const MidiContext = createContext<MidiContextType | undefined>(undefined);
+const MidiContext = createContext<MidiContextType>(undefined);
 
 export const useMidiContext = () => {
   const store = useContext(MidiContext);

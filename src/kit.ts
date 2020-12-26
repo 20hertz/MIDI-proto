@@ -1,49 +1,28 @@
-import { audioContext } from './index';
-import { Keys, BaseKeys } from './constants';
+import { PitchClass, SPN } from './constants';
 
-export interface Kit {
-  play: (note: Keys) => void;
-}
-
-export const makeKit = (samples: AudioBuffer[], keys) => {
-  const keyMap = createKeyMap(samples, keys);
-
-  const play = (note: Keys) => start(keyMap[note]);
-
-  return Object.freeze({ play });
-};
-
-export const baseKeys = Object.values(BaseKeys);
-
-const start = (audioBuffer: AudioBuffer) => {
-  // Create an AudioNode in order to play an AudioBuffer
-  const source = audioContext.createBufferSource();
-  source.buffer = audioBuffer;
-  source.connect(audioContext.destination);
-  source.start();
-};
-
-export const createKeyMap = (sampleBuffers: AudioBuffer[], keys: string) =>
-  Object.fromEntries(sampleBuffers.map((sound, i) => [keys[i], sound]));
-
+export const baseKeys = Object.values(PitchClass);
 /**
  *
  * @param slots Number of pads that will be visible to user
  * @param octave The starting octave number on a MIDI device
  */
-export const setAvailableKeys = (slots: number, octave: number): string[] => {
+export const setAvailableKeys = (slots: number, octave: number): SPN[] => {
   let renderedKeys = [];
+
+  const appendKey = (key: number) => {
+    renderedKeys.push(baseKeys[key] + String(octave));
+  };
 
   const renderKeys = (slotsLeft: number) => {
     if (slotsLeft > baseKeys.length) {
       for (let i = 0; i < baseKeys.length; i++) {
-        renderedKeys.push(baseKeys[i] + String(octave));
+        appendKey(i);
       }
       octave++;
       renderKeys(slotsLeft - baseKeys.length);
     } else {
       for (let i = 0; i < slotsLeft; i++) {
-        renderedKeys.push(baseKeys[i] + String(octave));
+        appendKey(i);
       }
     }
   };
