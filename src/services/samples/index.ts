@@ -1,6 +1,3 @@
-import { reducer } from './reducer';
-import * as types from './types';
-import * as actions from './actions';
-import * as hooks from './hooks';
-
-export { actions, hooks, reducer, types };
+export * from './actions';
+export * from './hooks';
+export * from './types';

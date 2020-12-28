@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { SPN } from '../constants';
-import { setAvailableKeys } from '../kit';
-import { makeListeners } from '../listeners';
-import { useMidiContext } from './MidiProvider';
-import { useSamplesContext } from './SamplesProvider';
+import { setAvailableKeys } from '../helpers';
+import { makeListeners } from '../models/listeners';
+import { useMidiContext } from '../services/midi';
+import { useSamplerContext } from '../services/sampler';
+import { useSamplesContext } from '../services/samples';
 
 const Pads = () => {
   const { sampler, samplesAreLoading } = useSamplesContext();
+  const { currentOctave } = useSamplerContext();
   const { selectedMidiInputId } = useMidiContext();
-  const keys = setAvailableKeys(16, 4);
+  const keys = setAvailableKeys(16, currentOctave);
   useEffect(() => {
     const { addListeners, removeListeners } = makeListeners(sampler);
     addListeners(selectedMidiInputId);

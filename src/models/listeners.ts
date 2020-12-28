@@ -4,7 +4,7 @@ import {
   KEYBOARD_EVENTS,
   MOUSE_EVENTS,
   SPN,
-} from './constants';
+} from '../constants';
 import { Sampler } from './sampler';
 
 // Mouse events
@@ -25,7 +25,8 @@ export const makeListeners = (sampler: Sampler) => {
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
-    if (type === 'mousedown' || type === 'touchstart') {
+    // Maybe one day we'll have to handle 'touchstart' event type also, we'll see.
+    if (type === 'mousedown') {
       play(target.id as SPN);
     }
   };
@@ -40,7 +41,7 @@ export const makeListeners = (sampler: Sampler) => {
   const addSelectListener = () => {
     for (const eventName of MOUSE_EVENTS) {
       controller.addEventListener(eventName, selectListener, {
-        passive: eventName === 'touchstart',
+        // passive: eventName === 'touchstart',
       });
     }
   };
@@ -126,7 +127,7 @@ export const makeListeners = (sampler: Sampler) => {
   const addListeners = (inputId?: string) => {
     addSelectListener();
     addKeyboardListener();
-    if (inputId && inputId !== 'noinput') {
+    if (inputId !== 'noinput') {
       addMidiListener(inputId);
     }
   };
@@ -134,7 +135,7 @@ export const makeListeners = (sampler: Sampler) => {
   const removeListeners = (inputId?: string) => {
     removeKeyboardListener();
     removeMouseListener();
-    if (inputId && inputId !== 'noinput') {
+    if (inputId !== 'noinput') {
       removeMidiListener(inputId);
     }
   };

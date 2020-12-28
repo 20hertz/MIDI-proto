@@ -1,33 +1,25 @@
-import { useEffect, useReducer, useState } from 'react';
+import { createContext, useContext, useReducer, useState } from 'react';
 import { reducer } from './reducer';
-import { BUCKET_URL, Keys, SAMPLE_NAMES } from '../../constants';
-import { getSampler } from './actions';
-import makeSampler from '../../sampler';
+import { SamplesContextType } from './types';
 
-export const defaultKit = Object.fromEntries(
-  SAMPLE_NAMES.map((name, i) => [Object.values(Keys)[i], BUCKET_URL + name])
-);
+export const SamplesContext = createContext<SamplesContextType>(undefined);
 
-export const useInitSamples = () => {
+export const useSamplesContext = () => {
+  const store = useContext(SamplesContext);
+
+  if (!store) {
+    throw new Error(
+      'Cannot use `useSamplesContext` outside of a SamplesProvider'
+    );
+  }
+
+  return store;
+};
+
+export const useSamplesStore = () => {
   const [fetchHasError, setFetchHasError] = useState(false);
   const [sampler, dispatch] = useReducer(reducer, undefined);
   const [samplesAreLoading, setSamplesAreLoading] = useState(false);
-
-  const createSampler = async () => {
-    setSamplesAreLoading(true);
-    try {
-      const sampler = await makeSampler(defaultKit);
-      dispatch(getSampler(sampler));
-    } catch (error) {
-      alert(error);
-      setFetchHasError(true);
-    }
-    setSamplesAreLoading(false);
-  };
-
-  useEffect(() => {
-    createSampler();
-  }, [defaultKit]);
 
   return {
     dispatch,
