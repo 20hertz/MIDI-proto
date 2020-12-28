@@ -1,9 +1,12 @@
 import React from 'react';
 import Pads from './Pads';
-import { useSamplesContext } from './SamplesProvider';
+import { useSamplesContext } from '../services/samples';
+import { useDefaultSamples } from '../hooks/samples';
 
-const Controller = () => {
+const Sampler = () => {
   const { fetchHasError } = useSamplesContext();
+
+  useDefaultSamples();
 
   return (
     <div className="playground">
@@ -22,4 +25,4 @@ const Controller = () => {
   );
 };
 
-export default Controller;
+export default Sampler;

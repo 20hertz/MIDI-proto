@@ -1,4 +1,4 @@
-import { Sampler } from '../../sampler';
+import { Sampler } from '../../models/sampler';
 
 export type State = Readonly<Sampler>;
 export type Action = { type: string; payload: Readonly<Sampler> };
@@ -10,3 +10,15 @@ export type SamplesContextType = {
   setFetchHasError: (error: boolean) => void;
   setSamplesAreLoading: (loading: boolean) => void;
 };
+
+export interface LocalSample {
+  file: File;
+  result: ArrayBuffer;
+}
+
+export interface RemoteSample {
+  name: string;
+  url: string;
+}
+
+export type Sample = RemoteSample | LocalSample;

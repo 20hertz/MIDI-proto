@@ -1,25 +1,22 @@
 import React, { ChangeEvent } from 'react';
 import { ACCEPTED_MIME_TYPES } from '../constants';
-import makeSampler, { SamplesMap } from '../sampler';
-import { getSampler } from '../services/samples/actions';
-import { useSamplesContext } from './SamplesProvider';
-import { Keys } from '../constants';
-
-const keys = Object.values(Keys);
-
-export interface FileObject {
-  file: File;
-  result: ArrayBuffer;
-}
+import makeSampler, { SamplesMap } from '../models/sampler';
+import { makeSamplesMap } from '../models/samples-map';
+import { useSamplerContext } from '../services/sampler';
+import {
+  getSampler,
+  LocalSample,
+  useSamplesContext,
+} from '../services/samples';
 
 const SamplesLoader = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
-
+  const { currentOctave } = useSamplerContext();
   const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setSamplesAreLoading(true);
     const { files } = event.target;
 
-    const results: FileObject[] = (await Promise.all(
+    const results: LocalSample[] = (await Promise.all(
       Array.from(files).map(
         file =>
           new Promise((resolve, reject) => {
@@ -28,10 +25,9 @@ const SamplesLoader = () => {
             reader.readAsArrayBuffer(file);
           })
       )
-    )) as FileObject[];
-    const sampleMap = Object.fromEntries(
-      results.map((result, i) => [keys[i], result])
-    );
+    )) as LocalSample[];
+
+    const sampleMap = makeSamplesMap(results, currentOctave);
 
     try {
       const sampler = await makeSampler(sampleMap as SamplesMap);

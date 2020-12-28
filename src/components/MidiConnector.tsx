@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import webmidi, { Input as MidiInput } from 'webmidi';
-import { useMidiContext } from './MidiProvider';
+import { useMidiContext } from '../services/midi';
 
 const MidiConnector = () => {
   const [midiIsConnected, setMidiIsConnected] = useState(false);

@@ -1,3 +1,5 @@
+import { Octave } from './services/sampler';
+
 export const SAMPLE_NAMES = [
   'mouth_snare.mp3',
   'mouth_kick.mp3',
@@ -10,26 +12,11 @@ export const SAMPLE_NAMES = [
 export const ACCEPTED_MIME_TYPES =
   'audio/mpeg, audio/wave, audio/wav, audio/x-wav, audio/x-pn-wav, audio/flac';
 
-export const BUCKET_URL =
+export const SAMPLES_URL =
   'https://boomtap-proto-test-sample-bucket.s3.ca-central-1.amazonaws.com/';
 
 export const MOUTHKIT_URL =
   'https://drive.google.com/drive/folders/1hKVW2YPxkTh6temzmdqZHm8Qq8VBF9sU?usp=sharing';
-
-export enum Keys {
-  C4 = 'C4',
-  C4sharp = 'C#4',
-  D4 = 'D4',
-  D4sharp = 'D#4',
-  E4 = 'E4',
-  F4 = 'F4',
-  F4sharp = 'F#4',
-  G4 = 'G4',
-  G4sharp = 'G#4',
-  A4 = 'A4',
-  A4sharp = 'A#4',
-  B4 = 'B4',
-}
 
 export enum PitchClass {
   C = 'C',
@@ -46,29 +33,27 @@ export enum PitchClass {
   B = 'B',
 }
 
-const octaves = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
-
-type Octave = typeof octaves[number];
+export const octaves = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 
 // Scientific Pitch Notation
 export type SPN = `${PitchClass}${Octave}`;
 
-const appendOctave = (octave: number) => (note: PitchClass) =>
-  note + String(octave);
+const appendOctave = (octave: Octave) => (note: PitchClass) =>
+  (note + octave) as SPN;
 
-const assembleOctave = (octave: number) =>
+const assembleOctave = (octave: Octave) =>
   Object.values(PitchClass).map(appendOctave(octave));
 
 export const pitches = octaves.flatMap(assembleOctave);
 
 export enum keyboardToNoteMap {
-  q = Keys.C4,
-  w = Keys.D4,
-  e = Keys.E4,
-  a = Keys.F4,
-  s = Keys.G4,
-  d = Keys.A4,
+  q = 'C4',
+  w = 'D4',
+  e = 'E4',
+  a = 'F4',
+  s = 'G4',
+  d = 'A4',
 }
 
-export const MOUSE_EVENTS = ['mousedown', 'mouseup', 'touchstart', 'touchend'];
+export const MOUSE_EVENTS = ['mousedown', 'mouseup'];
 export const KEYBOARD_EVENTS = ['keydown', 'keyup'];

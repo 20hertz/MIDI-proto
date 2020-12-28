@@ -1,6 +1,6 @@
-import { PitchClass, SPN } from './constants';
+import { PitchClass, SPN } from '../constants';
 
-export const baseKeys = Object.values(PitchClass);
+const pitchClasses = Object.values(PitchClass);
 /**
  *
  * @param slots Number of pads that will be visible to user
@@ -10,16 +10,16 @@ export const setAvailableKeys = (slots: number, octave: number): SPN[] => {
   let renderedKeys = [];
 
   const appendKey = (key: number) => {
-    renderedKeys.push(baseKeys[key] + String(octave));
+    renderedKeys.push(pitchClasses[key] + octave);
   };
 
   const renderKeys = (slotsLeft: number) => {
-    if (slotsLeft > baseKeys.length) {
-      for (let i = 0; i < baseKeys.length; i++) {
+    if (slotsLeft > pitchClasses.length) {
+      for (let i = 0; i < pitchClasses.length; i++) {
         appendKey(i);
       }
       octave++;
-      renderKeys(slotsLeft - baseKeys.length);
+      renderKeys(slotsLeft - pitchClasses.length);
     } else {
       for (let i = 0; i < slotsLeft; i++) {
         appendKey(i);
