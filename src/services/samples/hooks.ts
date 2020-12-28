@@ -1,5 +1,4 @@
 import { createContext, useContext, useReducer, useState } from 'react';
-import { Octave } from '../sampler';
 import { reducer } from './reducer';
 import { SamplesContextType } from './types';
 
