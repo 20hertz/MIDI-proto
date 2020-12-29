@@ -25,8 +25,7 @@ export const makeListeners = (sampler: Sampler) => {
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
-    // Maybe one day we'll have to handle 'touchstart' event type also, we'll see.
-    if (type === 'mousedown') {
+    if (type === 'mousedown' || type === 'touchstart') {
       play(target.id as SPN);
     }
   };
@@ -34,15 +33,16 @@ export const makeListeners = (sampler: Sampler) => {
   const selectListener: EventListener = (event: PadSelectEvent) => {
     const target = event.target as HTMLElement;
     if (target.matches('div.pad')) {
+      // Prevent both touch and mouse events to be fired on a single user input.
+      // https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Supporting_both_TouchEvent_and_MouseEvent#Event_firing
+      event.preventDefault();
       onPadSelect(event);
     }
   };
 
   const addSelectListener = () => {
     for (const eventName of MOUSE_EVENTS) {
-      controller.addEventListener(eventName, selectListener, {
-        // passive: eventName === 'touchstart',
-      });
+      controller.addEventListener(eventName, selectListener);
     }
   };
 
@@ -95,11 +95,11 @@ export const makeListeners = (sampler: Sampler) => {
     );
   };
 
-  const addMidiListener = inputId => {
+  const addMidiListener = (inputId: string) => {
     const input = WebMidi.inputs.find(({ id }) => id === inputId);
     listenTo(['noteon', 'noteoff'])(input);
   };
-  const removeMidiListener = inputId => {
+  const removeMidiListener = (inputId: string) => {
     const input = WebMidi.inputs.find(({ id }) => id === inputId);
     dontListenTo(['noteon', 'noteoff'])(input);
   };
@@ -124,7 +124,7 @@ export const makeListeners = (sampler: Sampler) => {
     }
   };
 
-  const addListeners = (inputId?: string) => {
+  const addListeners = (inputId: string) => {
     addSelectListener();
     addKeyboardListener();
     if (inputId !== 'noinput') {
@@ -132,7 +132,7 @@ export const makeListeners = (sampler: Sampler) => {
     }
   };
 
-  const removeListeners = (inputId?: string) => {
+  const removeListeners = (inputId: string) => {
     removeKeyboardListener();
     removeMouseListener();
     if (inputId !== 'noinput') {

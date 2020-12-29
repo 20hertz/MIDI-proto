@@ -10,7 +10,7 @@ const MidiConnector = () => {
 
   const scanForMidiInputs = (err: Error) => {
     if (err) {
-      console.log('WebMidi could not be enabled.', err);
+      console.debug('WebMidi could not be enabled.', err);
     }
 
     const { inputs } = webmidi;
