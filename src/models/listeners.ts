@@ -25,7 +25,8 @@ export const makeListeners = (sampler: Sampler) => {
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
-    if (type === 'mousedown' || type === 'touchstart') {
+    // Maybe one day we'll have to handle 'touchstart' event type also, we'll see.
+    if (type === 'mousedown') {
       play(target.id as SPN);
     }
   };
