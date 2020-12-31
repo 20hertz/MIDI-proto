@@ -20,13 +20,14 @@ const toggleColor = (pad: HTMLElement) => {
 
 export const makeListeners = (sampler: Sampler) => {
   const controller = document.getElementById('controller');
-  const play = (note: SPN) => sampler.trigger(note);
+  const play = (note: SPN) => {
+    sampler.trigger(note);
+  };
 
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
-    // Maybe one day we'll have to handle 'touchstart' event type also, we'll see.
-    if (type === 'mousedown') {
+    if (type === 'mousedown' || type === 'touchstart') {
       play(target.id as SPN);
     }
   };
@@ -34,15 +35,16 @@ export const makeListeners = (sampler: Sampler) => {
   const selectListener: EventListener = (event: PadSelectEvent) => {
     const target = event.target as HTMLElement;
     if (target.matches('div.pad')) {
+      // Prevent both touch and mouse events to be fired on a single user input.
+      // https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Supporting_both_TouchEvent_and_MouseEvent#Event_firing
+      event.preventDefault();
       onPadSelect(event);
     }
   };
 
   const addSelectListener = () => {
     for (const eventName of MOUSE_EVENTS) {
-      controller.addEventListener(eventName, selectListener, {
-        // passive: eventName === 'touchstart',
-      });
+      controller.addEventListener(eventName, selectListener);
     }
   };
 
@@ -95,16 +97,17 @@ export const makeListeners = (sampler: Sampler) => {
     );
   };
 
-  const addMidiListener = inputId => {
+  const addMidiListener = (inputId: string) => {
     const input = WebMidi.inputs.find(({ id }) => id === inputId);
     listenTo(['noteon', 'noteoff'])(input);
   };
-  const removeMidiListener = inputId => {
+  const removeMidiListener = (inputId: string) => {
     const input = WebMidi.inputs.find(({ id }) => id === inputId);
     dontListenTo(['noteon', 'noteoff'])(input);
   };
   // Keyboard events
-  const keyboardListener: EventListener = (event: KeyboardEvent) => {
+  const onKeyboardEvent: EventListener = (event: KeyboardEvent) => {
+    event.stopImmediatePropagation();
     const pad = document.getElementById(keyboardToNoteMap[event.key]);
     toggleColor(pad);
     if (event.type === 'keydown') {
@@ -112,28 +115,39 @@ export const makeListeners = (sampler: Sampler) => {
     }
   };
 
+  const addKeyboardListeners = () => {
+    for (const eventName of KEYBOARD_EVENTS) {
+      document.addEventListener(eventName, onKeyboardEvent);
+    }
+  };
+
+  const removeKeyboardListeners = () => {
+    for (const eventName of KEYBOARD_EVENTS) {
+      document.removeEventListener(eventName, onKeyboardEvent);
+    }
+  };
+
+  const toggleKeyboardListeners = fn => {
+    for (const eventName of KEYBOARD_EVENTS) {
+      fn(eventName, onKeyboardEvent);
+    }
+  };
+
   const addKeyboardListener = () => {
-    for (const eventName of KEYBOARD_EVENTS) {
-      document.addEventListener(eventName, keyboardListener);
-    }
+    toggleKeyboardListeners(document.addEventListener);
   };
 
-  const removeKeyboardListener = () => {
-    for (const eventName of KEYBOARD_EVENTS) {
-      document.removeEventListener(eventName, keyboardListener);
-    }
-  };
-
-  const addListeners = (inputId?: string) => {
+  const addListeners = (inputId: string) => {
     addSelectListener();
-    addKeyboardListener();
+    addKeyboardListeners();
+    // addKeyboardListener();
     if (inputId !== 'noinput') {
       addMidiListener(inputId);
     }
   };
 
-  const removeListeners = (inputId?: string) => {
-    removeKeyboardListener();
+  const removeListeners = (inputId: string) => {
+    removeKeyboardListeners();
     removeMouseListener();
     if (inputId !== 'noinput') {
       removeMidiListener(inputId);
