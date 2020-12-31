@@ -55,5 +55,5 @@ export enum keyboardToNoteMap {
   d = 'A4',
 }
 
-export const MOUSE_EVENTS = ['mousedown', 'mouseup'];
+export const MOUSE_EVENTS = ['mousedown', 'mouseup', 'touchend', 'touchstart'];
 export const KEYBOARD_EVENTS = ['keydown', 'keyup'];

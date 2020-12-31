@@ -20,13 +20,14 @@ const toggleColor = (pad: HTMLElement) => {
 
 export const makeListeners = (sampler: Sampler) => {
   const controller = document.getElementById('controller');
-  const play = (note: SPN) => sampler.trigger(note);
+  const play = (note: SPN) => {
+    sampler.trigger(note);
+  };
 
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
-    // Maybe one day we'll have to handle 'touchstart' event type also, we'll see.
-    if (type === 'mousedown') {
+    if (type === 'mousedown' || type === 'touchstart') {
       play(target.id as SPN);
     }
   };
@@ -105,7 +106,8 @@ export const makeListeners = (sampler: Sampler) => {
     dontListenTo(['noteon', 'noteoff'])(input);
   };
   // Keyboard events
-  const keyboardListener: EventListener = (event: KeyboardEvent) => {
+  const onKeyboardEvent: EventListener = (event: KeyboardEvent) => {
+    event.stopImmediatePropagation();
     const pad = document.getElementById(keyboardToNoteMap[event.key]);
     toggleColor(pad);
     if (event.type === 'keydown') {
@@ -113,28 +115,39 @@ export const makeListeners = (sampler: Sampler) => {
     }
   };
 
-  const addKeyboardListener = () => {
+  const addKeyboardListeners = () => {
     for (const eventName of KEYBOARD_EVENTS) {
-      document.addEventListener(eventName, keyboardListener);
+      document.addEventListener(eventName, onKeyboardEvent);
     }
   };
 
-  const removeKeyboardListener = () => {
+  const removeKeyboardListeners = () => {
     for (const eventName of KEYBOARD_EVENTS) {
-      document.removeEventListener(eventName, keyboardListener);
+      document.removeEventListener(eventName, onKeyboardEvent);
     }
+  };
+
+  const toggleKeyboardListeners = fn => {
+    for (const eventName of KEYBOARD_EVENTS) {
+      fn(eventName, onKeyboardEvent);
+    }
+  };
+
+  const addKeyboardListener = () => {
+    toggleKeyboardListeners(document.addEventListener);
   };
 
   const addListeners = (inputId: string) => {
     addSelectListener();
-    addKeyboardListener();
+    addKeyboardListeners();
+    // addKeyboardListener();
     if (inputId !== 'noinput') {
       addMidiListener(inputId);
     }
   };
 
   const removeListeners = (inputId: string) => {
-    removeKeyboardListener();
+    removeKeyboardListeners();
     removeMouseListener();
     if (inputId !== 'noinput') {
       removeMidiListener(inputId);
