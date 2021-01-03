@@ -1,6 +1,6 @@
 import { AudioContext } from 'standardized-audio-context';
 import { SPN } from '../constants';
-import { LocalSample, Sample } from '../services/samples/types';
+import { LocalSample, RemoteSample, Sample } from '../services/samples/types';
 
 export interface Sampler {
   trigger: (note: SPN) => void;
@@ -27,8 +27,8 @@ const makeSampler = async (samplesMap: SamplesMap) => {
     if (isRemote(samplesMap[note])) {
       buffer = await fetchSample(samplesMap[note].url);
     } else {
-      const arrayBuffer = (samplesMap[note] as LocalSample).result;
-      buffer = await audioContext.decodeAudioData(arrayBuffer);
+      const { readerResult } = samplesMap[note] as LocalSample;
+      buffer = await audioContext.decodeAudioData(readerResult);
     }
     return (await map).set(note, buffer);
   }, Promise.resolve(<Map<string, AudioBuffer>>new Map()));

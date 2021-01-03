@@ -9,6 +9,18 @@ import {
   useSamplesContext,
 } from '../services/samples';
 
+const makeLocalSample = (file: File) =>
+  new Promise<LocalSample>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = () =>
+      resolve({ readerResult: reader.result as ArrayBuffer, file });
+    reader.onerror = () => {
+      reader.abort();
+      reject(new DOMException('Problem parsing input file.'));
+    };
+  });
+
 const SamplesLoader = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
   const { currentOctave } = useSamplerContext();
@@ -16,27 +28,17 @@ const SamplesLoader = () => {
     setSamplesAreLoading(true);
     const { files } = event.target;
 
-    const results: LocalSample[] = (await Promise.all(
-      Array.from(files).map(
-        file =>
-          new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve({ result: reader.result, file });
-            reader.readAsArrayBuffer(file);
-          })
-      )
-    )) as LocalSample[];
+    const localSamples = await Promise.all(
+      Array.from(files).map(makeLocalSample)
+    );
 
-    const sampleMap = makeSamplesMap(results, currentOctave);
+    const sampleMap = makeSamplesMap(localSamples, currentOctave);
 
     try {
       const sampler = await makeSampler(sampleMap as SamplesMap);
       dispatch(getSampler(sampler));
     } catch (event) {
-      console.log(
-        'Sorry this browser unable to download this file... try Chrome',
-        event
-      );
+      console.warn(event.message);
     }
     setSamplesAreLoading(false);
   };
