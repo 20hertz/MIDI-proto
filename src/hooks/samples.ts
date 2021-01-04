@@ -3,7 +3,7 @@ import { SAMPLES_URL, SAMPLE_NAMES } from '../constants';
 import makeSampler, { SamplesMap } from '../models/sampler';
 import { makeSamplesMap } from '../models/samples-map';
 import { useSamplerContext } from '../services/sampler';
-import { getSampler, useSamplesContext } from '../services/samples';
+import { getSampler, Sample, useSamplesContext } from '../services/samples';
 
 export const useDefaultSamples = () => {
   const {
@@ -15,10 +15,10 @@ export const useDefaultSamples = () => {
   const { currentOctave } = useSamplerContext();
 
   const createSampler = async () => {
-    const initialSampleMap = makeSamplesMap(initialSamples, currentOctave);
-
     setSamplesAreLoading(true);
     try {
+      const initialSamples = await fetchSamples();
+      const initialSampleMap = makeSamplesMap(initialSamples, currentOctave);
       const sampler = await makeSampler(initialSampleMap as SamplesMap);
       dispatch(getSampler(sampler));
     } catch (error) {
@@ -33,7 +33,19 @@ export const useDefaultSamples = () => {
   }, [SAMPLES_URL]);
 };
 
-const initialSamples = SAMPLE_NAMES.map(name => ({
-  name,
-  url: SAMPLES_URL + name,
-}));
+const fetchSample = async (url: string) => {
+  const response = await fetch(url);
+  const arrayBuffer = await response.arrayBuffer();
+  return arrayBuffer;
+};
+
+const fetchSamples = async () =>
+  Promise.all(
+    SAMPLE_NAMES.map(async name => {
+      const arrayBuffer = await fetchSample(SAMPLES_URL + name);
+      return {
+        fileName: name,
+        arrayBuffer,
+      };
+    })
+  );

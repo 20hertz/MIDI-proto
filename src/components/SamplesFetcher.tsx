@@ -3,11 +3,7 @@ import React, { MouseEvent } from 'react';
 import makeSampler, { SamplesMap } from '../models/sampler';
 import { makeSamplesMap } from '../models/samples-map';
 import { useSamplerContext } from '../services/sampler';
-import {
-  getSampler,
-  LocalSample,
-  useSamplesContext,
-} from '../services/samples';
+import { getSampler, Sample, useSamplesContext } from '../services/samples';
 
 const LOCAL_URL = '/google-drive/';
 const PATH = 'uc?id=';
@@ -28,7 +24,7 @@ const SamplesFetcher = () => {
       const localSamples = await Promise.all(
         Object.keys(files).map(
           filename =>
-            new Promise<LocalSample>(async resolve => {
+            new Promise<Sample>(async resolve => {
               const fileData = await files[filename].async('arraybuffer');
               resolve({
                 fileName: filename,

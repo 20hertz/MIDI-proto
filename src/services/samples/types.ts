@@ -11,15 +11,8 @@ export type SamplesContextType = {
   setSamplesAreLoading: (loading: boolean) => void;
 };
 
-export interface LocalSample {
+export interface Sample {
   // file: File;
   fileName: string;
   arrayBuffer: ArrayBuffer;
 }
-
-export interface RemoteSample {
-  name: string;
-  url: string;
-}
-
-export type Sample = RemoteSample | LocalSample;

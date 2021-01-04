@@ -3,19 +3,15 @@ import { ACCEPTED_MIME_TYPES } from '../constants';
 import makeSampler, { SamplesMap } from '../models/sampler';
 import { makeSamplesMap } from '../models/samples-map';
 import { useSamplerContext } from '../services/sampler';
-import {
-  getSampler,
-  LocalSample,
-  useSamplesContext,
-} from '../services/samples';
+import { getSampler, Sample, useSamplesContext } from '../services/samples';
 
 const makeLocalSample = (file: File) =>
-  new Promise<LocalSample>((resolve, reject) => {
+  new Promise<Sample>((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onload = () =>
       resolve({
-        readerResult: reader.result as ArrayBuffer,
+        arrayBuffer: reader.result as ArrayBuffer,
         fileName: file.name,
       });
     reader.onerror = () => {
