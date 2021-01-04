@@ -20,15 +20,12 @@ const toggleColor = (pad: HTMLElement) => {
 
 export const makeListeners = (sampler: Sampler) => {
   const controller = document.getElementById('controller');
-  const play = (note: SPN) => {
-    sampler.trigger(note);
-  };
 
   // Mouse events
   const onPadSelect = ({ target, type }: PadSelectEvent) => {
     toggleColor(target);
     if (type === 'mousedown' || type === 'touchstart') {
-      play(target.id as SPN);
+      sampler.trigger(target.id as SPN);
     }
   };
 
@@ -42,15 +39,9 @@ export const makeListeners = (sampler: Sampler) => {
     }
   };
 
-  const addSelectListener = () => {
+  const toggleSelectListener = (functionName: string) => {
     for (const eventName of MOUSE_EVENTS) {
-      controller.addEventListener(eventName, selectListener);
-    }
-  };
-
-  const removeMouseListener = () => {
-    for (const eventName of MOUSE_EVENTS) {
-      controller.removeEventListener(eventName, selectListener);
+      controller[functionName](eventName, selectListener);
     }
   };
 
@@ -64,7 +55,7 @@ export const makeListeners = (sampler: Sampler) => {
     const pad = document.getElementById(note);
     toggleColor(pad);
     if (type === 'noteon') {
-      play(note);
+      sampler.trigger(note);
     }
   };
 
@@ -89,7 +80,7 @@ export const makeListeners = (sampler: Sampler) => {
     );
   };
 
-  const dontListenTo = <T extends keyof InputEvents>(eventTypes: T[]) => (
+  const abortListenTo = <T extends keyof InputEvents>(eventTypes: T[]) => (
     input: MidiPortInput
   ) => {
     eventTypes.forEach((eventType: T) =>
@@ -103,7 +94,7 @@ export const makeListeners = (sampler: Sampler) => {
   };
   const removeMidiListener = (inputId: string) => {
     const input = WebMidi.inputs.find(({ id }) => id === inputId);
-    dontListenTo(['noteon', 'noteoff'])(input);
+    abortListenTo(['noteon', 'noteoff'])(input);
   };
   // Keyboard events
   const onKeyboardEvent: EventListener = (event: KeyboardEvent) => {
@@ -111,44 +102,27 @@ export const makeListeners = (sampler: Sampler) => {
     const pad = document.getElementById(keyboardToNoteMap[event.key]);
     toggleColor(pad);
     if (event.type === 'keydown') {
-      play(keyboardToNoteMap[event.key] as SPN);
+      sampler.trigger(keyboardToNoteMap[event.key] as SPN);
     }
   };
 
-  const addKeyboardListeners = () => {
+  const toggleKeyboardListener = (functionName: string) => {
     for (const eventName of KEYBOARD_EVENTS) {
-      document.addEventListener(eventName, onKeyboardEvent);
+      document[functionName](eventName, onKeyboardEvent);
     }
-  };
-
-  const removeKeyboardListeners = () => {
-    for (const eventName of KEYBOARD_EVENTS) {
-      document.removeEventListener(eventName, onKeyboardEvent);
-    }
-  };
-
-  const toggleKeyboardListeners = fn => {
-    for (const eventName of KEYBOARD_EVENTS) {
-      fn(eventName, onKeyboardEvent);
-    }
-  };
-
-  const addKeyboardListener = () => {
-    toggleKeyboardListeners(document.addEventListener);
   };
 
   const addListeners = (inputId: string) => {
-    addSelectListener();
-    addKeyboardListeners();
-    // addKeyboardListener();
+    toggleSelectListener('addEventListener');
+    toggleKeyboardListener('addEventListener');
     if (inputId !== 'noinput') {
       addMidiListener(inputId);
     }
   };
 
   const removeListeners = (inputId: string) => {
-    removeKeyboardListeners();
-    removeMouseListener();
+    toggleSelectListener('removeEventListener');
+    toggleKeyboardListener('removeEventListener');
     if (inputId !== 'noinput') {
       removeMidiListener(inputId);
     }
