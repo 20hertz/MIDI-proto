@@ -1,6 +1,6 @@
 import { AudioContext } from 'standardized-audio-context';
 import { SPN } from '../constants';
-import { LocalSample, RemoteSample, Sample } from '../services/samples/types';
+import { LocalSample, Sample } from '../services/samples/types';
 
 export interface Sampler {
   trigger: (note: SPN) => void;
@@ -13,6 +13,10 @@ export type SamplesMap = {
 const isRemote = (arg: any) => 'url' in arg;
 
 const makeSampler = async (samplesMap: SamplesMap) => {
+  console.log(
+    '🚀 ~ file: sampler.ts ~ line 16 ~ makeSampler ~ samplesMap',
+    samplesMap
+  );
   const audioContext = new AudioContext();
 
   const fetchSample = async (url: string) => {
@@ -27,8 +31,11 @@ const makeSampler = async (samplesMap: SamplesMap) => {
     if (isRemote(samplesMap[note])) {
       buffer = await fetchSample(samplesMap[note].url);
     } else {
-      const { readerResult } = samplesMap[note] as LocalSample;
-      buffer = await audioContext.decodeAudioData(readerResult);
+      const { arrayBuffer, fileName } = samplesMap[note] as LocalSample;
+      // TODO: Find a better way to assert for a proper audio file
+      if (fileName.match(/\.(?:wav|mp3)$/i)) {
+        buffer = await audioContext.decodeAudioData(arrayBuffer);
+      }
     }
     return (await map).set(note, buffer);
   }, Promise.resolve(<Map<string, AudioBuffer>>new Map()));

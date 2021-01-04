@@ -3,14 +3,14 @@ import Providers from './Providers';
 import Sampler from './Sampler';
 import SamplesLoader from './SamplesLoader';
 import MidiConnector from './MidiConnector';
-import Test from './Test';
+import SamplesFetcher from './SamplesFetcher';
 
 const App = () => (
   <>
     <h1 className="header">boomTap</h1>
-    <Test></Test>
     <Providers>
       <>
+        <SamplesFetcher />
         <SamplesLoader />
         <Sampler />
         <MidiConnector />

@@ -12,8 +12,9 @@ export type SamplesContextType = {
 };
 
 export interface LocalSample {
-  file: File;
-  readerResult: ArrayBuffer;
+  // file: File;
+  fileName: string;
+  arrayBuffer: ArrayBuffer;
 }
 
 export interface RemoteSample {

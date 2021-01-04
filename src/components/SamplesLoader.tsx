@@ -14,7 +14,10 @@ const makeLocalSample = (file: File) =>
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onload = () =>
-      resolve({ readerResult: reader.result as ArrayBuffer, file });
+      resolve({
+        readerResult: reader.result as ArrayBuffer,
+        fileName: file.name,
+      });
     reader.onerror = () => {
       reader.abort();
       reject(new DOMException('Problem parsing input file.'));
