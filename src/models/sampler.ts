@@ -1,48 +1,33 @@
 import { AudioContext } from 'standardized-audio-context';
 import { SPN } from '../constants';
-import { LocalSample, Sample } from '../services/samples/types';
+import { Sample } from '../services/samples/types';
 
 export interface Sampler {
   trigger: (note: SPN) => void;
 }
 
-export type SamplesMap = {
-  [note in SPN]: Sample;
-};
+export type SamplesTable = [SPN, Sample][];
 
-const isRemote = (arg: any) => 'url' in arg;
-
-const makeSampler = async (samplesMap: SamplesMap) => {
-  console.log(
+const makeSampler = async (samplesTable: SamplesTable) => {
+  console.debug(
     '🚀 ~ file: sampler.ts ~ line 16 ~ makeSampler ~ samplesMap',
-    samplesMap
+    samplesTable
   );
   const audioContext = new AudioContext();
 
-  const fetchSample = async (url: string) => {
-    const response = await fetch(url);
-    const arrayBuffer = await response.arrayBuffer();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-    return audioBuffer;
-  };
+  const samplesMap = await samplesTable.reduce(async (map, sample) => {
+    const [pitch, { arrayBuffer, fileName }] = sample;
+    // TODO: Find a better way to assert for a proper audio file
+    const isValid = fileName.match(/\.(?:wav|mp3)$/i);
+    const audioBuffer = isValid
+      ? await audioContext.decodeAudioData(arrayBuffer)
+      : null;
+    return isValid ? (await map).set(pitch, audioBuffer) : map;
+  }, Promise.resolve(<Map<SPN, AudioBuffer>>new Map()));
 
-  const buffers = await Object.keys(samplesMap).reduce(async (map, note) => {
-    let buffer: AudioBuffer;
-    if (isRemote(samplesMap[note])) {
-      buffer = await fetchSample(samplesMap[note].url);
-    } else {
-      const { arrayBuffer, fileName } = samplesMap[note] as LocalSample;
-      // TODO: Find a better way to assert for a proper audio file
-      if (fileName.match(/\.(?:wav|mp3)$/i)) {
-        buffer = await audioContext.decodeAudioData(arrayBuffer);
-      }
-    }
-    return (await map).set(note, buffer);
-  }, Promise.resolve(<Map<string, AudioBuffer>>new Map()));
-
-  const trigger = (note: SPN) => {
+  const trigger = (key: SPN) => {
     const source = audioContext.createBufferSource();
-    source.buffer = buffers.get(note);
+    source.buffer = samplesMap.get(key);
     source.connect(audioContext.destination);
     source.start();
   };

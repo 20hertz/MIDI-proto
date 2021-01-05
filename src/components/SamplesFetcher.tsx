@@ -1,13 +1,9 @@
 import JSZip from 'jszip';
 import React, { MouseEvent } from 'react';
-import makeSampler, { SamplesMap } from '../models/sampler';
-import { makeSamplesMap } from '../models/samples-map';
+import makeSampler from '../models/sampler';
+import { makeSamplesTable } from '../models/samples-map';
 import { useSamplerContext } from '../services/sampler';
-import {
-  getSampler,
-  LocalSample,
-  useSamplesContext,
-} from '../services/samples';
+import { getSampler, Sample, useSamplesContext } from '../services/samples';
 
 const LOCAL_URL = '/google-drive/';
 const PATH = 'uc?id=';
@@ -28,7 +24,7 @@ const SamplesFetcher = () => {
       const localSamples = await Promise.all(
         Object.keys(files).map(
           filename =>
-            new Promise<LocalSample>(async resolve => {
+            new Promise<Sample>(async resolve => {
               const fileData = await files[filename].async('arraybuffer');
               resolve({
                 fileName: filename,
@@ -38,8 +34,8 @@ const SamplesFetcher = () => {
         )
       );
 
-      const sampleMap = makeSamplesMap(localSamples, currentOctave);
-      const sampler = await makeSampler(sampleMap as SamplesMap);
+      const samplesTable = makeSamplesTable(localSamples, currentOctave);
+      const sampler = await makeSampler(samplesTable);
       dispatch(getSampler(sampler));
     } catch (e) {
       console.error(e);

@@ -10,5 +10,5 @@ const matchPitchToSample = (octave: Octave) => (
   i: number
 ): [SPN, Sample] => [appendOctave(octave, i), sample];
 
-export const makeSamplesMap = (samples: Sample[], octave: Octave) =>
-  Object.fromEntries(samples.map(matchPitchToSample(octave)));
+export const makeSamplesTable = (samples: Sample[], octave: Octave) =>
+  samples.map(matchPitchToSample(octave));
