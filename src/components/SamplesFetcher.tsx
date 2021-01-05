@@ -1,7 +1,7 @@
 import JSZip from 'jszip';
 import React, { MouseEvent } from 'react';
-import makeSampler, { SamplesMap } from '../models/sampler';
-import { makeSamplesMap } from '../models/samples-map';
+import makeSampler from '../models/sampler';
+import { makeSamplesTable } from '../models/samples-map';
 import { useSamplerContext } from '../services/sampler';
 import { getSampler, Sample, useSamplesContext } from '../services/samples';
 
@@ -34,8 +34,8 @@ const SamplesFetcher = () => {
         )
       );
 
-      const sampleMap = makeSamplesMap(localSamples, currentOctave);
-      const sampler = await makeSampler(sampleMap as SamplesMap);
+      const samplesTable = makeSamplesTable(localSamples, currentOctave);
+      const sampler = await makeSampler(samplesTable);
       dispatch(getSampler(sampler));
     } catch (e) {
       console.error(e);

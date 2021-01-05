@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { SAMPLES_URL, SAMPLE_NAMES } from '../constants';
-import makeSampler, { SamplesMap } from '../models/sampler';
-import { makeSamplesMap } from '../models/samples-map';
+import makeSampler from '../models/sampler';
+import { makeSamplesTable } from '../models/samples-map';
 import { useSamplerContext } from '../services/sampler';
 import { getSampler, Sample, useSamplesContext } from '../services/samples';
 
@@ -14,12 +14,15 @@ export const useDefaultSamples = () => {
 
   const { currentOctave } = useSamplerContext();
 
-  const createSampler = async () => {
+  const createInitialSampler = async () => {
     setSamplesAreLoading(true);
     try {
       const initialSamples = await fetchSamples();
-      const initialSampleMap = makeSamplesMap(initialSamples, currentOctave);
-      const sampler = await makeSampler(initialSampleMap as SamplesMap);
+      const initialSamplesTable = makeSamplesTable(
+        initialSamples,
+        currentOctave
+      );
+      const sampler = await makeSampler(initialSamplesTable);
       dispatch(getSampler(sampler));
     } catch (error) {
       alert(error);
@@ -29,19 +32,18 @@ export const useDefaultSamples = () => {
   };
 
   useEffect(() => {
-    createSampler();
+    createInitialSampler();
   }, [SAMPLES_URL]);
 };
 
 const fetchSample = async (url: string) => {
   const response = await fetch(url);
-  const arrayBuffer = await response.arrayBuffer();
-  return arrayBuffer;
+  return await response.arrayBuffer();
 };
 
 const fetchSamples = async () =>
   Promise.all(
-    SAMPLE_NAMES.map(async name => {
+    SAMPLE_NAMES.map<Promise<Sample>>(async name => {
       const arrayBuffer = await fetchSample(SAMPLES_URL + name);
       return {
         fileName: name,

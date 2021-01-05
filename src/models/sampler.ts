@@ -6,30 +6,28 @@ export interface Sampler {
   trigger: (note: SPN) => void;
 }
 
-export type SamplesMap = {
-  [note in SPN]: Sample;
-};
+export type SamplesTable = [SPN, Sample][];
 
-const makeSampler = async (samplesMap: SamplesMap) => {
+const makeSampler = async (samplesTable: SamplesTable) => {
   console.debug(
     '🚀 ~ file: sampler.ts ~ line 16 ~ makeSampler ~ samplesMap',
-    samplesMap
+    samplesTable
   );
   const audioContext = new AudioContext();
 
-  const buffers = await Object.keys(samplesMap).reduce(async (map, note) => {
-    const { arrayBuffer, fileName } = samplesMap[note] as Sample;
-    let buffer: AudioBuffer;
+  const samplesMap = await samplesTable.reduce(async (map, sample) => {
+    const [pitch, { arrayBuffer, fileName }] = sample;
     // TODO: Find a better way to assert for a proper audio file
-    if (fileName.match(/\.(?:wav|mp3)$/i)) {
-      buffer = await audioContext.decodeAudioData(arrayBuffer);
-    }
-    return (await map).set(note, buffer);
-  }, Promise.resolve(<Map<string, AudioBuffer>>new Map()));
+    const isValid = fileName.match(/\.(?:wav|mp3)$/i);
+    const audioBuffer = isValid
+      ? await audioContext.decodeAudioData(arrayBuffer)
+      : null;
+    return isValid ? (await map).set(pitch, audioBuffer) : map;
+  }, Promise.resolve(<Map<SPN, AudioBuffer>>new Map()));
 
-  const trigger = (note: SPN) => {
+  const trigger = (key: SPN) => {
     const source = audioContext.createBufferSource();
-    source.buffer = buffers.get(note);
+    source.buffer = samplesMap.get(key);
     source.connect(audioContext.destination);
     source.start();
   };
