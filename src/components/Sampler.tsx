@@ -1,7 +1,7 @@
 import React from 'react';
 import Pads from './Pads';
 import { useSamplesContext } from '../services/samples';
-import { useDefaultSamples } from '../hooks/samples';
+import { useDefaultSamples } from '../hooks';
 
 const Sampler = () => {
   const { fetchHasError } = useSamplesContext();

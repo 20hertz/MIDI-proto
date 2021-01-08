@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { SAMPLES_URL, SAMPLE_NAMES } from '../constants';
-import makeSampler from '../models/sampler';
-import { makeSamplesTable } from '../models/samples-map';
-import { useSamplerContext } from '../services/sampler';
-import { getSampler, Sample, useSamplesContext } from '../services/samples';
+import { SAMPLES_URL, SAMPLE_NAMES } from './constants';
+import makeSampler from './models/sampler';
+import { makeSamplesTable } from './models/samples-map';
+import { useSamplerContext } from './services/sampler';
+import { getSampler, Sample, useSamplesContext } from './services/samples';
 
 export const useDefaultSamples = () => {
   const {
