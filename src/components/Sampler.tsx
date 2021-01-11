@@ -1,11 +1,9 @@
 import React from 'react';
 import Pads from './Pads';
-import { useSamplesContext } from '../services/samples';
 import { useDefaultSamples } from '../hooks';
+import Selector from './Selector';
 
 const Sampler = () => {
-  const { fetchHasError } = useSamplesContext();
-
   useDefaultSamples();
 
   return (
@@ -14,13 +12,7 @@ const Sampler = () => {
       <div id="controller" className="grid">
         <Pads />
       </div>
-      <div className="selector">
-        {fetchHasError ? (
-          <h4>Sorry, we're unable to download this kit correctly.</h4>
-        ) : (
-          <h4>Samples</h4>
-        )}
-      </div>
+      <Selector />
     </div>
   );
 };
