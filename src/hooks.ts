@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import JSZip from 'jszip';
 import { SAMPLES_URL, SAMPLE_NAMES } from './constants';
 import makeSampler from './models/sampler';
@@ -58,7 +58,7 @@ const PATH = 'uc?id=';
 const ID = '10ZKzj_ihTSxDvnk-Yt9QE61vaD-q4d-v';
 const request = new Request(LOCAL_URL + PATH + ID, { redirect: 'follow' });
 
-export const useSamplesFetcher = () => {
+export const useRemoteSamples = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
   const { currentOctave } = useSamplerContext();
   const getRemoteSamples = async () => {
@@ -90,4 +90,43 @@ export const useSamplesFetcher = () => {
     setSamplesAreLoading(false);
   };
   return { getRemoteSamples };
+};
+
+const makeLocalSample = (file: File) =>
+  new Promise<Sample>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = () =>
+      resolve({
+        arrayBuffer: reader.result as ArrayBuffer,
+        fileName: file.name,
+      });
+    reader.onerror = () => {
+      reader.abort();
+      reject(new DOMException('Problem parsing input file.'));
+    };
+  });
+
+export const useLocalSamples = () => {
+  const { dispatch, setSamplesAreLoading } = useSamplesContext();
+  const { currentOctave } = useSamplerContext();
+  const getLocalSamples = async (event: ChangeEvent<HTMLInputElement>) => {
+    setSamplesAreLoading(true);
+    const { files } = event.target;
+
+    const localSamples = await Promise.all(
+      Array.from(files).map(makeLocalSample)
+    );
+
+    const samplesTable = makeSamplesTable(localSamples, currentOctave);
+
+    try {
+      const sampler = await makeSampler(samplesTable);
+      dispatch(getSampler(sampler));
+    } catch (event) {
+      console.warn(event.message);
+    }
+    setSamplesAreLoading(false);
+  };
+  return { getLocalSamples };
 };
