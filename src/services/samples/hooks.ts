@@ -18,13 +18,12 @@ export const useSamplesContext = () => {
 
 export const useSamplesStore = () => {
   const [fetchHasError, setFetchHasError] = useState(false);
-  const [sampler, dispatch] = useReducer(reducer, undefined);
   const [samplesAreLoading, setSamplesAreLoading] = useState(false);
-
+  const [samplesTable, dispatch] = useReducer(reducer, []);
   return {
     dispatch,
     fetchHasError,
-    sampler,
+    samplesTable,
     samplesAreLoading,
     setFetchHasError,
     setSamplesAreLoading,

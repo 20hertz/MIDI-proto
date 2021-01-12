@@ -7,8 +7,8 @@ import { useSamplerContext } from '../services/sampler';
 import { useSamplesContext } from '../services/samples';
 
 const Pads = () => {
-  const { sampler, samplesAreLoading } = useSamplesContext();
-  const { currentOctave } = useSamplerContext();
+  const { samplesAreLoading } = useSamplesContext();
+  const { currentOctave, sampler } = useSamplerContext();
   const { selectedMidiInputId } = useMidiContext();
   const keys = setAvailableKeys(16, currentOctave);
   useEffect(() => {
