@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useReducer, useState } from 'react';
 import { Octave, SamplerContextType } from './types';
+import { reducer } from './reducer';
 
 export const SamplerContext = createContext<SamplerContextType>(undefined);
 
@@ -17,5 +18,6 @@ export const useSamplerContext = () => {
 
 export const useSamplerStore = () => {
   const [currentOctave] = useState(4 as Octave);
-  return { currentOctave };
+  const [sampler, samplerDispatch] = useReducer(reducer, undefined);
+  return { currentOctave, sampler, samplerDispatch };
 };

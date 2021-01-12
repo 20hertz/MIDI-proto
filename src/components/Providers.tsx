@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { MidiContext, useMidiStore } from '../services/midi';
 import { SamplerContext, useSamplerStore } from '../services/sampler';
-import { useSamplesStore, SamplesContext } from '../services/samples';
+import { SamplesContext, useSamplesStore } from '../services/samples';
 
 interface Props {
   children: ReactNode;

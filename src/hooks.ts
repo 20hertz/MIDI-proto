@@ -3,8 +3,8 @@ import JSZip from 'jszip';
 import { SAMPLES_URL, SAMPLE_NAMES } from './constants';
 import makeSampler from './models/sampler';
 import { makeSamplesTable } from './models/samples-map';
-import { useSamplerContext } from './services/sampler';
-import { getSampler, Sample, useSamplesContext } from './services/samples';
+import { getSampler, useSamplerContext } from './services/sampler';
+import { Sample, setSamples, useSamplesContext } from './services/samples';
 
 export const useDefaultSamples = () => {
   const {
@@ -12,6 +12,7 @@ export const useDefaultSamples = () => {
     setFetchHasError,
     setSamplesAreLoading,
   } = useSamplesContext();
+  const { samplerDispatch } = useSamplerContext();
 
   const { currentOctave } = useSamplerContext();
 
@@ -24,7 +25,8 @@ export const useDefaultSamples = () => {
         currentOctave
       );
       const sampler = await makeSampler(initialSamplesTable);
-      dispatch(getSampler(sampler));
+      dispatch(setSamples(initialSamplesTable));
+      samplerDispatch(getSampler(sampler));
     } catch (error) {
       alert(error);
       setFetchHasError(true);
@@ -60,7 +62,7 @@ const request = new Request(LOCAL_URL + PATH + ID, { redirect: 'follow' });
 
 export const useRemoteSamples = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
-  const { currentOctave } = useSamplerContext();
+  const { currentOctave, samplerDispatch } = useSamplerContext();
   const getRemoteSamples = async () => {
     setSamplesAreLoading(true);
     try {
@@ -83,7 +85,8 @@ export const useRemoteSamples = () => {
 
       const samplesTable = makeSamplesTable(remoteSamples, currentOctave);
       const sampler = await makeSampler(samplesTable);
-      dispatch(getSampler(sampler));
+      dispatch(setSamples(samplesTable));
+      samplerDispatch(getSampler(sampler));
     } catch (e) {
       console.error(e);
     }
@@ -109,7 +112,7 @@ const makeLocalSample = (file: File) =>
 
 export const useLocalSamples = () => {
   const { dispatch, setSamplesAreLoading } = useSamplesContext();
-  const { currentOctave } = useSamplerContext();
+  const { currentOctave, samplerDispatch } = useSamplerContext();
   const getLocalSamples = async (event: ChangeEvent<HTMLInputElement>) => {
     setSamplesAreLoading(true);
     const { files } = event.target;
@@ -119,10 +122,11 @@ export const useLocalSamples = () => {
     );
 
     const samplesTable = makeSamplesTable(localSamples, currentOctave);
+    dispatch(setSamples(samplesTable));
 
     try {
       const sampler = await makeSampler(samplesTable);
-      dispatch(getSampler(sampler));
+      samplerDispatch(getSampler(sampler));
     } catch (event) {
       console.warn(event.message);
     }

@@ -1,6 +1,7 @@
-import { Sampler } from '../../models/sampler';
+import { SPN } from '../../constants';
+import { Sample } from './types';
 
-export const getSampler = (data: Readonly<Sampler>) => ({
-  type: 'GET_SAMPLER',
+export const setSamples = (data: [SPN, Sample][]) => ({
+  type: 'SET_SAMPLES',
   payload: data,
 });

@@ -1,18 +1,19 @@
-import { Sampler } from '../../models/sampler';
+import { SPN } from '../../constants';
 
-export type State = Readonly<Sampler>;
-export type Action = { type: string; payload: Readonly<Sampler> };
+export type State = [SPN, Sample][];
+export type Action = { type: string; payload: SamplesTable };
 export type SamplesContextType = {
   dispatch: (action: Action) => void;
   fetchHasError: boolean;
-  sampler: Sampler;
+  samplesTable: [SPN, Sample][];
   samplesAreLoading: boolean;
   setFetchHasError: (error: boolean) => void;
   setSamplesAreLoading: (loading: boolean) => void;
 };
 
+export type SamplesTable = [SPN, Sample][];
+
 export interface Sample {
-  // file: File;
   fileName: string;
   arrayBuffer: ArrayBuffer;
 }
