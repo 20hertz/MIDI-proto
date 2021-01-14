@@ -9,8 +9,7 @@ import { Sample, setSamples, useSamplesContext } from './services/samples';
 export const useDefaultSamples = () => {
   const {
     dispatch,
-    setFetchHasError,
-    setSamplesAreLoading,
+    state: { setFetchHasError, setSamplesAreLoading },
   } = useSamplesContext();
   const { samplerDispatch } = useSamplerContext();
 
@@ -61,7 +60,10 @@ const ID = '10ZKzj_ihTSxDvnk-Yt9QE61vaD-q4d-v';
 const request = new Request(LOCAL_URL + PATH + ID, { redirect: 'follow' });
 
 export const useRemoteSamples = () => {
-  const { dispatch, setSamplesAreLoading } = useSamplesContext();
+  const {
+    dispatch,
+    state: { setSamplesAreLoading },
+  } = useSamplesContext();
   const { currentOctave, samplerDispatch } = useSamplerContext();
   const getRemoteSamples = async () => {
     setSamplesAreLoading(true);
@@ -111,7 +113,10 @@ const makeLocalSample = (file: File) =>
   });
 
 export const useLocalSamples = () => {
-  const { dispatch, setSamplesAreLoading } = useSamplesContext();
+  const {
+    dispatch,
+    state: { setSamplesAreLoading },
+  } = useSamplesContext();
   const { currentOctave, samplerDispatch } = useSamplerContext();
   const getLocalSamples = async (event: ChangeEvent<HTMLInputElement>) => {
     setSamplesAreLoading(true);

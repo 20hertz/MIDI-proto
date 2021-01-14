@@ -3,9 +3,7 @@ import { useSamplesContext } from '../services/samples';
 
 const Selector = () => {
   const {
-    fetchHasError,
-    samplesAreLoading,
-    samplesTable,
+    state: { fetchHasError, samplesAreLoading, samplesTable },
   } = useSamplesContext();
 
   const listSamples = samplesTable.map(sample => {
