@@ -1,4 +1,4 @@
-import { Octave } from './services/sampler';
+import { Octave } from './services/selector';
 
 export const SAMPLE_NAMES = [
   'mouth_snare.mp3',

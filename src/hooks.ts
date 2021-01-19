@@ -1,36 +1,32 @@
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import JSZip from 'jszip';
 import { SAMPLES_URL, SAMPLE_NAMES } from './constants';
+import { makeSamplesMap } from './models/samples-map';
+import { useSelectorContext } from './services/selector';
+import {
+  getSamplesError,
+  getSamplesRequest,
+  getSamplesSuccess,
+  Sample,
+  useSamplesContext,
+} from './services/samples';
+import { useMidiContext } from './services/midi';
+import { setAvailableKeys } from './helpers';
+import { makeListeners } from './models/listeners';
 import makeSampler from './models/sampler';
-import { makeSamplesTable } from './models/samples-map';
-import { getSampler, useSamplerContext } from './services/sampler';
-import { Sample, setSamples, useSamplesContext } from './services/samples';
 
 export const useDefaultSamples = () => {
-  const {
-    dispatch,
-    state: { setFetchHasError, setSamplesAreLoading },
-  } = useSamplesContext();
-  const { samplerDispatch } = useSamplerContext();
-
-  const { currentOctave } = useSamplerContext();
+  const { dispatch } = useSamplesContext();
 
   const createInitialSampler = async () => {
-    setSamplesAreLoading(true);
+    dispatch(getSamplesRequest());
     try {
       const initialSamples = await fetchSamples();
-      const initialSamplesTable = makeSamplesTable(
-        initialSamples,
-        currentOctave
-      );
-      const sampler = await makeSampler(initialSamplesTable);
-      dispatch(setSamples(initialSamplesTable));
-      samplerDispatch(getSampler(sampler));
+      dispatch(getSamplesSuccess(initialSamples));
     } catch (error) {
       alert(error);
-      setFetchHasError(true);
+      dispatch(getSamplesError);
     }
-    setSamplesAreLoading(false);
   };
 
   useEffect(() => {
@@ -60,13 +56,9 @@ const ID = '10ZKzj_ihTSxDvnk-Yt9QE61vaD-q4d-v';
 const request = new Request(LOCAL_URL + PATH + ID, { redirect: 'follow' });
 
 export const useRemoteSamples = () => {
-  const {
-    dispatch,
-    state: { setSamplesAreLoading },
-  } = useSamplesContext();
-  const { currentOctave, samplerDispatch } = useSamplerContext();
+  const { dispatch } = useSamplesContext();
   const getRemoteSamples = async () => {
-    setSamplesAreLoading(true);
+    dispatch(getSamplesRequest());
     try {
       const response = await fetch(request);
       const blob = await response.blob();
@@ -85,14 +77,11 @@ export const useRemoteSamples = () => {
         )
       );
 
-      const samplesTable = makeSamplesTable(remoteSamples, currentOctave);
-      const sampler = await makeSampler(samplesTable);
-      dispatch(setSamples(samplesTable));
-      samplerDispatch(getSampler(sampler));
-    } catch (e) {
-      console.error(e);
+      dispatch(getSamplesSuccess(remoteSamples));
+    } catch (error) {
+      alert(error.message);
+      dispatch(getSamplesError);
     }
-    setSamplesAreLoading(false);
   };
   return { getRemoteSamples };
 };
@@ -113,29 +102,60 @@ const makeLocalSample = (file: File) =>
   });
 
 export const useLocalSamples = () => {
-  const {
-    dispatch,
-    state: { setSamplesAreLoading },
-  } = useSamplesContext();
-  const { currentOctave, samplerDispatch } = useSamplerContext();
+  const { dispatch } = useSamplesContext();
   const getLocalSamples = async (event: ChangeEvent<HTMLInputElement>) => {
-    setSamplesAreLoading(true);
+    dispatch(getSamplesRequest());
     const { files } = event.target;
 
-    const localSamples = await Promise.all(
-      Array.from(files).map(makeLocalSample)
-    );
-
-    const samplesTable = makeSamplesTable(localSamples, currentOctave);
-    dispatch(setSamples(samplesTable));
-
     try {
-      const sampler = await makeSampler(samplesTable);
-      samplerDispatch(getSampler(sampler));
+      const localSamples = await Promise.all(
+        Array.from(files).map(makeLocalSample)
+      );
+      dispatch(getSamplesSuccess(localSamples));
     } catch (event) {
       console.warn(event.message);
+      dispatch(getSamplesError);
     }
-    setSamplesAreLoading(false);
   };
   return { getLocalSamples };
+};
+
+export const useSampler = () => {
+  const [sampler, setSampler] = useState(undefined);
+  const [samplesMap, setSamplesMap] = useState(undefined);
+  const {
+    state: { areLoading, haveError, samples },
+  } = useSamplesContext();
+
+  const {
+    state: { currentOctave },
+  } = useSelectorContext();
+  const { selectedMidiInputId } = useMidiContext();
+  const keys = setAvailableKeys(16, currentOctave);
+
+  const createSampler = async () => {
+    try {
+      const samplesMap = makeSamplesMap(samples, currentOctave);
+      setSamplesMap(samplesMap);
+      makeSampler(samples, currentOctave).then(setSampler);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  useEffect(() => {
+    createSampler();
+  }, [currentOctave, samples]);
+
+  useEffect(() => {
+    const { addListeners, removeListeners } = makeListeners(sampler);
+    addListeners(selectedMidiInputId);
+    return () => removeListeners(selectedMidiInputId);
+  }, [selectedMidiInputId, sampler]);
+  return {
+    areLoading,
+    haveError,
+    keys,
+    samplesMap,
+  };
 };

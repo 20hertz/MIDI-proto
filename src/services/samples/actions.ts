@@ -1,7 +1,14 @@
-import { SPN } from '../../constants';
-import { Sample } from './types';
+import { ActionType, Sample } from './types';
 
-export const setSamples = (data: [SPN, Sample][]) => ({
-  type: 'SET_SAMPLES',
+export const getSamplesRequest = () => ({
+  type: ActionType.GetRequest,
+});
+
+export const getSamplesSuccess = (data: Sample[]) => ({
+  type: ActionType.GetSuccess,
   payload: data,
+});
+
+export const getSamplesError = () => ({
+  type: ActionType.GetError,
 });
