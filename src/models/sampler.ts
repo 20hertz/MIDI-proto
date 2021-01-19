@@ -1,21 +1,19 @@
 import { AudioContext } from 'standardized-audio-context';
 import { SPN } from '../constants';
-import { Sample } from '../services/samples/types';
+import { Octave } from '../services/selector';
+import { Sample } from '../services/samples';
+import { makeSamplesTable } from './samples-map';
 
 export interface Sampler {
   trigger: (note: SPN) => void;
 }
 
-export type SamplesTable = [SPN, Sample][];
-
-const makeSampler = async (samplesTable: SamplesTable) => {
-  console.debug(
-    '🚀 ~ file: sampler.ts ~ line 16 ~ makeSampler ~ samplesMap',
-    samplesTable
-  );
+const makeSampler = async (samples: Sample[], startingOctave: Octave) => {
   const audioContext = new AudioContext();
 
-  const samplesMap = await samplesTable.reduce(async (map, sample) => {
+  const samplesTable = makeSamplesTable(samples, startingOctave);
+
+  const audioMap = await samplesTable.reduce(async (map, sample) => {
     const [pitch, { arrayBuffer, fileName }] = sample;
     // TODO: Find a better way to assert for a proper audio file
     const isValid = fileName.match(/\.(?:wav|mp3)$/i);
@@ -27,7 +25,7 @@ const makeSampler = async (samplesTable: SamplesTable) => {
 
   const trigger = (key: SPN) => {
     const source = audioContext.createBufferSource();
-    source.buffer = samplesMap.get(key);
+    source.buffer = audioMap.get(key);
     source.connect(audioContext.destination);
     source.start();
   };

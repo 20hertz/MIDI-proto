@@ -1,28 +1,21 @@
 import React from 'react';
-import { useSamplesContext } from '../services/samples';
 
-const Selector = () => {
-  const {
-    fetchHasError,
-    samplesAreLoading,
-    samplesTable,
-  } = useSamplesContext();
-
-  const listSamples = samplesTable.map(sample => {
-    const [pitch, { fileName }] = sample;
-    return <li key={pitch}>{`${pitch} - ${fileName}`}</li>;
+const Selector = ({ haveError, isLoading, samplesMap }) => {
+  const listSamples = samplesMap.map(sample => {
+    const [key, name] = sample;
+    return <div key={key}>{`${key} - ${name}`}</div>;
   });
 
   return (
     <div className="selector">
-      {samplesAreLoading ? (
+      {isLoading ? (
         <div>Loading</div>
-      ) : fetchHasError ? (
+      ) : haveError ? (
         <h4>Sorry, we're unable to download this kit correctly.</h4>
       ) : (
         <>
           <h4>Samples</h4>
-          <ul>{listSamples}</ul>
+          <div>{listSamples}</div>
         </>
       )}
     </div>

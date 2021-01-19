@@ -1,8 +1,17 @@
-import { createContext, useContext, useReducer, useState } from 'react';
+import { createContext, useContext, useReducer } from 'react';
 import { reducer } from './reducer';
 import { SamplesContextType } from './types';
 
-export const SamplesContext = createContext<SamplesContextType>(undefined);
+const initialState = {
+  samples: [],
+  areLoading: false,
+  haveError: false,
+};
+
+export const SamplesContext = createContext<SamplesContextType>({
+  state: initialState,
+  dispatch: () => null,
+});
 
 export const useSamplesContext = () => {
   const store = useContext(SamplesContext);
@@ -17,15 +26,6 @@ export const useSamplesContext = () => {
 };
 
 export const useSamplesStore = () => {
-  const [fetchHasError, setFetchHasError] = useState(false);
-  const [samplesAreLoading, setSamplesAreLoading] = useState(false);
-  const [samplesTable, dispatch] = useReducer(reducer, []);
-  return {
-    dispatch,
-    fetchHasError,
-    samplesTable,
-    samplesAreLoading,
-    setFetchHasError,
-    setSamplesAreLoading,
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return { dispatch, state };
 };

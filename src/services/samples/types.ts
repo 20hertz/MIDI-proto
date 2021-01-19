@@ -1,19 +1,37 @@
-import { SPN } from '../../constants';
+import { Dispatch } from 'react';
 
-export type State = [SPN, Sample][];
-export type Action = { type: string; payload: SamplesTable };
 export type SamplesContextType = {
-  dispatch: (action: Action) => void;
-  fetchHasError: boolean;
-  samplesTable: [SPN, Sample][];
-  samplesAreLoading: boolean;
-  setFetchHasError: (error: boolean) => void;
-  setSamplesAreLoading: (loading: boolean) => void;
+  state: State;
+  dispatch: Dispatch<any>;
 };
 
-export type SamplesTable = [SPN, Sample][];
+export type State = {
+  samples: Sample[];
+  areLoading: boolean;
+  haveError: boolean;
+};
 
-export interface Sample {
+export type Sample = {
   fileName: string;
   arrayBuffer: ArrayBuffer;
+};
+
+// Actions
+export enum ActionType {
+  GetRequest = 'GET_SAMPLES_REQUEST',
+  GetSuccess = 'GET_SAMPLES_SUCCESS',
+  GetError = 'GET_SAMPLES_ERROR',
 }
+
+type ActionPayloads = {
+  [ActionType.GetRequest]: undefined;
+  [ActionType.GetSuccess]: Sample[];
+  [ActionType.GetError]: undefined;
+};
+
+type ActionMap<M extends { [index: string]: any }> = {
+  [Key in keyof M]: M[Key] extends undefined
+    ? { type: Key }
+    : { type: Key; payload: M[Key] };
+};
+export type SamplesAction = ActionMap<ActionPayloads>[keyof ActionMap<ActionPayloads>];

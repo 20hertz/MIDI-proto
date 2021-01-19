@@ -1,4 +1,4 @@
-import { PitchClass, SPN } from '../constants';
+import { PitchClass, SPN } from './constants';
 
 const pitchClasses = Object.values(PitchClass);
 /**

@@ -1,37 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SPN } from '../constants';
-import { setAvailableKeys } from '../helpers';
-import { makeListeners } from '../models/listeners';
-import { useMidiContext } from '../services/midi';
-import { useSamplerContext } from '../services/sampler';
-import { useSamplesContext } from '../services/samples';
 
-const Pads = () => {
-  const { samplesAreLoading } = useSamplesContext();
-  const { currentOctave, sampler } = useSamplerContext();
-  const { selectedMidiInputId } = useMidiContext();
-  const keys = setAvailableKeys(16, currentOctave);
-  useEffect(() => {
-    const { addListeners, removeListeners } = makeListeners(sampler);
-    addListeners(selectedMidiInputId);
-    return () => removeListeners(selectedMidiInputId);
-  }, [selectedMidiInputId, sampler]);
+interface PadsProps {
+  areLoading: boolean;
+  keys: SPN[];
+}
 
-  return (
-    <>
-      {keys.map(key => (
-        <Pad id={key} key={key} loading={samplesAreLoading} />
-      ))}
-    </>
-  );
-};
+const Pads = ({ areLoading, keys }: PadsProps) => (
+  <div className="pads">
+    {keys.map(key => (
+      <Pad id={key} key={key} loading={areLoading} />
+    ))}
+  </div>
+);
 
-interface Props {
+interface PadProps {
   id: SPN;
   loading: boolean;
 }
 
-const Pad = ({ id, loading }: Props) => (
+const Pad = ({ id, loading }: PadProps) => (
   <div
     id={id}
     className="pad"

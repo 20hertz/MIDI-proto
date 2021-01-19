@@ -1,8 +1,9 @@
 import React from 'react';
 import { ACCEPTED_MIME_TYPES } from '../constants';
-import { useLocalSamples, useRemoteSamples } from '../hooks';
+import { useDefaultSamples, useLocalSamples, useRemoteSamples } from '../hooks';
 
 const SamplesLoader = () => {
+  useDefaultSamples();
   const { getLocalSamples } = useLocalSamples();
   const { getRemoteSamples } = useRemoteSamples();
 

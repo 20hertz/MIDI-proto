@@ -1,18 +1,23 @@
 import React from 'react';
+import { useSampler } from '../hooks';
 import Pads from './Pads';
-import { useDefaultSamples } from '../hooks';
 import Selector from './Selector';
 
 const Sampler = () => {
-  useDefaultSamples();
-
+  const { areLoading, haveError, keys, samplesMap } = useSampler();
   return (
-    <div className="playground">
+    <div className="sampler">
       <div></div>
-      <div id="controller" className="grid">
-        <Pads />
+      <div id="controller">
+        <Pads areLoading={areLoading} keys={keys} />
       </div>
-      <Selector />
+      {samplesMap && (
+        <Selector
+          samplesMap={samplesMap}
+          isLoading={areLoading}
+          haveError={haveError}
+        />
+      )}
     </div>
   );
 };
