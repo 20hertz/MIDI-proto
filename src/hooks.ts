@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import JSZip from 'jszip';
 import { SAMPLES_URL, SAMPLE_NAMES } from './constants';
-import { makeSamplesMap } from './models/samples-map';
 import { useSelectorContext } from './services/selector';
 import {
   getSamplesError,
@@ -123,6 +122,7 @@ export const useLocalSamples = () => {
 export const useSampler = () => {
   const [sampler, setSampler] = useState(undefined);
   const [samplesMap, setSamplesMap] = useState(undefined);
+
   const {
     state: { areLoading, haveError, samples },
   } = useSamplesContext();
@@ -130,14 +130,20 @@ export const useSampler = () => {
   const {
     state: { currentOctave },
   } = useSelectorContext();
-  const { selectedMidiInputId } = useMidiContext();
+
+  const {
+    state: { midiInputId },
+  } = useMidiContext();
+
   const keys = setAvailableKeys(16, currentOctave);
 
   const createSampler = async () => {
     try {
-      const samplesMap = makeSamplesMap(samples, currentOctave);
-      setSamplesMap(samplesMap);
-      makeSampler(samples, currentOctave).then(setSampler);
+      makeSampler(samples, currentOctave).then(sampler => {
+        const { samplesMap } = sampler;
+        setSamplesMap(samplesMap);
+        setSampler(sampler);
+      });
     } catch (error) {
       alert(error.message);
     }
@@ -149,9 +155,10 @@ export const useSampler = () => {
 
   useEffect(() => {
     const { addListeners, removeListeners } = makeListeners(sampler);
-    addListeners(selectedMidiInputId);
-    return () => removeListeners(selectedMidiInputId);
-  }, [selectedMidiInputId, sampler]);
+    addListeners(midiInputId);
+    return () => removeListeners(midiInputId);
+  }, [midiInputId, sampler]);
+
   return {
     areLoading,
     haveError,

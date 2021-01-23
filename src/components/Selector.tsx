@@ -1,9 +1,15 @@
 import React from 'react';
 
+interface Props {
+  haveError: boolean;
+  isLoading: boolean;
+  samplesMap: any;
+}
+
 const Selector = ({ haveError, isLoading, samplesMap }) => {
   const listSamples = samplesMap.map(sample => {
-    const [key, name] = sample;
-    return <div key={key}>{`${key} - ${name}`}</div>;
+    const [spn, name] = sample;
+    return <div key={spn}>{`${spn} - ${name}`}</div>;
   });
 
   return (

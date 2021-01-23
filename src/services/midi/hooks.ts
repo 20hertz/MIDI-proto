@@ -1,7 +1,15 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useReducer } from 'react';
+import { reducer } from './reducer';
 import { MidiContextType } from './types';
 
-export const MidiContext = createContext<MidiContextType>(undefined);
+const initialState = {
+  midiInputId: 'noinput',
+};
+
+export const MidiContext = createContext<MidiContextType>({
+  state: initialState,
+  dispatch: () => null,
+});
 
 export const useMidiContext = () => {
   const store = useContext(MidiContext);
@@ -14,9 +22,6 @@ export const useMidiContext = () => {
 };
 
 export const useMidiStore = () => {
-  const [selectedMidiInputId, setSelectedMidiInputId] = useState('noinput');
-  return {
-    selectedMidiInputId,
-    setSelectedMidiInputId,
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return { dispatch, state };
 };

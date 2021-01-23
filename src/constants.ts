@@ -38,11 +38,11 @@ export const octaves = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 // Scientific Pitch Notation
 export type SPN = `${PitchClass}${Octave}`;
 
-const appendOctave = (octave: Octave) => (note: PitchClass) =>
-  (note + octave) as SPN;
+const appendOctave = (octaveNumber: Octave) => (note: PitchClass) =>
+  (note + octaveNumber) as SPN;
 
-const assembleOctave = (octave: Octave) =>
-  Object.values(PitchClass).map(appendOctave(octave));
+const assembleOctave = (octaveNumber: Octave) =>
+  Object.values(PitchClass).map(appendOctave(octaveNumber));
 
 export const pitches = octaves.flatMap(assembleOctave);
 
