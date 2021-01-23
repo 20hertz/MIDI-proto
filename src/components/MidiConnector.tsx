@@ -1,12 +1,15 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import webmidi, { Input as MidiInput } from 'webmidi';
-import { useMidiContext } from '../services/midi';
+import { setMidiInput, useMidiContext } from '../services/midi';
 
 const MidiConnector = () => {
   const [midiIsConnected, setMidiIsConnected] = useState(false);
   const [midiInputs, setMidiInputs] = useState<MidiInput[]>([]);
 
-  const { selectedMidiInputId, setSelectedMidiInputId } = useMidiContext();
+  const {
+    dispatch,
+    state: { midiInputId },
+  } = useMidiContext();
 
   const scanForMidiInputs = (err: Error) => {
     if (err) {
@@ -20,7 +23,7 @@ const MidiConnector = () => {
   const createDeviceSelection = () => {
     if (midiIsConnected) {
       setMidiInputs(webmidi.inputs);
-      setSelectedMidiInputId(webmidi.inputs[0].id);
+      dispatch(setMidiInput(webmidi.inputs[0].id));
     }
   };
 
@@ -41,11 +44,11 @@ const MidiConnector = () => {
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
-    setSelectedMidiInputId(value);
+    dispatch(setMidiInput(value));
   };
 
   return (
-    <select value={selectedMidiInputId} onChange={handleSelectChange}>
+    <select value={midiInputId} onChange={handleSelectChange}>
       {midiInputs.length ? (
         inputOptions()
       ) : (

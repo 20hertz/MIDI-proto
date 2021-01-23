@@ -2,14 +2,17 @@ import { AudioContext } from 'standardized-audio-context';
 import { SPN } from '../constants';
 import { Octave } from '../services/selector';
 import { Sample } from '../services/samples';
-import { makeSamplesTable } from './samples-map';
+import { makeSamplesMap, makeSamplesTable } from './samples-map';
 
 export interface Sampler {
+  samplesMap: any;
   trigger: (note: SPN) => void;
 }
 
 const makeSampler = async (samples: Sample[], startingOctave: Octave) => {
   const audioContext = new AudioContext();
+
+  const samplesMap = makeSamplesMap(samples, startingOctave);
 
   const samplesTable = makeSamplesTable(samples, startingOctave);
 
@@ -30,7 +33,7 @@ const makeSampler = async (samples: Sample[], startingOctave: Octave) => {
     source.start();
   };
 
-  return Object.freeze({ trigger });
+  return Object.freeze({ samplesMap, trigger });
 };
 
 export default makeSampler;

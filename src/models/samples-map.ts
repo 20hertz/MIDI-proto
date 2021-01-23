@@ -1,14 +1,14 @@
 import { pitches, SPN } from '../constants';
-import { Key, Octave } from '../services/selector';
+import { Octave } from '../services/selector';
 import { Sample } from '../services/samples';
 
-const appendOctave = (octave: Octave, index: number) =>
+const appendOctave = (octave: Octave, index: number): SPN =>
   pitches[index + (octave + 1) * 12];
 
 const matchPitchToSample = (octave: Octave) => (
   sample: Sample,
   i: number
-): Key => [appendOctave(octave, i), sample];
+): [SPN, Sample] => [appendOctave(octave, i), sample];
 
 export const makeSamplesTable = (samples: Sample[], octave: Octave) =>
   samples.map(matchPitchToSample(octave));
