@@ -6,7 +6,7 @@ interface Props {
   samplesMap: any;
 }
 
-const Selector = ({ haveError, isLoading, samplesMap }) => {
+const Selector = ({ haveError, isLoading, samplesMap }: Props) => {
   const listSamples = samplesMap.map(sample => {
     const [spn, name] = sample;
     return <div key={spn}>{`${spn} - ${name}`}</div>;

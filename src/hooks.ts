@@ -122,7 +122,6 @@ export const useLocalSamples = () => {
 export const useSampler = () => {
   const [sampler, setSampler] = useState(undefined);
   const [samplesMap, setSamplesMap] = useState(undefined);
-
   const {
     state: { areLoading, haveError, samples },
   } = useSamplesContext();
