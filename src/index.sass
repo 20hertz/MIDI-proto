@@ -2,60 +2,11 @@
   --pad-min-size: 140px
   --pad-max-size: 225px
 
-.header
-  text-align: center
+// #dropArea
+//   height: 100px
+//   width: 100px
+//   background-color: blue
 
-.sampler
-  display: grid
-  grid-template-columns: 1fr minmax(calc(var(--pad-min-size) * 4), 1.25fr) 1fr
-  grid-template-areas: ". controller selector"
-  column-gap: 50px
-  @media (max-width: 1620px)
-    grid-template-columns: 1fr 2.25fr 1fr
-  @media (max-width: 1200px)
-    grid-template-columns: 0 2fr 1fr
-  @media (max-width: 1024px)
-    grid-template-columns: 0 3fr 1fr
-  @media (max-width: 768px)
-    grid-template-columns: 0 1fr 0
-    column-gap: 0
-
-.pads
-  display: grid
-  grid-template-columns: repeat(4, 1fr)
-  grid-auto-rows: 1fr
-  &::before
-    content: ''
-    width: 0
-    padding-bottom: 100%
-    grid-row: 1 / 1
-    grid-column: 1 / 1
-
-  & > *:first-child
-    grid-row: 1 / 1
-    grid-column: 1 / 1
-
-  @media (max-width: 600px)
-    grid-template-columns: repeat(3, 1fr)
-  @media (max-width: 414px)
-    grid-template-columns: repeat(2, minmax(var(--pad-min-size), 1fr))
-
-.pad
-  background-color: rgba(0, 0, 0, 0.1)
-  border: 1px white solid
-
-  &.lit
-    background-color: blue
-
-#dropArea
-  height: 100px
-  width: 100px
-  background-color: blue
-
-#canvas
-  height: 400px
-  width: 400px
-
-.selector
-  @media (max-width: 768px)
-    display: none
+// #canvas
+//   height: 400px
+//   width: 400px

@@ -12,8 +12,6 @@ export interface Sampler {
 const makeSampler = async (samples: Sample[], startingOctave: Octave) => {
   const audioContext = new AudioContext();
 
-  const samplesMap = makeSamplesMap(samples, startingOctave);
-
   const samplesTable = makeSamplesTable(samples, startingOctave);
 
   const audioMap = await samplesTable.reduce(async (map, sample) => {
@@ -33,7 +31,7 @@ const makeSampler = async (samples: Sample[], startingOctave: Octave) => {
     source.start();
   };
 
-  return Object.freeze({ samplesMap, trigger });
+  return Object.freeze({ samplesTable, trigger });
 };
 
 export default makeSampler;

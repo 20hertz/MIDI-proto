@@ -1,5 +1,6 @@
 import React from 'react';
-import { SPN } from '../constants';
+import { SPN } from '../../constants';
+import './style.sass';
 
 interface PadsProps {
   areLoading: boolean;

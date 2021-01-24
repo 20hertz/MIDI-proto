@@ -121,7 +121,7 @@ export const useLocalSamples = () => {
 
 export const useSampler = () => {
   const [sampler, setSampler] = useState(undefined);
-  const [samplesMap, setSamplesMap] = useState(undefined);
+  const [samplesTable, setSamplesTable] = useState(undefined);
   const {
     state: { areLoading, haveError, samples },
   } = useSamplesContext();
@@ -139,8 +139,8 @@ export const useSampler = () => {
   const createSampler = async () => {
     try {
       makeSampler(samples, currentOctave).then(sampler => {
-        const { samplesMap } = sampler;
-        setSamplesMap(samplesMap);
+        const { samplesTable } = sampler;
+        setSamplesTable(samplesTable);
         setSampler(sampler);
       });
     } catch (error) {
@@ -162,6 +162,6 @@ export const useSampler = () => {
     areLoading,
     haveError,
     keys,
-    samplesMap,
+    samplesTable,
   };
 };
