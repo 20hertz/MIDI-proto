@@ -1,8 +1,9 @@
 import * as React from 'react';
-import Providers from './Providers';
-import Sampler from './Sampler';
-import SamplesLoader from './SamplesLoader';
-import MidiConnector from './MidiConnector';
+import Providers from '../Providers';
+import Sampler from '../Sampler';
+import SamplesLoader from '../SamplesLoader';
+import MidiConnector from '../MidiConnector';
+import './style';
 
 const App = () => (
   <>

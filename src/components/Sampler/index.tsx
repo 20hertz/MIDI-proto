@@ -1,19 +1,20 @@
 import React from 'react';
-import { useSampler } from '../hooks';
-import Pads from './Pads';
-import Selector from './Selector';
+import { useSampler } from '../../hooks';
+import Pads from '../Pads';
+import Selector from '../Selector';
+import './style.sass';
 
 const Sampler = () => {
-  const { areLoading, haveError, keys, samplesMap } = useSampler();
+  const { areLoading, haveError, keys, samplesTable } = useSampler();
   return (
     <div className="sampler">
       <div></div>
       <div id="controller">
         <Pads areLoading={areLoading} keys={keys} />
       </div>
-      {samplesMap && (
+      {samplesTable && (
         <Selector
-          samplesMap={samplesMap}
+          samplesTable={samplesTable}
           isLoading={areLoading}
           haveError={haveError}
         />

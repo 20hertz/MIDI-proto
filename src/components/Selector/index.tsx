@@ -1,15 +1,18 @@
 import React from 'react';
+import './style.sass';
 
 interface Props {
   haveError: boolean;
   isLoading: boolean;
-  samplesMap: any;
+  samplesTable: any;
 }
 
-const Selector = ({ haveError, isLoading, samplesMap }: Props) => {
-  const listSamples = samplesMap.map(sample => {
-    const [spn, name] = sample;
-    return <div key={spn}>{`${spn} - ${name}`}</div>;
+const Selector = ({ haveError, isLoading, samplesTable }: Props) => {
+  const listSamples = samplesTable.map(sample => {
+    const [spn, { fileName }] = sample;
+    return (
+      <div className="selector-sample" key={spn}>{`${spn} - ${fileName}`}</div>
+    );
   });
 
   return (

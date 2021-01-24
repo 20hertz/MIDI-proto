@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import webmidi, { Input as MidiInput } from 'webmidi';
 import { setMidiInput, useMidiContext } from '../services/midi';
 
-const MidiConnector = () => {
+export const useMidi = () => {
   const [midiIsConnected, setMidiIsConnected] = useState(false);
   const [midiInputs, setMidiInputs] = useState<MidiInput[]>([]);
 
@@ -36,28 +36,13 @@ const MidiConnector = () => {
     createDeviceSelection();
   }, [midiIsConnected]);
 
-  const inputOptions = () => {
-    for (const input of midiInputs) {
-      return <option value={input.id}>{input.name}</option>;
-    }
-  };
-
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
     dispatch(setMidiInput(value));
   };
-
-  return (
-    <select value={midiInputId} onChange={handleSelectChange}>
-      {midiInputs.length ? (
-        inputOptions()
-      ) : (
-        <option value="noinput" disabled>
-          No MIDI devices
-        </option>
-      )}
-    </select>
-  );
+  return {
+    handleSelectChange,
+    midiInputId,
+    midiInputs,
+  };
 };
-
-export default MidiConnector;

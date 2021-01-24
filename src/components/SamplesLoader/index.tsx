@@ -1,6 +1,10 @@
 import React from 'react';
-import { ACCEPTED_MIME_TYPES } from '../constants';
-import { useDefaultSamples, useLocalSamples, useRemoteSamples } from '../hooks';
+import { ACCEPTED_MIME_TYPES } from '../../constants';
+import {
+  useDefaultSamples,
+  useLocalSamples,
+  useRemoteSamples,
+} from '../../hooks';
 
 const SamplesLoader = () => {
   useDefaultSamples();

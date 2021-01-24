@@ -12,14 +12,3 @@ const matchPitchToSample = (octave: Octave) => (
 
 export const makeSamplesTable = (samples: Sample[], octave: Octave) =>
   samples.map(matchPitchToSample(octave));
-
-const matchPitchToFileName = (octave: Octave) => (
-  sample: Sample,
-  i: number
-) => {
-  const { fileName } = sample;
-  return [appendOctave(octave, i), fileName];
-};
-
-export const makeSamplesMap = (samples: Sample[], octave: Octave) =>
-  samples.map(matchPitchToFileName(octave));
