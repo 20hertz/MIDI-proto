@@ -2,7 +2,7 @@ import { AudioContext } from 'standardized-audio-context';
 import { SPN } from '../constants';
 import { Octave } from '../services/selector';
 import { Sample } from '../services/samples';
-import { makeSamplesMap, makeSamplesTable } from './samples-map';
+import { makeSamplesTable } from './samples-map';
 
 export interface Sampler {
   samplesMap: any;
