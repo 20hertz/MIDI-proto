@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMidi } from '../../hooks/midi';
+import { useMidi } from '../../hooks/useMidi';
 
 const MidiConnector = () => {
   const { handleSelectChange, midiInputId, midiInputs } = useMidi();

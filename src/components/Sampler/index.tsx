@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSampler } from '../../hooks';
+import { useSampler } from '../../hooks/useSampler';
 import Pads from '../Pads';
 import Selector from '../Selector';
 import './style.sass';
@@ -8,7 +8,7 @@ const Sampler = () => {
   const { areLoading, haveError, keys, samplesTable } = useSampler();
   return (
     <div className="sampler">
-      <div></div>
+      <div />
       <div id="controller">
         <Pads areLoading={areLoading} keys={keys} />
       </div>

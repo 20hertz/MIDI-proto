@@ -1,18 +1,13 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import JSZip from 'jszip';
-import { SAMPLES_URL, SAMPLE_NAMES } from './constants';
-import { useSelectorContext } from './services/selector';
+import { SAMPLES_URL, SAMPLE_NAMES } from '../constants';
 import {
   getSamplesError,
   getSamplesRequest,
   getSamplesSuccess,
   Sample,
   useSamplesContext,
-} from './services/samples';
-import { useMidiContext } from './services/midi';
-import { setAvailableKeys } from './helpers';
-import { makeListeners } from './models/listeners';
-import makeSampler from './models/sampler';
+} from '../services/samples';
 
 export const useDefaultSamples = () => {
   const { dispatch } = useSamplesContext();
@@ -102,10 +97,7 @@ const makeLocalSample = (file: File) =>
 
 export const useLocalSamples = () => {
   const { dispatch } = useSamplesContext();
-  const getLocalSamples = async (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(getSamplesRequest());
-    const { files } = event.target;
-
+  const loadLocalSamples = async (files: FileList) => {
     try {
       const localSamples = await Promise.all(
         Array.from(files).map(makeLocalSample)
@@ -116,52 +108,56 @@ export const useLocalSamples = () => {
       dispatch(getSamplesError);
     }
   };
-  return { getLocalSamples };
+  const getLocalSamples = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(getSamplesRequest());
+    const { files } = event.target;
+    loadLocalSamples(files);
+  };
+
+  return { getLocalSamples, loadLocalSamples };
 };
 
-export const useSampler = () => {
-  const [sampler, setSampler] = useState(undefined);
-  const [samplesTable, setSamplesTable] = useState(undefined);
-  const {
-    state: { areLoading, haveError, samples },
-  } = useSamplesContext();
-
-  const {
-    state: { currentOctave },
-  } = useSelectorContext();
-
-  const {
-    state: { midiInputId },
-  } = useMidiContext();
-
-  const keys = setAvailableKeys(16, currentOctave);
-
-  const createSampler = async () => {
+export const useLocalSamples2 = ref => {
+  const { dispatch } = useSamplesContext();
+  const loadLocalSamples = async (files: FileList) => {
     try {
-      makeSampler(samples, currentOctave).then(sampler => {
-        const { samplesTable } = sampler;
-        setSamplesTable(samplesTable);
-        setSampler(sampler);
-      });
-    } catch (error) {
-      alert(error.message);
+      const localSamples = await Promise.all(
+        Array.from(files).map(makeLocalSample)
+      );
+      dispatch(getSamplesSuccess(localSamples));
+    } catch (event) {
+      console.warn(event.message);
+      dispatch(getSamplesError);
     }
   };
 
-  useEffect(() => {
-    createSampler();
-  }, [currentOctave, samples]);
-
-  useEffect(() => {
-    const { addListeners, removeListeners } = makeListeners(sampler);
-    addListeners(midiInputId);
-    return () => removeListeners(midiInputId);
-  }, [midiInputId, sampler]);
-
-  return {
-    areLoading,
-    haveError,
-    keys,
-    samplesTable,
+  const handleDragOver = (e: DragEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
   };
+
+  const handleDrop = (e: DragEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const { files } = e.dataTransfer;
+    loadLocalSamples(files);
+  };
+
+  useEffect(() => {
+    ref.current.addEventListener('dragover', handleDragOver);
+    ref.current.addEventListener('drop', handleDrop);
+    return () => {
+      ref.current.removeEventListener('dragover', handleDragOver);
+      ref.current.addEventListener('drop', handleDrop);
+    };
+  }, []);
+
+  const getLocalSamples = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(getSamplesRequest());
+    const { files } = event.target;
+    loadLocalSamples(files);
+  };
+
+  return { getLocalSamples, loadLocalSamples };
 };

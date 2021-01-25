@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Providers from '../Providers';
 import Sampler from '../Sampler';
-import SamplesLoader from '../SamplesLoader';
+import { FileDropZone, FileLoader } from '../FileLoader';
 import MidiConnector from '../MidiConnector';
 import './style';
 
@@ -10,8 +10,8 @@ const App = () => (
     <h1 className="header">boomTap</h1>
     <Providers>
       <>
-        <SamplesLoader />
-        <Sampler />
+        <FileLoader />
+        <FileDropZone children={<Sampler />} />
         <MidiConnector />
       </>
     </Providers>

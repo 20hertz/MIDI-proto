@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import { ACCEPTED_MIME_TYPES } from '../../constants';
 import {
   useDefaultSamples,
   useLocalSamples,
+  useLocalSamples2,
   useRemoteSamples,
-} from '../../hooks';
+} from '../../hooks/files';
 
-const SamplesLoader = () => {
+interface Props {
+  children: ReactNode;
+}
+
+export const FileDropZone = ({ children }: Props) => {
+  const dropZone = useRef(null);
+  useLocalSamples2(dropZone);
+
+  return <div ref={dropZone}>{children}</div>;
+};
+
+export const FileLoader = () => {
   useDefaultSamples();
   const { getLocalSamples } = useLocalSamples();
   const { getRemoteSamples } = useRemoteSamples();
@@ -31,5 +43,3 @@ const SamplesLoader = () => {
     </>
   );
 };
-
-export default SamplesLoader;

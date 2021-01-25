@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import webmidi, { Input as MidiInput } from 'webmidi';
+import webmidi, { WebMidi } from 'webmidi';
 import { setMidiInput, useMidiContext } from '../services/midi';
 
 export const useMidi = () => {
   const [midiIsConnected, setMidiIsConnected] = useState(false);
-  const [midiInputs, setMidiInputs] = useState<MidiInput[]>([]);
+  const [midiInputs, setMidiInputs] = useState<WebMidi['inputs']>([]);
 
   const {
     dispatch,
