@@ -1,3 +1,5 @@
+@import '../../utils'
+
 .pads
   display: grid
   grid-template-columns: repeat(4, 1fr)
@@ -13,10 +15,11 @@
     grid-row: 1 / 1
     grid-column: 1 / 1
 
-  @media (max-width: 37.5em)
+  +phablet-portrait
     grid-template-columns: repeat(3, 1fr)
-  @media (max-width: 25.875em)
-    grid-template-columns: repeat(2, minmax(var(--pad-min-size), 1fr))
+
+  +phone-portrait
+    grid-template-columns: repeat(2, 1fr)
 
 .pad
   background-color: rgba(0, 0, 0, 0.1)

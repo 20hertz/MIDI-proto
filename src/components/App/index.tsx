@@ -1,24 +1,21 @@
 import * as React from 'react';
 import Providers from '../Providers';
 import Sampler from '../Sampler';
-import SamplesLoader from '../SamplesLoader';
+import { FileLoader } from '../FileLoader';
 import MidiConnector from '../MidiConnector';
 import './style';
 
 const App = () => (
-  <>
-    <h1 className="header">boomTap</h1>
-    <Providers>
-      <>
-        <SamplesLoader />
+  <Providers>
+    <>
+      <div className="container">
+        <h1 className="header">boomTap</h1>
+        <FileLoader />
         <Sampler />
-        <MidiConnector />
-      </>
-    </Providers>
-    <footer>
-      <h4>Made with ♥️ by Lø</h4>
-    </footer>
-  </>
+      </div>
+      <MidiConnector />
+    </>
+  </Providers>
 );
 
 export default App;

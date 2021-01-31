@@ -1,14 +1,13 @@
+@import '../../utils'
+
 .sampler
   display: grid
-  grid-template-columns: 1fr minmax(calc(var(--pad-min-size) * 4), 1.25fr) 1fr
-  grid-template-areas: ". controller selector"
-  column-gap: 50px
-  @media (max-width: 101.25em)
-    grid-template-columns: 1fr 2.25fr 1fr
-  @media (max-width: 75em)
-    grid-template-columns: 0 2fr 1fr
-  @media (max-width: 64em)
+  grid-template-columns: 1fr calc(100vh - #{$header-height}) 1fr
+  column-gap: 2%
+  @media (max-width: em(1200))
+    grid-template-columns: 0 calc(100vh - #{$header-height}) 1fr
+  +tablet-landscape
     grid-template-columns: 0 3fr 1fr
-  @media (max-width: 48em)
+  +tablet-portrait
     grid-template-columns: 0 1fr 0
     column-gap: 0
