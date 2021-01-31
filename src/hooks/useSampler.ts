@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { setAvailableKeys } from '../helpers';
 import { makeListeners } from '../models/listeners';
 import makeSampler from '../models/sampler';
 import { useMidiContext } from '../services/midi';
@@ -9,7 +8,6 @@ import { useSelectorContext } from '../services/selector';
 export const useSampler = () => {
   const [sampler, setSampler] = useState(undefined);
   const [samplesTable, setSamplesTable] = useState(undefined);
-  const [keys, setKeys] = useState([]);
 
   const {
     state: { areLoading, haveError, samples },
@@ -22,38 +20,6 @@ export const useSampler = () => {
   const {
     state: { midiInputId },
   } = useMidiContext();
-
-  const setActiveKeys = () => {
-    const activeKeys =
-      window.innerWidth <= 600
-        ? setAvailableKeys(lowerMultiple(), currentOctave)
-        : setAvailableKeys(16, currentOctave);
-    setKeys(activeKeys);
-  };
-
-  const windowArea = () => window.innerWidth * (window.innerHeight - 79);
-
-  const numberOfColumns = () => (window.innerWidth <= 414 ? 2 : 3);
-
-  const padSize = () => window.innerWidth / numberOfColumns();
-  const lowerMultiple = () => {
-    const numberOfSquaresThatFitIn = Math.floor(
-      windowArea() / Math.pow(padSize(), 2)
-    );
-    return (
-      Math.floor(numberOfSquaresThatFitIn / numberOfColumns()) *
-      numberOfColumns()
-    );
-  };
-
-  useEffect(() => {
-    setActiveKeys();
-  }, [currentOctave]);
-
-  useEffect(() => {
-    window.addEventListener('resize', setActiveKeys);
-    return () => window.removeEventListener('resize', setActiveKeys);
-  }, []);
 
   const createSampler = async () => {
     try {
@@ -80,7 +46,6 @@ export const useSampler = () => {
   return {
     areLoading,
     haveError,
-    keys,
     samplesTable,
   };
 };

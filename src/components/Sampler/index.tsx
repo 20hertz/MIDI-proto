@@ -1,24 +1,24 @@
 import React from 'react';
 import { useSampler } from '../../hooks/useSampler';
 import { FileDropZone } from '../FileLoader';
-import Pads from '../Pads';
+import PadGrid from '../Pads';
 import Selector from '../Selector';
 import './style.sass';
 
 const Sampler = () => {
-  const { areLoading, haveError, keys, samplesTable } = useSampler();
+  const { areLoading, haveError, samplesTable } = useSampler();
   return (
     <FileDropZone>
       <div className="sampler">
         <div />
         <div id="controller">
-          <Pads areLoading={areLoading} keys={keys} />
+          <PadGrid areLoading={areLoading} />
         </div>
         {samplesTable && (
           <Selector
-            samplesTable={samplesTable}
-            isLoading={areLoading}
             haveError={haveError}
+            isLoading={areLoading}
+            samplesTable={samplesTable}
           />
         )}
       </div>

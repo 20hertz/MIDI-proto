@@ -1,19 +1,22 @@
 import React from 'react';
 import { SPN } from '../../constants';
+import { usePads } from '../../hooks/usePads';
 import './style.sass';
 
-interface PadsProps {
+interface PadGridProps {
   areLoading: boolean;
-  keys: SPN[];
 }
 
-const Pads = ({ areLoading, keys }: PadsProps) => (
-  <div className="pads">
-    {keys.map(key => (
-      <Pad id={key} key={key} loading={areLoading} />
-    ))}
-  </div>
-);
+const PadGrid = ({ areLoading }: PadGridProps) => {
+  const { keys } = usePads();
+  return (
+    <div className="pad-grid">
+      {keys.map(key => (
+        <Pad id={key} key={key} loading={areLoading} />
+      ))}
+    </div>
+  );
+};
 
 interface PadProps {
   id: SPN;
@@ -28,4 +31,4 @@ const Pad = ({ id, loading }: PadProps) => (
   />
 );
 
-export default Pads;
+export default PadGrid;
