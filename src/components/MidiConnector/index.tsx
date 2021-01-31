@@ -1,5 +1,6 @@
 import React from 'react';
 import { useMidi } from '../../hooks/useMidi';
+import './style.sass';
 
 const MidiConnector = () => {
   const { handleSelectChange, midiInputId, midiInputs } = useMidi();
@@ -11,7 +12,11 @@ const MidiConnector = () => {
   };
 
   return (
-    <select value={midiInputId} onChange={handleSelectChange}>
+    <select
+      value={midiInputId}
+      onChange={handleSelectChange}
+      className="midi-connector"
+    >
       {midiInputs.length ? (
         inputOptions()
       ) : (
