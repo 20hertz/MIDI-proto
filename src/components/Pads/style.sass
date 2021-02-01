@@ -4,6 +4,7 @@
   display: grid
   grid-template-columns: repeat(4, 1fr)
   grid-auto-rows: 1fr
+  max-height: calc(100vh - #{$header-height})
   &::before
     content: ''
     width: 0
@@ -19,7 +20,11 @@
     grid-template-columns: repeat(3, 1fr)
 
   +phone-portrait
-    grid-template-columns: repeat(2, 1fr)
+    grid-template-columns: repeat(2, auto)
+    max-width: calc((100vh - #{$header-height}) / 3 * 2)
+    width: 100%
+    margin-left: auto
+    margin-right: auto
 
 .pad
   background-color: rgba(0, 0, 0, 0.1)
@@ -27,3 +32,16 @@
 
   &.lit
     background-color: blue
+
+  @media screen and (orientation:landscape) and (max-height: em(320))
+    &:nth-child(7),
+    &:nth-child(8),
+    &:nth-child(9),
+    &:nth-child(10),
+    &:nth-child(11),
+    &:nth-child(12),
+    &:nth-child(13),
+    &:nth-child(14),
+    &:nth-child(15),
+    &:nth-child(16)
+      display: none

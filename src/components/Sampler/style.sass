@@ -1,13 +1,17 @@
 @import '../../utils'
 
+$sampler-height: calc(100vh - #{$header-height})
+
 .sampler
   display: grid
   grid-template-columns: 1fr calc(100vh - #{$header-height}) 1fr
   column-gap: 2%
-  @media (max-width: em(1200))
-    grid-template-columns: 0 calc(100vh - #{$header-height}) 1fr
   +tablet-landscape
     grid-template-columns: 0 3fr 1fr
   +tablet-portrait
-    grid-template-columns: 0 1fr 0
-    column-gap: 0
+    display: initial
+
+
+#controller
+  +phone-portrait
+    height: $sampler-height
