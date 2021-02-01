@@ -9,11 +9,8 @@ export const usePads = () => {
   } = useSelectorContext();
 
   const setActiveKeys = () => {
-    const windowWidth = window.innerWidth;
-    const activeKeys =
-      windowWidth <= 600
-        ? setAvailableKeys(calcMaxPads(windowWidth), currentOctave)
-        : setAvailableKeys(16, currentOctave);
+    const numberOfPads = windowCapacity();
+    const activeKeys = setAvailableKeys(numberOfPads, currentOctave);
     setKeys(activeKeys);
   };
 
@@ -28,6 +25,24 @@ export const usePads = () => {
 
   return { keys };
 };
+
+const windowCapacity = () => {
+  const { innerWidth } = window;
+  if (innerWidth <= 414) return 6;
+  else if (innerWidth <= 600) return 12;
+  else return 16;
+};
+
+// function debounce(fn: () => void, ms: number) {
+//   let timer: number;
+//   return () => {
+//     clearTimeout(timer);
+//     timer = window.setTimeout(() => {
+//       timer = null;
+//       fn.apply(this, arguments);
+//     }, ms);
+//   };
+// }
 
 const pitchClasses = Object.values(PitchClass);
 
@@ -58,23 +73,4 @@ const setAvailableKeys = (slots: number, octave: Octave): SPN[] => {
   };
   renderKeys(slots);
   return renderedKeys;
-};
-
-const calcMinColumns = (windowWidth: number) => (windowWidth <= 414 ? 2 : 3);
-
-const padSize = (windowWidth: number) =>
-  windowWidth / calcMinColumns(windowWidth);
-
-const samplerArea = (windowWidth: number) =>
-  windowWidth * (window.innerHeight - 79);
-
-const padArea = (windowWidth: number) => Math.pow(padSize(windowWidth), 2);
-
-const calcMaxPads = (windowWidth: number) => {
-  const capacity = Math.floor(samplerArea(windowWidth) / padArea(windowWidth));
-  const roundedDownCapacity =
-    Math.floor(capacity / calcMinColumns(windowWidth)) *
-    calcMinColumns(windowWidth);
-
-  return roundedDownCapacity;
 };
