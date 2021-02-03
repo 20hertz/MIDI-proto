@@ -37,7 +37,7 @@ export const FileLoader = () => {
           />
         </label>
       </form>
-      {process.env.NODE_ENV === 'development' && (
+      {process.env.NODE_ENV === 'development' && false && (
         <button onClick={getRemoteSamples}>Get remote samples</button>
       )}
     </>

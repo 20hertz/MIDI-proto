@@ -14,12 +14,14 @@ const Sampler = () => {
         <div id="controller">
           <PadGrid areLoading={areLoading} />
         </div>
-        {samplesTable && (
+        {process.env.NODE_ENV === 'development' && false ? (
           <Selector
             haveError={haveError}
             isLoading={areLoading}
             samplesTable={samplesTable}
           />
+        ) : (
+          <div />
         )}
       </div>
     </FileDropZone>
