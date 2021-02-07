@@ -25,7 +25,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install bundler
-        run: yarn global add parcel-bundler
+        run: yarn dlx parcel-bundler
 
       - name: Install dependencies
         run: yarn install
@@ -41,14 +41,14 @@ jobs:
           AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET_NAME }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "ca-central-1"
-          SOURCE_DIR: "dist"
+          AWS_REGION: 'ca-central-1'
+          SOURCE_DIR: 'dist'
 
       - name: Create CloudFront Cache Invalidation
         uses: chetan/invalidate-cloudfront-action@master
         env:
           DISTRIBUTION: ${{ env.AWS_CF_DIST_ID }}
-          PATHS: "/*"
-          AWS_REGION: "ca-central-1"
+          PATHS: '/*'
+          AWS_REGION: 'ca-central-1'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
