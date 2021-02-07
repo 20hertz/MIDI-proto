@@ -24,14 +24,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install bundler
-        run: yarn dlx parcel-bundler
+      # - name: Install bundler
+      #   run: yarn dlx parcel-bundler
 
       - name: Install dependencies
         run: yarn install
 
       - name: Build
-        run: parcel build src/index.html
+        run: yarn dlx parcel build src/index.html
 
       - name: Sync to S3
         uses: jakejarvis/s3-sync-action@master
