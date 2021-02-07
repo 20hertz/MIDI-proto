@@ -30,7 +30,8 @@ const windowCapacity = () => {
   const { innerWidth } = window;
   if (innerWidth <= 414) return 6;
   else if (innerWidth <= 600) return 12;
-  else return 16;
+  else if (innerWidth <= 768) return 16;
+  else return 32;
 };
 
 // function debounce(fn: () => void, ms: number) {

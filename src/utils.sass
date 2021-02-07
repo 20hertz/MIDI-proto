@@ -6,9 +6,18 @@ $browser-context: 16 // Chrome default font size in px
 @function rem($size)
   @return ($size / $browser-context) * 1rem
 
+:root
+  --pad-min-size: 140px
+
+/*************************************
+  SASS variables
+  ***********************************/
 $header-height: rem(79)
 
-// Reference: https://screensiz.es/
+/*************************************
+  Breakpoints
+  Reference: https://screensiz.es
+  ***********************************/
 =tablet-landscape
   @media (max-width: em(1024))
     @content

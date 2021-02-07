@@ -2,3 +2,11 @@ dist
 node_modules
 .cache
 *.deprecated.*
+
+# Yarn stuff
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
