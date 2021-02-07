@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build
+      - name: Download Parcel & build
         run: yarn dlx parcel build src/index.html
 
       - name: Sync to S3
