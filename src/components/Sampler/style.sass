@@ -4,14 +4,14 @@ $sampler-height: calc(100vh - #{$header-height})
 
 .sampler
   display: grid
-  grid-template-columns: 1fr calc(100vh - #{$header-height}) 1fr
+  grid-template-columns: auto minmax(auto, calc(100vh - #{$header-height})) auto
   column-gap: 2%
-  +tablet-landscape
-    grid-template-columns: 0 3fr 1fr
   +tablet-portrait
     display: initial
 
 
 #controller
+  // height: rem(600)
+  // max-height: $sampler-height
   +phone-portrait
     height: $sampler-height
