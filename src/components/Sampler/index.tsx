@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSampler } from '../../hooks/useSampler';
+import { devOnly } from '../../utils';
 import { FileDropZone } from '../FileLoader';
 import PadGrid from '../Pads';
 import Selector from '../Selector';
@@ -14,7 +15,7 @@ const Sampler = () => {
         <div id="controller">
           <PadGrid areLoading={areLoading} />
         </div>
-        {process.env.NODE_ENV === 'development' && false ? (
+        {devOnly && false ? (
           <Selector
             haveError={haveError}
             isLoading={areLoading}
