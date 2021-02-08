@@ -9,7 +9,7 @@ import {
   useSamplesContext,
 } from '../services/samples';
 
-export const useDefaultSamples = () => {
+export const useDefaultFiles = () => {
   const { dispatch } = useSamplesContext();
 
   const createInitialSampler = async () => {
@@ -49,7 +49,7 @@ const PATH = 'uc?id=';
 const ID = '10ZKzj_ihTSxDvnk-Yt9QE61vaD-q4d-v';
 const request = new Request(LOCAL_URL + PATH + ID, { redirect: 'follow' });
 
-export const useRemoteSamples = () => {
+export const useRemoteFiles = () => {
   const { dispatch } = useSamplesContext();
   const getRemoteSamples = async () => {
     dispatch(getSamplesRequest());
@@ -95,7 +95,7 @@ const makeLocalSample = (file: File) =>
     };
   });
 
-export const useLocalSamples = () => {
+export const useLocalFiles = () => {
   const { dispatch } = useSamplesContext();
   const loadLocalSamples = async (files: FileList) => {
     try {
@@ -108,51 +108,6 @@ export const useLocalSamples = () => {
       dispatch(getSamplesError);
     }
   };
-  const getLocalSamples = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(getSamplesRequest());
-    const { files } = event.target;
-    loadLocalSamples(files);
-  };
-
-  return { getLocalSamples, loadLocalSamples };
-};
-
-export const useLocalSamples2 = ref => {
-  const { dispatch } = useSamplesContext();
-  const loadLocalSamples = async (files: FileList) => {
-    try {
-      const localSamples = await Promise.all(
-        Array.from(files).map(makeLocalSample)
-      );
-      dispatch(getSamplesSuccess(localSamples));
-    } catch (event) {
-      console.warn(event.message);
-      dispatch(getSamplesError);
-    }
-  };
-
-  const handleDragOver = (e: DragEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-  };
-
-  const handleDrop = (e: DragEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const { files } = e.dataTransfer;
-    loadLocalSamples(files);
-  };
-
-  useEffect(() => {
-    ref.current.addEventListener('dragover', handleDragOver);
-    ref.current.addEventListener('drop', handleDrop);
-    return () => {
-      ref.current.removeEventListener('dragover', handleDragOver);
-      ref.current.addEventListener('drop', handleDrop);
-    };
-  }, []);
-
   const getLocalSamples = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(getSamplesRequest());
     const { files } = event.target;

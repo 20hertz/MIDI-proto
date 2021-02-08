@@ -1,27 +1,28 @@
 import React, { ReactNode, useRef } from 'react';
 import { ACCEPTED_MIME_TYPES } from '../../constants';
 import {
-  useDefaultSamples,
-  useLocalSamples,
-  useLocalSamples2,
-  useRemoteSamples,
-} from '../../hooks/files';
+  useDefaultFiles,
+  useLocalFiles,
+  useRemoteFiles,
+} from '../../hooks/useFiles';
+import { useDropZone } from '../../hooks/useDropZone';
+import { devOnly } from '../../utils';
 
 interface Props {
   children: ReactNode;
 }
 
 export const FileDropZone = ({ children }: Props) => {
-  const dropZone = useRef(null);
-  useLocalSamples2(dropZone);
+  const dropZoneRef = useRef<HTMLDivElement>(null);
+  useDropZone(dropZoneRef);
 
-  return <div ref={dropZone}>{children}</div>;
+  return <div ref={dropZoneRef}>{children}</div>;
 };
 
 export const FileLoader = () => {
-  useDefaultSamples();
-  const { getLocalSamples } = useLocalSamples();
-  const { getRemoteSamples } = useRemoteSamples();
+  useDefaultFiles();
+  const { getLocalSamples } = useLocalFiles();
+  const { getRemoteSamples } = useRemoteFiles();
 
   return (
     <>
@@ -37,7 +38,7 @@ export const FileLoader = () => {
           />
         </label>
       </form>
-      {process.env.NODE_ENV === 'development' && false && (
+      {devOnly && (
         <button onClick={getRemoteSamples}>Get remote samples</button>
       )}
     </>
