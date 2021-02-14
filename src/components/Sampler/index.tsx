@@ -15,7 +15,7 @@ const Sampler = () => {
         <div id="controller">
           <PadGrid areLoading={areLoading} />
         </div>
-        {devOnly && false ? (
+        {devOnly && false && samplesTable ? (
           <Selector
             haveError={haveError}
             isLoading={areLoading}
