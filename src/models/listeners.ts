@@ -22,16 +22,15 @@ export const makeListeners = (sampler: Sampler) => {
   const controller = document.getElementById('controller');
 
   // Mouse events
-  const onPadSelect = ({ target, type }: PadSelectEvent) => {
-    toggleColor(target);
-    if (type === 'mousedown' || type === 'touchstart') {
+  const onPadSelect = ({ button, target, type }: PadSelectEvent) => {
+    if (button === 0) toggleColor(target);
+    if ((button === 0 && type === 'mousedown') || type === 'touchstart') {
       sampler.trigger(target.id as SPN);
     }
   };
 
   const selectListener: EventListener = (event: PadSelectEvent) => {
-    const target = event.target as HTMLElement;
-    if (target.matches('div.pad')) {
+    if (event.target.matches('div.pad')) {
       // Prevent both touch and mouse events to be fired on a single user input.
       // https://developer.mozilla.org/en-US/docs/Web/API/Touch_events/Supporting_both_TouchEvent_and_MouseEvent#Event_firing
       event.preventDefault();
@@ -53,10 +52,9 @@ export const makeListeners = (sampler: Sampler) => {
     } = event;
     const note = (name + octave) as SPN;
     const pad = document.getElementById(note);
+
     toggleColor(pad);
-    if (type === 'noteon') {
-      sampler.trigger(note);
-    }
+    if (type === 'noteon') sampler.trigger(note);
   };
 
   const onMidiEvent = <T extends keyof InputEvents>(event: InputEvents[T]) => {
@@ -72,30 +70,13 @@ export const makeListeners = (sampler: Sampler) => {
     }
   };
 
-  const listenTo = <T extends keyof InputEvents>(eventTypes: T[]) => (
-    input: MidiPortInput
-  ) => {
-    eventTypes.forEach((eventType: T) =>
-      input.addListener(eventType, 'all', onMidiEvent)
+  const toggleMidiListener = (functionName: string, inputId: string) => {
+    const input = WebMidi.inputs.find(({ id }) => id === inputId);
+    ['noteon', 'noteoff'].forEach(eventType =>
+      input[functionName](eventType, 'all', onMidiEvent)
     );
   };
 
-  const abortListenTo = <T extends keyof InputEvents>(eventTypes: T[]) => (
-    input: MidiPortInput
-  ) => {
-    eventTypes.forEach((eventType: T) =>
-      input.removeListener(eventType, 'all', onMidiEvent)
-    );
-  };
-
-  const addMidiListener = (inputId: string) => {
-    const input = WebMidi.inputs.find(({ id }) => id === inputId);
-    listenTo(['noteon', 'noteoff'])(input);
-  };
-  const removeMidiListener = (inputId: string) => {
-    const input = WebMidi.inputs.find(({ id }) => id === inputId);
-    abortListenTo(['noteon', 'noteoff'])(input);
-  };
   // Keyboard events
   const onKeyboardEvent: EventListener = (event: KeyboardEvent) => {
     event.stopImmediatePropagation();
@@ -116,7 +97,7 @@ export const makeListeners = (sampler: Sampler) => {
     toggleSelectListener('addEventListener');
     toggleKeyboardListener('addEventListener');
     if (inputId !== 'noinput') {
-      addMidiListener(inputId);
+      toggleMidiListener('addListener', inputId);
     }
   };
 
@@ -124,7 +105,7 @@ export const makeListeners = (sampler: Sampler) => {
     toggleSelectListener('removeEventListener');
     toggleKeyboardListener('removeEventListener');
     if (inputId !== 'noinput') {
-      removeMidiListener(inputId);
+      toggleMidiListener('removeListener', inputId);
     }
   };
 
