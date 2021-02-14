@@ -1,4 +1,4 @@
-import WebMidi, { Input as MidiPortInput, InputEvents } from 'webmidi';
+import WebMidi, { InputEvents } from 'webmidi';
 import {
   keyboardToNoteMap,
   KEYBOARD_EVENTS,
