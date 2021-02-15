@@ -9,8 +9,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      AWS_S3_BUCKET_NAME: frontendstackprod-btstaticwebsiteprod683fa7dc-34zckz8jneev
-      AWS_CF_DIST_ID: E3GDI12ZOWQBQQ
+      AWS_S3_BUCKET_NAME: frontendstackprod-btstaticwebsiteprod683fa7dc-1fk5nr29mo4i2
+      AWS_CF_DIST_ID: E392RMP44OHK2N
 
     strategy:
       matrix:
