@@ -13,9 +13,9 @@ const MidiConnector = () => {
 
   return (
     <select
-      value={midiInputId}
-      onChange={handleSelectChange}
       className="midi-connector"
+      onChange={handleSelectChange}
+      value={midiInputId}
     >
       {midiInputs.length ? (
         inputOptions()
