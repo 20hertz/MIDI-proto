@@ -1879,10 +1879,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^14.14.24":
+"@types/node@npm:*":
   version: 14.14.24
   resolution: "@types/node@npm:14.14.24"
   checksum: b01653edcbca44e08129cb9676c2a77c88d9dee0eba9949edc6a29694585a11b87b2c54cd174f806db9cb2cf4d73783e5e05be34c9b41cd736861cbfb71c9b46
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.14.31":
+  version: 14.14.31
+  resolution: "@types/node@npm:14.14.31"
+  checksum: 635dc8a0898a923621e02ca179e17baa39fdfa44f0096fcc1b7046c9b32317e74a99956a7b45ca0e8069874f51f4e7873a418239a318a4b6e7936f6510ac5992
   languageName: node
   linkType: hard
 
@@ -2578,7 +2585,7 @@ __metadata:
     "@babel/preset-react": ^7.12.13
     "@testing-library/react": ^11.2.5
     "@types/jest": ^26.0.20
-    "@types/node": ^14.14.24
+    "@types/node": ^14.14.31
     "@types/react": ^17.0.1
     "@types/react-dom": ^17.0.0
     cssnano: ^4.1.10
