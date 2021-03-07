@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
-    "@babel/preset-env": "^7.12.13",
+    "@babel/preset-env": "^7.13.9",
     "@babel/preset-react": "^7.12.13",
     "@testing-library/react": "^11.2.5",
     "@types/jest": "^26.0.20",
@@ -37,5 +37,8 @@
   },
   "browserslist": [
     "since 2017-06"
-  ]
+  ],
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
 }
