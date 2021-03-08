@@ -37,8 +37,5 @@
   },
   "browserslist": [
     "since 2017-06"
-  ],
-  "resolutions": {
-    "@babel/preset-env": "7.13.8"
-  }
+  ]
 }
