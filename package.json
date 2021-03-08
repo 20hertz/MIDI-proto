@@ -36,9 +36,6 @@
     "typescript": "^4.1.3"
   },
   "browserslist": [
-    "since 2017-06"
-  ],
-  "resolutions": {
-    "@babel/preset-env": "7.13.8"
-  }
+    "last 1 Chrome versions"
+  ]
 }
