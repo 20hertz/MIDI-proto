@@ -7,6 +7,9 @@ import {
 } from '../../hooks/useFiles';
 import { useDropZone } from '../../hooks/useDropZone';
 import { devOnly } from '../../utils';
+import './style';
+import '../../fonts/IBMPlexSans/IBMPlexSans-Regular.ttf';
+import UploadButton from './UploadButton';
 
 interface Props {
   children: ReactNode;
@@ -25,22 +28,11 @@ export const FileLoader = () => {
   const { getRemoteSamples } = useRemoteFiles();
 
   return (
-    <>
-      <form>
-        <label htmlFor="upload">
-          Upload
-          <input
-            accept={ACCEPTED_MIME_TYPES}
-            id="upload"
-            multiple
-            onChange={getLocalSamples}
-            type="file"
-          />
-        </label>
-      </form>
-      {devOnly && (
+    <div className="file-loader">
+      <UploadButton onSelect={getLocalSamples} />
+      {devOnly && false && (
         <button onClick={getRemoteSamples}>Get remote samples</button>
       )}
-    </>
+    </div>
   );
 };

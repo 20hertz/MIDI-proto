@@ -3,14 +3,16 @@ import Providers from '../Providers';
 import Sampler from '../Sampler';
 import { FileLoader } from '../FileLoader';
 import MidiConnector from '../MidiConnector';
-import ReactLogo from '../../logo-horizontal-light.svg';
+import Logo from '../../logo.svg';
 import './style';
 
 const App = () => (
   <Providers>
     <>
       <div className="container">
-        <ReactLogo />
+        <header>
+          <Logo className="logo" />
+        </header>
         <FileLoader />
         <Sampler />
       </div>
