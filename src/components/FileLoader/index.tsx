@@ -1,5 +1,4 @@
 import React, { ReactNode, useRef } from 'react';
-import { ACCEPTED_MIME_TYPES } from '../../constants';
 import {
   useDefaultFiles,
   useLocalFiles,
@@ -7,9 +6,7 @@ import {
 } from '../../hooks/useFiles';
 import { useDropZone } from '../../hooks/useDropZone';
 import { devOnly } from '../../utils';
-import './style';
-import '../../fonts/IBMPlexSans/IBMPlexSans-Regular.ttf';
-import UploadButton from './UploadButton';
+import FileInput from '../FileInput';
 
 interface Props {
   children: ReactNode;
@@ -28,11 +25,11 @@ export const FileLoader = () => {
   const { getRemoteSamples } = useRemoteFiles();
 
   return (
-    <div className="file-loader">
-      <UploadButton onSelect={getLocalSamples} />
+    <>
+      <FileInput onSelect={getLocalSamples} />
       {devOnly && false && (
         <button onClick={getRemoteSamples}>Get remote samples</button>
       )}
-    </div>
+    </>
   );
 };

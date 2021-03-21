@@ -13,7 +13,9 @@ const App = () => (
         <header>
           <Logo className="logo" />
         </header>
-        <FileLoader />
+        <div className="buttons">
+          <FileLoader />
+        </div>
         <Sampler />
       </div>
       <MidiConnector />
