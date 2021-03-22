@@ -27,7 +27,7 @@ export const FileLoader = () => {
   return (
     <>
       <FileInput onSelect={getLocalSamples} />
-      {devOnly && false && (
+      {devOnly && true && (
         <button onClick={getRemoteSamples}>Get remote samples</button>
       )}
     </>

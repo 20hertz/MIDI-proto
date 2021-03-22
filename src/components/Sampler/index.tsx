@@ -10,7 +10,7 @@ import './style.sass';
 
 const Sampler = () => {
   const svgString = encodeURIComponent(renderToStaticMarkup(<Decor />));
-  const { areLoading, haveError, samplesTable } = useSampler();
+  // const { areLoading, haveError, samplesTable } = useSampler();
   return (
     <div
       style={{
@@ -21,9 +21,9 @@ const Sampler = () => {
         <div className="sampler">
           <div />
           <div id="controller">
-            <PadGrid areLoading={areLoading} />
+            <PadGrid />
           </div>
-          {devOnly && false && samplesTable ? (
+          {/* {devOnly && false && samplesTable ? (
             <Selector
               haveError={haveError}
               isLoading={areLoading}
@@ -31,7 +31,7 @@ const Sampler = () => {
             />
           ) : (
             <div />
-          )}
+          )} */}
         </div>
       </FileDropZone>
     </div>
