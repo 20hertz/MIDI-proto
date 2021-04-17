@@ -3,7 +3,7 @@ import Providers from '../Providers';
 import Sampler from '../Sampler';
 import { FileLoader } from '../FileLoader';
 import MidiConnector from '../MidiConnector';
-import Logo from '../../logo.svg';
+import Logo from '../../images/logo.svg';
 import './style';
 
 const App = () => (

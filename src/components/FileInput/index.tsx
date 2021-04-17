@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { ACCEPTED_MIME_TYPES } from '../../constants';
-import IconUpload from '../../icon-upload.svg';
+import IconUpload from '../../images/icon-upload.svg';
 
 import './style';
 
