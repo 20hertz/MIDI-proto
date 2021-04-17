@@ -1,5 +1,4 @@
 import React, { ReactNode, useRef } from 'react';
-import { ACCEPTED_MIME_TYPES } from '../../constants';
 import {
   useDefaultFiles,
   useLocalFiles,
@@ -7,6 +6,7 @@ import {
 } from '../../hooks/useFiles';
 import { useDropZone } from '../../hooks/useDropZone';
 import { devOnly } from '../../utils';
+import FileInput from '../FileInput';
 
 interface Props {
   children: ReactNode;
@@ -26,19 +26,8 @@ export const FileLoader = () => {
 
   return (
     <>
-      <form>
-        <label htmlFor="upload">
-          Upload
-          <input
-            accept={ACCEPTED_MIME_TYPES}
-            id="upload"
-            multiple
-            onChange={getLocalSamples}
-            type="file"
-          />
-        </label>
-      </form>
-      {devOnly && (
+      <FileInput onSelect={getLocalSamples} />
+      {devOnly && true && (
         <button onClick={getRemoteSamples}>Get remote samples</button>
       )}
     </>

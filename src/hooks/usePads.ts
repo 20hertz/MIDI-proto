@@ -9,8 +9,7 @@ export const usePads = () => {
   } = useSelectorContext();
 
   const setActiveKeys = () => {
-    const numberOfPads = windowCapacity();
-    const activeKeys = setAvailableKeys(numberOfPads, currentOctave);
+    const activeKeys = setAvailableKeys(16, currentOctave);
     setKeys(activeKeys);
   };
 
@@ -18,20 +17,7 @@ export const usePads = () => {
     setActiveKeys();
   }, [currentOctave]);
 
-  useEffect(() => {
-    window.addEventListener('resize', setActiveKeys);
-    return () => window.removeEventListener('resize', setActiveKeys);
-  }, []);
-
   return { keys };
-};
-
-const windowCapacity = () => {
-  const { innerWidth } = window;
-  if (innerWidth <= 414) return 6;
-  else if (innerWidth <= 600) return 12;
-  else if (innerWidth <= 768) return 16;
-  else return 16;
 };
 
 // function debounce(fn: () => void, ms: number) {
@@ -52,7 +38,7 @@ const pitchClasses = Object.values(PitchClass);
  * @param slots Number of pads that will be visible to user
  * @param octave The starting octave number on a MIDI device
  */
-const setAvailableKeys = (slots: number, octave: Octave): SPN[] => {
+export const setAvailableKeys = (slots: number, octave: Octave): SPN[] => {
   let renderedKeys = [];
 
   const appendKey = (key: number) => {

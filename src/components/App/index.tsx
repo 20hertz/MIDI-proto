@@ -3,14 +3,19 @@ import Providers from '../Providers';
 import Sampler from '../Sampler';
 import { FileLoader } from '../FileLoader';
 import MidiConnector from '../MidiConnector';
+import Logo from '../../images/logo.svg';
 import './style';
 
 const App = () => (
   <Providers>
     <>
       <div className="container">
-        <h1 className="header">boomTap</h1>
-        <FileLoader />
+        <header>
+          <Logo className="logo" />
+        </header>
+        <div className="buttons">
+          <FileLoader />
+        </div>
         <Sampler />
       </div>
       <MidiConnector />
