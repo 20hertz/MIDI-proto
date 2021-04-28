@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { FC, SVGProps } from 'react';
 import { useSampler } from '../../hooks/useSampler';
 import { convertSvgToDataUrl, devOnly } from '../../utils';
 import { FileDropZone } from '../FileLoader';
 import PadGrid from '../Pads';
 import Selector from '../Selector';
 import Decor from '../../images/decor.svg';
-
 import './style.sass';
 
 const Sampler = () => {
