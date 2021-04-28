@@ -11,7 +11,14 @@ import './style.sass';
 const Sampler = () => {
   // const { areLoading, haveError, samplesTable } = useSampler();
   return (
-    <div style={{ backgroundImage: convertSvgToDataUrl(<Decor />) }}>
+    <div
+      style={{
+        backgroundImage: `linear-gradient(90deg, transparent, #0a0a0a 20%, #0a0a0a 80%, transparent), ${convertSvgToDataUrl(
+          <Decor />
+        )}`,
+      }}
+      className="background"
+    >
       <FileDropZone>
         <div className="sampler">
           <div />

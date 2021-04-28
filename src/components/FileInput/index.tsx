@@ -10,22 +10,25 @@ interface Props {
 }
 
 const UploadButton = ({ onSelect }: Props) => (
-  <label
-    htmlFor="upload"
-    className="button button-upload"
-    style={{
-      backgroundImage: convertSvgToDataUrl(<IconUpload />),
-    }}
-  >
-    Import
+  <>
     <input
       accept={ACCEPTED_MIME_TYPES}
+      className="button-upload--input"
       id="upload"
       multiple
       onChange={onSelect}
       type="file"
     />
-  </label>
+    <label
+      htmlFor="upload"
+      className="button button-upload"
+      style={{
+        backgroundImage: convertSvgToDataUrl(<IconUpload />),
+      }}
+    >
+      Import
+    </label>
+  </>
 );
 
 export default UploadButton;

@@ -1,7 +1,6 @@
 @import '../../utils'
 
 .button
-  // height: 56px
   background-color: var(--color-bg)
   border-radius: rem(6)
   border: solid rem(1) var(--color-corn)
@@ -18,5 +17,17 @@
   text-align: center
   background-repeat: no-repeat
   background-position: left 5% top 50%
-  > input
-    display: none
+
+.button-upload--input
+  dwidth: 0.1px
+  height: 0.1px
+  opacity: 0
+  overflow: hidden
+  position: absolute
+  z-index: -1
+  &:focus + .button-upload,
+  & + .button-upload:hover
+    border-color: yellow
+  &:focus + .button-upload
+    outline: 1px dotted #000
+    outline: -webkit-focus-ring-color auto 5px
