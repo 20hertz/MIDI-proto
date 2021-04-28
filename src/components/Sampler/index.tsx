@@ -1,4 +1,4 @@
-import React, { FC, SVGProps } from 'react';
+import React from 'react';
 import { useSampler } from '../../hooks/useSampler';
 import { convertSvgToDataUrl, devOnly } from '../../utils';
 import { FileDropZone } from '../FileLoader';
