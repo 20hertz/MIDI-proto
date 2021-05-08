@@ -7,5 +7,5 @@
     // "jsxImportSource": "preact",
     // "skipLibCheck": true
   },
-  "include": ["src/**/*", "custom.d.ts"]
+  "include": ["src/**/*", "index.d.ts"]
 }
