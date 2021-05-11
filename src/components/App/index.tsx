@@ -1,4 +1,16 @@
 import React from 'react';
-const App = () => <header>Boomtap</header>;
+import Providers from '../Providers';
+import Sampler from '../Sampler';
+// import './style.sass';
+
+const App = () => (
+  <Providers>
+    <>
+      <div className="container">
+        <Sampler />
+      </div>
+    </>
+  </Providers>
+);
 
 export default App;
