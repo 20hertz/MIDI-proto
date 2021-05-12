@@ -3,7 +3,7 @@ import { SPN } from '../../constants';
 import { setAvailableKeys, usePads } from '../../hooks/usePads';
 import { useSampler } from '../../hooks/useSampler';
 import { useSelectorContext } from '../../services/selector';
-// import './style.sass';
+import './style.scss';
 
 // interface PadGridProps {
 //   areLoading: boolean;

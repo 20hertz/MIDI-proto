@@ -3,7 +3,7 @@ import Providers from '../Providers';
 import Sampler from '../Sampler';
 import MidiConnector from '../MidiConnector';
 import { FileLoader } from '../FileLoader';
-// import './style.sass';
+import './style.scss';
 
 const App = () => (
   <Providers>
