@@ -2131,15 +2131,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cssnano@npm:^4":
-  version: 4.0.0
-  resolution: "@types/cssnano@npm:4.0.0"
-  dependencies:
-    postcss: 5 - 7
-  checksum: 886c50c2bf3292266b3ce0ade61fef0dbd361f69c46f118b047e27b40f1320058cc4d8cb193a62721689e6e1c77f56c93afa7f0b3114a23c11c9e7d7b58d53f4
-  languageName: node
-  linkType: hard
-
 "@types/http-proxy@npm:^1.17.5":
   version: 1.17.5
   resolution: "@types/http-proxy@npm:1.17.5"
@@ -2521,13 +2512,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"automation-events@npm:^3.0.13":
-  version: 3.0.13
-  resolution: "automation-events@npm:3.0.13"
+"automation-events@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "automation-events@npm:4.0.0"
   dependencies:
     "@babel/runtime": ^7.14.0
     tslib: ^2.2.0
-  checksum: 62d1c2754bd1ea5b5ec920dc7f1cd905577c2ada817106291cb458d33df1e128f11eed971b19cebbf373df2fc1f05dc52deecf941eeb7c6037d27fd983817a31
+  checksum: 77c1c825029620c36e23a21c372d41e21ff08a3e8d1d3183d3cab1681f7f000a069195a8f48d7b89635750668dde524ba160d88257eac8afa6b609e4560a8a81
   languageName: node
   linkType: hard
 
@@ -2699,18 +2690,16 @@ __metadata:
     "@babel/core": ^7.14.0
     "@parcel/transformer-sass": 2.0.0-beta.2
     "@types/babel__core": ^7
-    "@types/cssnano": ^4
     "@types/node": ^15.0.2
     "@types/react": ^17
     "@types/react-dom": ^17
     "@types/sass": ^1
-    cssnano: ^4.1.10
     jszip: ^3.6.0
     parcel: next
     react: ^17.0.2
     react-dom: ^17.0.2
     sass: ^1.32.12
-    standardized-audio-context: ^25.2.0
+    standardized-audio-context: ^25.2.1
     typescript: ^4.2.4
     webmidi: ^2.5.2
   languageName: unknown
@@ -6992,17 +6981,6 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"postcss@npm:5 - 7, postcss@npm:^7.0.0, postcss@npm:^7.0.1, postcss@npm:^7.0.14, postcss@npm:^7.0.17, postcss@npm:^7.0.27, postcss@npm:^7.0.32, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
-  version: 7.0.35
-  resolution: "postcss@npm:7.0.35"
-  dependencies:
-    chalk: ^2.4.2
-    source-map: ^0.6.1
-    supports-color: ^6.1.0
-  checksum: 8a979ea9799dd48399337708a395ddb8cf0e328515201ed35c99f5ba5eaa7688eae65764c570bf49b5be0b106226e2f222abc210de068b3d3da9a9a3bbb70567
-  languageName: node
-  linkType: hard
-
 "postcss@npm:6.0.1":
   version: 6.0.1
   resolution: "postcss@npm:6.0.1"
@@ -7033,6 +7011,17 @@ fsevents@~2.3.1:
     source-map: ^0.6.1
     supports-color: ^5.4.0
   checksum: 9b61abdfb366491debc6a633ba3703ae43c674b6c1c64def54e131c8ec01862fc95b3271bde221db805389fc76c3b3f1447b5a9c1d0b332c53cfcc9bfe1b1fa6
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^7.0.0, postcss@npm:^7.0.1, postcss@npm:^7.0.14, postcss@npm:^7.0.17, postcss@npm:^7.0.27, postcss@npm:^7.0.32, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
+  version: 7.0.35
+  resolution: "postcss@npm:7.0.35"
+  dependencies:
+    chalk: ^2.4.2
+    source-map: ^0.6.1
+    supports-color: ^6.1.0
+  checksum: 8a979ea9799dd48399337708a395ddb8cf0e328515201ed35c99f5ba5eaa7688eae65764c570bf49b5be0b106226e2f222abc210de068b3d3da9a9a3bbb70567
   languageName: node
   linkType: hard
 
@@ -7965,14 +7954,14 @@ resolve@^1.14.2:
   languageName: node
   linkType: hard
 
-"standardized-audio-context@npm:^25.2.0":
-  version: 25.2.0
-  resolution: "standardized-audio-context@npm:25.2.0"
+"standardized-audio-context@npm:^25.2.1":
+  version: 25.2.1
+  resolution: "standardized-audio-context@npm:25.2.1"
   dependencies:
     "@babel/runtime": ^7.14.0
-    automation-events: ^3.0.13
+    automation-events: ^4.0.0
     tslib: ^2.2.0
-  checksum: f29de47cc13bb14cd351ce82f606ae4593a891465044c4e8dd2f256500011464fe778f55b262bf7a8e336c397e8265902adef21b547e28847312aaecb52da0ae
+  checksum: f66fdbf91c495466064ffdb5c21c5248da656fb0c95cba2c36584883e72a90b4ecdcdfe605a974615362e64126f13b63dc80a676083ca1c6665365cdf231b2a4
   languageName: node
   linkType: hard
 

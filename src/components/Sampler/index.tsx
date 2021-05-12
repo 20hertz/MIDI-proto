@@ -5,7 +5,7 @@ import { FileDropZone } from '../FileLoader';
 import PadGrid from '../Pads';
 // import Selector from '../Selector';
 // import Decor from '../../images/decor.svg';
-// import './style.sass';
+import './style.sass';
 
 const Sampler = () => {
   // const { areLoading, haveError, samplesTable } = useSampler();

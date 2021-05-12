@@ -1,0 +1,19 @@
+@import '../../utils'
+
+$sampler-height: calc(100vh - #{$header-height})
+
+.background
+  background-repeat: repeat-y
+  background-size: 100%
+
+.sampler
+  display: grid
+  grid-template-columns: auto minmax(auto, calc(100vh - #{$header-height})) auto
+  column-gap: 2%
+  +tablet-portrait
+    display: initial
+
+
+#controller
+  +phone-portrait
+    height: $sampler-height

@@ -3,7 +3,7 @@ import { ACCEPTED_MIME_TYPES } from '../../constants';
 // import IconUpload from '../../images/icon-upload.svg';
 import { convertSvgToDataUrl } from '../../utils';
 
-// import './style';
+import './style.sass';
 
 interface Props {
   onSelect: (event: ChangeEvent<HTMLInputElement>) => void;

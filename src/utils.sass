@@ -1,0 +1,40 @@
+$browser-context: 16 // Chrome default font size in px
+
+@function em($pixels)
+  @return ($pixels / $browser-context) * 1em
+
+@function rem($size)
+  @return ($size / $browser-context) * 1rem
+
+/*************************************
+  CSS variables
+  ***********************************/
+:root
+  --pad-min-size: 140px
+  --color-corn: #f7d445
+  --color-bg: #0a0a0a
+
+/*************************************
+  SASS variables
+  ***********************************/
+$header-height: rem(79)
+
+/*************************************
+  Breakpoints
+  Reference: https://screensiz.es
+  ***********************************/
+=tablet-landscape
+  @media (max-width: em(1024))
+    @content
+
+=tablet-portrait
+  @media (max-width: em(768))
+    @content
+
+=phablet-portrait
+  @media (max-width: em(600))
+    @content
+
+=phone-portrait
+  @media (max-width: em(414))
+    @content

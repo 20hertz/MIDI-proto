@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMidi } from '../../hooks/useMidi';
-// import './style.sass';
+import './style.sass';
 // import IconMidi from '../../images/icon-midi.svg';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { convertSvgToDataUrl } from '../../utils';
