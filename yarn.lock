@@ -2656,7 +2656,7 @@ __metadata:
     "@types/react": ^17
     "@types/react-dom": ^17
     jszip: ^3.6.0
-    parcel: 2.0.0-beta.2
+    parcel: next
     react: ^17.0.2
     react-dom: ^17.0.2
     standardized-audio-context: ^25.2.0
@@ -2931,7 +2931,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001219":
+"caniuse-lite@npm:^1.0.0":
+  version: 1.0.30001228
+  resolution: "caniuse-lite@npm:1.0.30001228"
+  checksum: a4eb04288e9b7f7bda158126f37e8dab97a5fc851dab192083f36906d8bf76e0526afa0692a662267ea4b3df0b0ba13f847457ac2be0f1ea209ec3013b7caabe
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001219":
   version: 1.0.30001223
   resolution: "caniuse-lite@npm:1.0.30001223"
   checksum: 0a19e4c3689048cf7f6a47d348cc6dc849a141ae814634cc2c9b37a91dc5ba019c08d67ddf3549323ae4b13c84cb2a796204128bcd19f0dbbe844dab0058b25e
@@ -4262,12 +4269,12 @@ __metadata:
   linkType: hard
 
 "follow-redirects@npm:^1.0.0":
-  version: 1.14.0
-  resolution: "follow-redirects@npm:1.14.0"
+  version: 1.14.1
+  resolution: "follow-redirects@npm:1.14.1"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 70c86697f20d0220a26e3af54e9e2cbf3cc380086d945cc8d67a57c03c09ee222f727b31be1a82adafb897943e103f6b707fb91baaaffe218d758b260a4ac1a5
+  checksum: 761a18699688b19d66b3e9199ecaf9cd39ede953f3529299c7fca4190b27b855c17c491170977844d5db5e169ffc35ebae999bb0833e9c9c61988d19c20ae7ab
   languageName: node
   linkType: hard
 
@@ -4983,11 +4990,11 @@ __metadata:
   linkType: hard
 
 "is-core-module@npm:^2.2.0":
-  version: 2.3.0
-  resolution: "is-core-module@npm:2.3.0"
+  version: 2.4.0
+  resolution: "is-core-module@npm:2.4.0"
   dependencies:
     has: ^1.0.3
-  checksum: d2268331320c70c9b42850de7d224c610cf77604771922614e82536668bde99420f387dae092b66ff8d15980710b1dbd8ce67e6a3168f86b93f654f624d70957
+  checksum: caa2b30873ed14dff76e5351e3c55a677b890cf19cc4263e9894702eb4bd64f81ce78552daad878ba72adcdc9e62cad45ca57928fc8b4bdc84a7ff8acf934389
   languageName: node
   linkType: hard
 
@@ -5936,12 +5943,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.22":
-  version: 3.1.22
-  resolution: "nanoid@npm:3.1.22"
+"nanoid@npm:^3.1.23":
+  version: 3.1.23
+  resolution: "nanoid@npm:3.1.23"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 6a38c799816de388cd67233a9fad6216e0ad2abda3ce5b34eb126afbef6905924507223dc65797e2bcbc513f9cd7e078ea7e69448d59f434a6206b491278ae24
+  checksum: e6dea1da5a593ffdc8cf2676d1d02f0626f07a54a5947a7a1f5ff1fd07901b2f53044c285e98b87eb367f016fde285fd8785d54a2dceeab9c3721f4e618f8326
   languageName: node
   linkType: hard
 
@@ -6287,7 +6294,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"parcel@npm:2.0.0-beta.2":
+"parcel@npm:next":
   version: 2.0.0-beta.2
   resolution: "parcel@npm:2.0.0-beta.2"
   dependencies:
@@ -6836,12 +6843,12 @@ __metadata:
   linkType: hard
 
 "postcss-selector-parser@npm:^6.0.0, postcss-selector-parser@npm:^6.0.2":
-  version: 6.0.5
-  resolution: "postcss-selector-parser@npm:6.0.5"
+  version: 6.0.6
+  resolution: "postcss-selector-parser@npm:6.0.6"
   dependencies:
     cssesc: ^3.0.0
     util-deprecate: ^1.0.2
-  checksum: 24343ba437574807988c34f5f7724bd68ff2103d55c78dfe4a6d8904eeddcbc867a7f939658c0669338a322e32f4f1d7df82618d6edfe2db38dcd3fda737d770
+  checksum: 7e4854e82faa14bab0c5affbdf49b67cc0bf3e6fd9b0273e7f72c8ec957b5c5bcb7c64ae3cb6f8fe5b3ef965ec7e235d4e4d1a8868bd02139072e7a545221f09
   languageName: node
   linkType: hard
 
@@ -6926,13 +6933,13 @@ __metadata:
   linkType: hard
 
 "postcss@npm:^8.0.5, postcss@npm:^8.2.1":
-  version: 8.2.14
-  resolution: "postcss@npm:8.2.14"
+  version: 8.2.15
+  resolution: "postcss@npm:8.2.15"
   dependencies:
     colorette: ^1.2.2
-    nanoid: ^3.1.22
+    nanoid: ^3.1.23
     source-map: ^0.6.1
-  checksum: 46bcc7c05f2b6b0e22e36af03e0244366871bd5cd9e3ca35e0ba2a87fb9080063322ee1dcef307d6e116fdac7c85941aaebd3755a3c88b4533bb8722b7bba4d2
+  checksum: 2d26bc29dedd7656d1f53fa002374a014a8c2c7b9f1538d0fafadb9eae2494f5b037c87de4390d620f622b31d7f15c8c8d88de2bd682e206104fb44e781737df
   languageName: node
   linkType: hard
 

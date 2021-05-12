@@ -1,0 +1,7 @@
+{
+  "/google-drive": {
+    target: 'https://drive.google.com',
+    changeOrigin: true,
+    pathRewrite: { '^/google-drive': '' },
+  }
+}
