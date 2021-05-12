@@ -13,6 +13,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "@parcel/transformer-sass": "2.0.0-beta.2",
+    "@svgr/parcel-plugin-svgr": "^5.5.0",
     "@types/babel__core": "^7",
     "@types/node": "^15.0.2",
     "@types/react": "^17",
