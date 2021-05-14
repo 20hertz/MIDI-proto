@@ -11,7 +11,7 @@ const App = () => (
     <>
       <div className="container">
         <header>
-          <img src={`${logo}`} />
+          <img src={`${logo}`} className="logo" />
         </header>
         <div className="buttons">
           <FileLoader />
