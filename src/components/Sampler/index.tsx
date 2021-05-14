@@ -1,23 +1,14 @@
 import React from 'react';
-import { useSampler } from '../../hooks/useSampler';
-import { convertSvgToDataUrl, devOnly } from '../../utils';
+// import { useSampler } from '../../hooks/useSampler';
 import { FileDropZone } from '../FileLoader';
 import PadGrid from '../Pads';
-import Selector from '../Selector';
-import Decor from '../../images/decor.svg';
+// import Selector from '../Selector';
 import './style.sass';
 
 const Sampler = () => {
   // const { areLoading, haveError, samplesTable } = useSampler();
   return (
-    <div
-      style={{
-        backgroundImage: `linear-gradient(90deg, transparent, #0a0a0a 20%, #0a0a0a 80%, transparent), ${convertSvgToDataUrl(
-          <Decor />
-        )}`,
-      }}
-      className="background"
-    >
+    <div className="background">
       <FileDropZone>
         <div className="sampler">
           <div />

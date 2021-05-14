@@ -1,9 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { ACCEPTED_MIME_TYPES } from '../../constants';
-import IconUpload from '../../images/icon-upload.svg';
-import { convertSvgToDataUrl } from '../../utils';
 
-import './style';
+import './style.sass';
 
 interface Props {
   onSelect: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -19,13 +17,7 @@ const UploadButton = ({ onSelect }: Props) => (
       onChange={onSelect}
       type="file"
     />
-    <label
-      htmlFor="upload"
-      className="button button-upload"
-      style={{
-        backgroundImage: convertSvgToDataUrl(<IconUpload />),
-      }}
-    >
+    <label htmlFor="upload" className="button button-upload">
       Import
     </label>
   </>

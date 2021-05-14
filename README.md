@@ -1,21 +1,23 @@
+## Setup
+Install dependencies:
+```
+% yarn
+```
+
+### Recommended: Configure Typescript with your IDE
+https://yarnpkg.com/getting-started/editor-sdks#editor-setup
+
+
+## Get started
+To run the dev server:
+```
+% yarn start
+```
+
 ## MIDI browser support
 MIDI doesn't work on all browsers.  See [Caniuse](https://caniuse.com/midi) for browser support.  No Safari nor FireFox up until now.
 
-
-## Getting started
-Install dependencies:
-```
-yarn
-```
-
-To run the dev server:
-```
-yarn start
-```
-
 ## TODO
-
-### Sample model
 
 Direct download link equivalent: https://drive.google.com/uc?export=download&id=FILE_ID
 e.g. curl -L -o mouth_hihat.mp3 "https://drive.google.com/uc?export=download&id=1znjQcqgcYE2-aoxYf8pWpsbqBHALKqBn"

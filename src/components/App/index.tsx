@@ -1,17 +1,17 @@
-import * as React from 'react';
+import React from 'react';
 import Providers from '../Providers';
 import Sampler from '../Sampler';
-import { FileLoader } from '../FileLoader';
 import MidiConnector from '../MidiConnector';
-import Logo from '../../images/logo.svg';
-import './style';
+import { FileLoader } from '../FileLoader';
+import './style.sass';
+import logo from 'url:../../images/logo.svg';
 
 const App = () => (
   <Providers>
     <>
       <div className="container">
         <header>
-          <Logo className="logo" />
+          <img src={`${logo}`} className="logo" />
         </header>
         <div className="buttons">
           <FileLoader />

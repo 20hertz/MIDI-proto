@@ -1,12 +1,14 @@
+# Parcel
 dist
-node_modules
-.cache
-*.deprecated.*
+.parcel-cache
+
+.vscode
 
 # Yarn stuff
 .yarn/*
-!.yarn/releases
+!.yarn/cache/
+!.yarn/patches
 !.yarn/plugins
-!.yarn/sdks
+!.yarn/releases
 !.yarn/versions
 .pnp.*
