@@ -4,8 +4,6 @@
   display: grid
   grid-auto-rows: 1fr
   grid-gap: rem(10)
-  grid-template-rows: repeat(4, 1fr)
-  grid-template-columns: repeat(auto-fill, minmax(var(--pad-min-size), 1fr))
   
   &::before
     content: ''
@@ -17,6 +15,10 @@
   & > *:first-child
     grid-row: 1 / 1
     grid-column: 1 / 1
+
+  &-4
+    grid-template-columns: repeat(4, minmax(var(--pad-min-size), 1fr))
+    // grid-template-columns: repeat(auto-fill, minmax(var(--pad-min-size), 1fr))
 
   +tablet-portrait
     grid-template-columns: repeat(4, 1fr)
@@ -37,16 +39,3 @@
   
   &.lit
     background: blue
-
-  @media screen and (orientation:landscape) and (max-height: em(320))
-    &:nth-child(7),
-    &:nth-child(8),
-    &:nth-child(9),
-    &:nth-child(10),
-    &:nth-child(11),
-    &:nth-child(12),
-    &:nth-child(13),
-    &:nth-child(14),
-    &:nth-child(15),
-    &:nth-child(16)
-      display: none

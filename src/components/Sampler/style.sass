@@ -8,13 +8,5 @@ $sampler-height: calc(100vh - #{$header-height})
   background-image: linear-gradient(90deg, transparent, #0a0a0a 20%, #0a0a0a 80%, transparent), url("../../images/decor.svg")
 
 .sampler
-  display: grid
-  grid-template-columns: auto minmax(auto, calc(100vh - #{$header-height})) auto
-  column-gap: 2%
-  +tablet-portrait
-    display: initial
-
-
-#controller
-  +phone-portrait
-    height: $sampler-height
+  display: flex
+  justify-content: center

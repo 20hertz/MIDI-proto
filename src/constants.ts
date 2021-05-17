@@ -1,5 +1,3 @@
-import { Octave } from './services/selector';
-
 export const SAMPLE_NAMES = [
   'mouth_snare.mp3',
   'mouth_kick.mp3',
@@ -34,6 +32,7 @@ export enum PitchClass {
 }
 
 export const octaves = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+export type Octave = typeof octaves[number];
 
 // Scientific Pitch Notation
 export type SPN = `${PitchClass}${Octave}`;

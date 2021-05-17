@@ -3,7 +3,6 @@ import { makeListeners } from '../models/listeners';
 import makeSampler from '../models/sampler';
 import { useMidiContext } from '../services/midi';
 import { useSamplesContext } from '../services/samples';
-import { useSelectorContext } from '../services/selector';
 
 export const useSampler = () => {
   const [sampler, setSampler] = useState(undefined);
@@ -14,16 +13,12 @@ export const useSampler = () => {
   } = useSamplesContext();
 
   const {
-    state: { currentOctave },
-  } = useSelectorContext();
-
-  const {
     state: { midiInputId },
   } = useMidiContext();
 
   const createSampler = async () => {
     try {
-      makeSampler(samples, currentOctave).then(sampler => {
+      makeSampler(samples, 4).then(sampler => {
         const { samplesTable } = sampler;
         setSamplesTable(samplesTable);
         setSampler(sampler);
@@ -35,7 +30,7 @@ export const useSampler = () => {
 
   useEffect(() => {
     createSampler();
-  }, [currentOctave, samples]);
+  }, [samples]);
 
   useEffect(() => {
     const { addListeners, removeListeners } = makeListeners(sampler);

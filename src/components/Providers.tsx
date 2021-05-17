@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { MidiContext, useMidiStore } from '../services/midi';
-import { SelectorContext, useSelectorStore } from '../services/selector';
 import { SamplesContext, useSamplesStore } from '../services/samples';
 
 interface Props {
@@ -12,11 +11,6 @@ const SamplesProvider = ({ children }: Props) => {
   return <SamplesContext.Provider children={children} value={store} />;
 };
 
-const SelectorProvider = ({ children }: Props) => {
-  const store = useSelectorStore();
-  return <SelectorContext.Provider children={children} value={store} />;
-};
-
 const MidiProvider = ({ children }: Props) => {
   const store = useMidiStore();
   return <MidiContext.Provider children={children} value={store} />;
@@ -24,9 +18,7 @@ const MidiProvider = ({ children }: Props) => {
 
 const Providers = ({ children }: Props) => (
   <SamplesProvider>
-    <SelectorProvider>
-      <MidiProvider>{children}</MidiProvider>
-    </SelectorProvider>
+    <MidiProvider>{children}</MidiProvider>
   </SamplesProvider>
 );
 
