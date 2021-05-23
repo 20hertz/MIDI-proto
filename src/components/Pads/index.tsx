@@ -14,6 +14,7 @@ const PadGrid = () => {
 
   useEffect(() => {
     const numberOfSamples = samplesTable?.length || 0;
+
     const header = document.getElementsByTagName('header')[0];
     const buttons = document.getElementById('buttons');
 
@@ -27,22 +28,33 @@ const PadGrid = () => {
 
     const numberOfColumnThatFitsWidth = Math.floor((viewportWidth - 10) / 150);
 
+    const numberOfRowThatFitsHeight = Math.floor((remainingHeight - 10) / 150);
+
     const numberOfInitialColumns =
       numberOfColumnThatFitsWidth < 4 ? numberOfColumnThatFitsWidth : 4;
-
-    const numberOfRowThatFitsHeight = Math.floor((remainingHeight - 10) / 150);
 
     const numberOfInitialRows =
       numberOfRowThatFitsHeight < 4 ? numberOfRowThatFitsHeight : 4;
 
     const numberOfMinKeys = numberOfInitialRows * numberOfInitialColumns;
 
+    const numberOfColumns =
+      numberOfSamples > numberOfMinKeys
+        ? numberOfSamples / numberOfInitialRows < numberOfColumnThatFitsWidth
+          ? Math.floor(numberOfSamples / numberOfInitialRows)
+          : numberOfColumnThatFitsWidth
+        : numberOfInitialColumns;
+
+    const numberOfRows = Math.ceil(numberOfSamples / numberOfColumns);
+
     const numberOfKeys =
-      numberOfSamples > numberOfMinKeys ? numberOfSamples : numberOfMinKeys;
+      numberOfSamples > numberOfMinKeys
+        ? numberOfColumns * numberOfRows
+        : numberOfMinKeys;
 
     setNumberOfKeys(numberOfKeys);
-    setInitialColumns(numberOfInitialColumns);
-  }, [window, samplesTable]);
+    setInitialColumns(numberOfColumns);
+  }, [samplesTable]);
 
   useEffect(() => {
     const keys = setAvailableKeys(numberOfKeys, 4);
