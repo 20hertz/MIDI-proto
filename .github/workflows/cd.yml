@@ -24,12 +24,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      # - name: Download Parcel
-      # run: npm i -g parcel-bundler@1.12.3
-      # run: yarn dlx parcel build src/index.html
       - name: Execute production build
         run: yarn build src/index.html
-        # run: parcel build src/index.html
 
       - name: Sync to S3
         uses: jakejarvis/s3-sync-action@master

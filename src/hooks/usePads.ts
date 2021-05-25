@@ -1,21 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Octave, useSelectorContext } from '../services/selector';
-import { PitchClass, SPN } from '../constants';
+import { PitchClass, SPN, Octave } from '../constants';
 
 export const usePads = () => {
   const [keys, setKeys] = useState([]);
-  const {
-    state: { currentOctave },
-  } = useSelectorContext();
 
   const setActiveKeys = () => {
-    const activeKeys = setAvailableKeys(16, currentOctave);
+    const activeKeys = setAvailableKeys(16, 4);
     setKeys(activeKeys);
   };
 
   useEffect(() => {
     setActiveKeys();
-  }, [currentOctave]);
+  }, []);
 
   return { keys };
 };

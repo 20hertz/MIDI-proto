@@ -13,12 +13,12 @@ const App = () => (
         <header>
           <img src={`${logo}`} className="logo" />
         </header>
-        <div className="buttons">
+        <div className="buttons" id="buttons">
           <FileLoader />
+          <MidiConnector />
         </div>
         <Sampler />
       </div>
-      <MidiConnector />
     </>
   </Providers>
 );
