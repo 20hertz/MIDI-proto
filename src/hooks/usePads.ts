@@ -1,31 +1,66 @@
 import { useEffect, useState } from 'react';
 import { PitchClass, SPN, Octave } from '../constants';
+import { useSampler } from './useSampler';
 
-export const usePads = () => {
+export const usePadGrid = () => {
+  const { areLoading, samplesTable } = useSampler();
+
+  const [initialColumns, setInitialColumns] = useState(4);
+
+  const [numberOfKeys, setNumberOfKeys] = useState(16);
   const [keys, setKeys] = useState([]);
 
-  const setActiveKeys = () => {
-    const activeKeys = setAvailableKeys(16, 4);
-    setKeys(activeKeys);
-  };
+  useEffect(() => {
+    const numberOfSamples = samplesTable?.length || 0;
+
+    const header = document.getElementsByTagName('header')[0];
+    const buttons = document.getElementById('buttons');
+
+    const { innerHeight: viewportHeight, innerWidth: viewportWidth } = window;
+
+    const topHeight =
+      header.getBoundingClientRect().height +
+      buttons.getBoundingClientRect().height;
+
+    const remainingHeight = viewportHeight - topHeight;
+
+    const numberOfColumnThatFitsWidth = Math.floor((viewportWidth - 10) / 150);
+
+    const numberOfRowThatFitsHeight = Math.floor((remainingHeight - 10) / 150);
+
+    const numberOfInitialColumns =
+      numberOfColumnThatFitsWidth < 4 ? numberOfColumnThatFitsWidth : 4;
+
+    const numberOfInitialRows =
+      numberOfRowThatFitsHeight < 4 ? numberOfRowThatFitsHeight : 4;
+
+    const numberOfMinKeys = numberOfInitialRows * numberOfInitialColumns;
+
+    const numberOfColumns =
+      numberOfSamples > numberOfMinKeys
+        ? numberOfSamples / numberOfInitialRows < numberOfColumnThatFitsWidth
+          ? Math.floor(numberOfSamples / numberOfInitialRows)
+          : numberOfColumnThatFitsWidth
+        : numberOfInitialColumns;
+
+    const numberOfRows = Math.ceil(numberOfSamples / numberOfColumns);
+
+    const numberOfKeys =
+      numberOfSamples > numberOfMinKeys
+        ? numberOfColumns * numberOfRows
+        : numberOfMinKeys;
+
+    setNumberOfKeys(numberOfKeys);
+    setInitialColumns(numberOfColumns);
+  }, [samplesTable]);
 
   useEffect(() => {
-    setActiveKeys();
-  }, []);
+    const keys = setAvailableKeys(numberOfKeys, 4);
+    setKeys(keys);
+  }, [numberOfKeys, initialColumns]);
 
-  return { keys };
+  return { areLoading, initialColumns, keys };
 };
-
-// function debounce(fn: () => void, ms: number) {
-//   let timer: number;
-//   return () => {
-//     clearTimeout(timer);
-//     timer = window.setTimeout(() => {
-//       timer = null;
-//       fn.apply(this, arguments);
-//     }, ms);
-//   };
-// }
 
 const pitchClasses = Object.values(PitchClass);
 
@@ -34,7 +69,7 @@ const pitchClasses = Object.values(PitchClass);
  * @param slots Number of pads that will be visible to user
  * @param octave The starting octave number on a MIDI device
  */
-export const setAvailableKeys = (slots: number, octave: Octave): SPN[] => {
+const setAvailableKeys = (slots: number, octave: Octave): SPN[] => {
   let renderedKeys = [];
 
   const appendKey = (key: number) => {

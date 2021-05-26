@@ -1,6 +1,6 @@
 import React from 'react';
 import { FileDropZone } from '../FileLoader';
-import PadGrid from '../Pads';
+import PadGrid from '../PadGrid';
 import './style.sass';
 
 const Sampler = () => {
