@@ -25,7 +25,7 @@ jobs:
         run: yarn install
 
       - name: Execute production build
-        run: yarn build src/index.html
+        run: yarn build
 
       - name: Sync to S3
         uses: jakejarvis/s3-sync-action@master
