@@ -44,16 +44,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.14.2, @babel/core@npm:^7.14.2":
-  version: 7.14.2
-  resolution: "@babel/core@npm:7.14.2"
+"@babel/core@npm:7.14.3, @babel/core@npm:^7.14.3":
+  version: 7.14.3
+  resolution: "@babel/core@npm:7.14.3"
   dependencies:
     "@babel/code-frame": ^7.12.13
-    "@babel/generator": ^7.14.2
+    "@babel/generator": ^7.14.3
     "@babel/helper-compilation-targets": ^7.13.16
     "@babel/helper-module-transforms": ^7.14.2
     "@babel/helpers": ^7.14.0
-    "@babel/parser": ^7.14.2
+    "@babel/parser": ^7.14.3
     "@babel/template": ^7.12.13
     "@babel/traverse": ^7.14.2
     "@babel/types": ^7.14.2
@@ -63,7 +63,7 @@ __metadata:
     json5: ^2.1.2
     semver: ^6.3.0
     source-map: ^0.5.0
-  checksum: 16dc0a52484da794afc69ac7f13721b7cf2f7e17db6467a36f19fef24fa59a8cea1524faa260d0c05f5a99836fb65acf076cf15abf6846fc66f6c142a94a8327
+  checksum: 4bc2d1abf53e8d1399d5fe159f4f6d275feb64cdfb3a975e903edcbbd98b71ba4a216af28f43db0a5303691a291590837964934acaf673b024563f3acad919f6
   languageName: node
   linkType: hard
 
@@ -86,6 +86,17 @@ __metadata:
     jsesc: ^2.5.1
     source-map: ^0.5.0
   checksum: eacc93d3446dec6fac064cd884ac6e2ecbcfed65f8de069da72855a8124d33004a9dc9f06833e18fae2e352929c493b46035785f948549d2e9d503af0bef8a79
+  languageName: node
+  linkType: hard
+
+"@babel/generator@npm:^7.14.3":
+  version: 7.14.3
+  resolution: "@babel/generator@npm:7.14.3"
+  dependencies:
+    "@babel/types": ^7.14.2
+    jsesc: ^2.5.1
+    source-map: ^0.5.0
+  checksum: 519fce36f3663dd346522d50d13b8549c02c0a340650c62db1bee0595a47f910b433f3bbdb513cc582bd932c5045b2673c8ef6a97913f9335fb16aa06085f274
   languageName: node
   linkType: hard
 
@@ -397,6 +408,15 @@ __metadata:
   bin:
     parser: ./bin/babel-parser.js
   checksum: 18dffc18a2c15f8877988c9b5a46c87f1763e8a383c3210c9b5b651955b1ac46dc54da27acc09acd7fb917f37e0bd92b8985dc4c9d7f1e750dfccbcea730aa0e
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.14.3":
+  version: 7.14.4
+  resolution: "@babel/parser@npm:7.14.4"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 3bc067c1ee0e0178d365e1b2988ea1a0d6d37af37870ea1a7e80729b3bdc40acda083cac44ce72f63a5b31a489e35120f617bd41f312dec4c86cf814cff8e64a
   languageName: node
   linkType: hard
 
@@ -2243,10 +2263,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^15.3.0":
-  version: 15.3.0
-  resolution: "@types/node@npm:15.3.0"
-  checksum: 44039665ab71a6ec12e6637a9db4ec3123fdfaf52952ca8028a6f1b37c41c2d380e88d28a41e02693bf9d4815307e0ad938815bf8ffedc5f4d045855fa28db06
+"@types/node@npm:^15.6.1":
+  version: 15.6.1
+  resolution: "@types/node@npm:15.6.1"
+  checksum: 07b3855bc0a1ba2215455a3ef4ed5e88711321b3cdc0ba1ea0286f6facbdf61530970b9fa7eec79eb1d46231f986c21ef3b7c1f1e0c365cf1b887d76b0addb86
   languageName: node
   linkType: hard
 
@@ -2273,7 +2293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^17.0.5":
+"@types/react@npm:*":
   version: 17.0.5
   resolution: "@types/react@npm:17.0.5"
   dependencies:
@@ -2281,6 +2301,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: f9793e8113f14122d6ed20643b4fe27d30e10d7c80571a1d238c13f8171864f2a7b337194bf41310724498586ed4560fffd081a2d21e488afbb1aca33534189b
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^17.0.8":
+  version: 17.0.8
+  resolution: "@types/react@npm:17.0.8"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: b59a3abafd240b2880f9e6a11b2b7f75165888260c56e95a77ed10a7dd55570b307fb2356eda7fde2a8e1255d2def11797e4ae9800ae114a1f578546acabda67
   languageName: node
   linkType: hard
 
@@ -2615,13 +2646,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"automation-events@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "automation-events@npm:4.0.0"
+"automation-events@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "automation-events@npm:4.0.1"
   dependencies:
     "@babel/runtime": ^7.14.0
     tslib: ^2.2.0
-  checksum: 77c1c825029620c36e23a21c372d41e21ff08a3e8d1d3183d3cab1681f7f000a069195a8f48d7b89635750668dde524ba160d88257eac8afa6b609e4560a8a81
+  checksum: 1f820b08766f1a4943dac3a5864f54226dc6bb9415235a0a625f1f82e29c4e3f654f9f30254149d2dcc9bbad0c6c6a074266eed368ac34123c1d760d5947725d
   languageName: node
   linkType: hard
 
@@ -2790,19 +2821,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "boomtap@workspace:."
   dependencies:
-    "@babel/core": ^7.14.2
+    "@babel/core": ^7.14.3
     "@parcel/transformer-sass": 2.0.0-beta.2
     "@types/babel__core": ^7.1.14
-    "@types/node": ^15.3.0
-    "@types/react": ^17.0.5
+    "@types/node": ^15.6.1
+    "@types/react": ^17.0.8
     "@types/react-dom": ^17.0.5
     "@types/sass": ^1.16.0
     jszip: ^3.6.0
     parcel: next
     react: ^17.0.2
     react-dom: ^17.0.2
-    sass: ^1.32.13
-    standardized-audio-context: ^25.2.1
+    sass: ^1.34.0
+    standardized-audio-context: ^25.2.4
     typescript: ^4.2.4
     webmidi: ^2.5.2
   languageName: unknown
@@ -7694,17 +7725,6 @@ resolve@^1.14.2:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.32.13":
-  version: 1.32.13
-  resolution: "sass@npm:1.32.13"
-  dependencies:
-    chokidar: ">=3.0.0 <4.0.0"
-  bin:
-    sass: sass.js
-  checksum: 93913232ec9efbd9edbe63e9c32e08c90e2ca7e1b75079b570207aa828386ad1391a0944a06411f2b2add88803a41dd3ecbfbbcf45ec4c2b288154e17243e71f
-  languageName: node
-  linkType: hard
-
 "sass@npm:^1.32.4":
   version: 1.32.12
   resolution: "sass@npm:1.32.12"
@@ -7713,6 +7733,17 @@ resolve@^1.14.2:
   bin:
     sass: sass.js
   checksum: 8ff7460bfe2836b14836d22e9bfb3218870c606e1da1edc780ca6fd9a01aa08ec86b6e631d288a764d9d1959980f8feb9ba376eebcef0316db860c1c7a3d8cb3
+  languageName: node
+  linkType: hard
+
+"sass@npm:^1.34.0":
+  version: 1.34.0
+  resolution: "sass@npm:1.34.0"
+  dependencies:
+    chokidar: ">=3.0.0 <4.0.0"
+  bin:
+    sass: sass.js
+  checksum: abc3e39a8500cb7d3498b69aaa9ba8af391a186956bf9121790f5f27497a5d6a245273476d5b6b1fd8b696b490c44b05a7bfcc8334fe4ae7e3d894fe9d161ac6
   languageName: node
   linkType: hard
 
@@ -8068,14 +8099,14 @@ resolve@^1.14.2:
   languageName: node
   linkType: hard
 
-"standardized-audio-context@npm:^25.2.1":
-  version: 25.2.1
-  resolution: "standardized-audio-context@npm:25.2.1"
+"standardized-audio-context@npm:^25.2.4":
+  version: 25.2.4
+  resolution: "standardized-audio-context@npm:25.2.4"
   dependencies:
     "@babel/runtime": ^7.14.0
-    automation-events: ^4.0.0
+    automation-events: ^4.0.1
     tslib: ^2.2.0
-  checksum: f66fdbf91c495466064ffdb5c21c5248da656fb0c95cba2c36584883e72a90b4ecdcdfe605a974615362e64126f13b63dc80a676083ca1c6665365cdf231b2a4
+  checksum: 8c50f68f1ff9e5ab914441c69a0b83069d5d9c3758ba8126dc1b772f892b6c604d74c15629cfe9de729f42f0d66268607d855bc7aeaaa01cfe65e330a320c077
   languageName: node
   linkType: hard
 
