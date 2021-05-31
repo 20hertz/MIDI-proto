@@ -21,11 +21,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Remove both the global cache files and the local cache files of the current project
-        run: yarn cache clean --all
+      # - name: Remove both the global cache files and the local cache files of the current project
+      #   run: yarn cache clean --all
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --immutable --immutable-cache
 
       - name: Execute production build
         run: yarn build
