@@ -3,7 +3,7 @@ name: Build & Deploy to S3
 on:
   pull_request:
     branches: [main]
-    types: [opened]
+    # types: [opened]
 
 jobs:
   deploy:
