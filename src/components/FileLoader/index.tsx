@@ -22,14 +22,14 @@ export const FileDropZone = ({ children }: Props) => {
 export const FileLoader = () => {
   useDefaultFiles();
   const { getLocalSamples } = useLocalFiles();
-  const { getRemoteSamples } = useRemoteFiles();
+  // const { getRemoteSamples } = useRemoteFiles();
 
   return (
     <>
       <FileInput onSelect={getLocalSamples} />
-      {devOnly && true && (
+      {/* {devOnly && true && (
         <button onClick={getRemoteSamples}>Get remote samples</button>
-      )}
+      )} */}
     </>
   );
 };
