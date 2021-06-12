@@ -13,7 +13,7 @@ const MidiConnector = () => {
 
   return (
     <select
-      className="dropdown button midi-connector"
+      className="btn btn-dropdown btn__icon--midi midi-connector"
       onChange={handleSelectChange}
       value={midiInputId}
     >

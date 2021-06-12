@@ -1,3 +1,4 @@
+
 /*************************************
   CSS variables
   ***********************************/
@@ -25,3 +26,55 @@
 =phone-portrait
   @media (max-width: 41.4em)
     @content
+
+/*************************************
+  Buttons
+  ***********************************/
+.btn
+  background-color: var(--color-bg)
+  border-radius: .6rem
+  border: solid .1rem var(--color-corn)
+  color: var(--color-corn)
+  font-size: 1.2rem
+  margin: 0 1rem
+  padding: 2rem 3rem
+  text-transform: uppercase
+  width: 23.3rem
+
+.btn-dropdown
+  -webkit-appearance: none
+  appearance: none
+  background-position: left 5% top 50%
+  background-repeat: no-repeat
+  text-align-last: center
+  &:hover
+    border-color: yellow
+
+.btn-upload
+  height: .01rem
+  opacity: 0
+  overflow: hidden
+  position: absolute
+  width: .01rem
+  z-index: -1
+  &:focus + .btn-upload__label
+    border-color: yellow
+  &:focus + .btn-upload__label
+    outline: 1px dotted #000
+    outline: -webkit-focus-ring-color auto 5px
+
+.btn-upload__label
+  background-position: left 5% top 50%
+  background-repeat: no-repeat
+  cursor: pointer
+  display: block
+  text-align: center
+  &:hover
+    border-color: yellow
+
+// Button icons
+.btn__icon--
+  &upload
+    background-image: url("../../images/icon-upload.svg")
+  &midi
+    background-image: url("../../images/icon-midi.svg")

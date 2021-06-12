@@ -12,13 +12,13 @@ export const MidiContext = createContext<MidiContextType>({
 });
 
 export const useMidiContext = () => {
-  const store = useContext(MidiContext);
+  const context = useContext(MidiContext);
 
-  if (!store) {
+  if (!context) {
     throw new Error('Cannot use `useMidiContext` outside of a MidiProvider');
   }
 
-  return store;
+  return context;
 };
 
 export const useMidiStore = () => {

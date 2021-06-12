@@ -1,6 +1,5 @@
 import { AudioContext } from 'standardized-audio-context';
-import { SPN } from '../constants';
-import { Octave } from '../services/selector';
+import { Octave, SPN } from '../constants';
 import { Sample } from '../services/samples';
 import { makeSamplesTable } from './samples-map';
 

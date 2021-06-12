@@ -40,7 +40,7 @@ export const makeListeners = (sampler: Sampler) => {
 
   const toggleSelectListener = (functionName: string) => {
     for (const eventName of MOUSE_EVENTS) {
-      controller[functionName](eventName, selectListener);
+      controller[functionName](eventName, selectListener, { passive: true });
     }
   };
 
