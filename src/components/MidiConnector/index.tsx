@@ -1,6 +1,5 @@
 import React from 'react';
 import { useMidi } from '../../hooks/useMidi';
-import './style.sass';
 
 const MidiConnector = () => {
   const { handleSelectChange, midiInputId, midiInputs } = useMidi();
@@ -13,7 +12,7 @@ const MidiConnector = () => {
 
   return (
     <select
-      className="dropdown button midi-connector"
+      className="btn btn-dropdown btn__icon--midi btn--sm"
       onChange={handleSelectChange}
       value={midiInputId}
     >
