@@ -32,6 +32,8 @@
   ***********************************/
 .btn
   background-color: var(--color-bg)
+  background-position: left 5% top 50%
+  background-repeat: no-repeat
   border-radius: .6rem
   border: solid .1rem var(--color-corn)
   color: var(--color-corn)
@@ -44,11 +46,17 @@
 .btn-dropdown
   -webkit-appearance: none
   appearance: none
-  background-position: left 5% top 50%
-  background-repeat: no-repeat
   text-align-last: center
   &:hover
     border-color: yellow
+
+.btn-upload__label
+  cursor: pointer
+  display: block
+  text-align: center
+  &:hover
+    border-color: yellow
+    color: yellow
 
 .btn-upload
   height: .01rem
@@ -59,18 +67,25 @@
   z-index: -1
   &:focus + .btn-upload__label
     border-color: yellow
-  &:focus + .btn-upload__label
     outline: 1px dotted #000
     outline: -webkit-focus-ring-color auto 5px
 
-.btn-upload__label
-  background-position: left 5% top 50%
-  background-repeat: no-repeat
-  cursor: pointer
-  display: block
-  text-align: center
-  &:hover
-    border-color: yellow
+// Button sizes
+=btn--sm
+  width: 5.7rem
+  height: 5.7rem
+  background-position-x: 50%
+  border-radius: 50%
+  padding: 0
+  font-size: 0
+
+.btn--lg-sm
+  width: 29.5rem
+  +phone-portrait
+    +btn--sm
+
+.btn--sm
+  +btn--sm
 
 // Button icons
 .btn__icon--

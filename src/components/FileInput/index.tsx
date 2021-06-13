@@ -15,7 +15,10 @@ const UploadButton = ({ onSelect }: Props) => (
       onChange={onSelect}
       type="file"
     />
-    <label htmlFor="upload" className="btn btn-upload__label btn__icon--upload">
+    <label
+      htmlFor="upload"
+      className="btn btn-upload__label btn__icon--upload btn--lg-sm"
+    >
       Import
     </label>
   </>
