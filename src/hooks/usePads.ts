@@ -14,15 +14,12 @@ export const usePadGrid = () => {
     const numberOfSamples = samplesTable?.length || 0;
 
     const header = document.getElementsByTagName('header')[0];
-    const buttons = document.getElementById('buttons');
 
     const { innerHeight: viewportHeight, innerWidth: viewportWidth } = window;
 
-    const topHeight =
-      header.getBoundingClientRect().height +
-      buttons.getBoundingClientRect().height;
+    const { height: headerHeight } = header.getBoundingClientRect();
 
-    const remainingHeight = viewportHeight - topHeight;
+    const remainingHeight = viewportHeight - headerHeight;
 
     const numberOfColumnThatFitsWidth = Math.floor((viewportWidth - 10) / 150);
 
