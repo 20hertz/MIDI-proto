@@ -13,7 +13,7 @@ export const usePadGrid = () => {
   useEffect(() => {
     const numberOfSamples = samplesTable?.length || 0;
 
-    const header = document.getElementsByTagName('header')[0];
+    const header = document.querySelector('.header');
 
     const { innerHeight: viewportHeight, innerWidth: viewportWidth } = window;
 
