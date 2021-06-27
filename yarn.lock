@@ -791,6 +791,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@parcel/packager-raw-url@npm:^2.0.0-beta.3.1":
+  version: 2.0.0-nightly.2358
+  resolution: "@parcel/packager-raw-url@npm:2.0.0-nightly.2358"
+  dependencies:
+    "@parcel/plugin": 2.0.0-nightly.736+88f2c7c2
+    "@parcel/utils": 2.0.0-nightly.736+88f2c7c2
+  checksum: ea1605a44d6ccb0b1cd5ce64e61dc6e0e743bf9924324015849eb0b44718de5a6f55f9464829caf8774c7395d35c6e565ac249810e7fefb9fa747f6c7e8ea106
+  languageName: node
+  linkType: hard
+
 "@parcel/packager-raw@npm:2.0.0-nightly.736+88f2c7c2":
   version: 2.0.0-nightly.736
   resolution: "@parcel/packager-raw@npm:2.0.0-nightly.736"
@@ -800,7 +810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parcel/plugin@npm:2.0.0-nightly.736+88f2c7c2":
+"@parcel/plugin@npm:2.0.0-nightly.736+88f2c7c2, @parcel/plugin@npm:^2.0.0-beta.1":
   version: 2.0.0-nightly.736
   resolution: "@parcel/plugin@npm:2.0.0-nightly.736"
   dependencies:
@@ -1047,6 +1057,18 @@ __metadata:
   peerDependencies:
     typescript: ">=3.0.0"
   checksum: 500f4683eeff61284ffc9d0b4d696cb0308b1e328a62ffdb260911639ad8ba67129957ff52f842377a7b6f9bd8379b8b3b7247a906952b9736899cb81d2d7f13
+  languageName: node
+  linkType: hard
+
+"@parcel/transformer-webmanifest@npm:^2.0.0-beta.3.1":
+  version: 2.0.0-nightly.2358
+  resolution: "@parcel/transformer-webmanifest@npm:2.0.0-nightly.2358"
+  dependencies:
+    "@parcel/diagnostic": 2.0.0-nightly.736+88f2c7c2
+    "@parcel/plugin": 2.0.0-nightly.736+88f2c7c2
+    "@parcel/utils": 2.0.0-nightly.736+88f2c7c2
+    json-source-map: ^0.6.1
+  checksum: 3876667a8caf1808e446e0fb1f2e8955515341b862596d20ecfb4ea0b159e375477551247da480673e93cc286e69991a277ca7669dd821b7b5536c9432817b01
   languageName: node
   linkType: hard
 
@@ -1704,8 +1726,10 @@ __metadata:
   dependencies:
     "@babel/core": ^7.14.5
     "@parcel/config-default": ^2.0.0-beta.3.1
+    "@parcel/packager-raw-url": ^2.0.0-beta.3.1
     "@parcel/transformer-sass": ^2.0.0-beta.3.1
     "@parcel/transformer-typescript-tsc": ^2.0.0-beta.3.1
+    "@parcel/transformer-webmanifest": ^2.0.0-beta.3.1
     "@types/babel__core": ^7.1.14
     "@types/node": ^15.12.2
     "@types/react": ^17.0.11
@@ -1713,6 +1737,7 @@ __metadata:
     "@types/sass": ^1.16.0
     jszip: 3.5.0
     parcel: ^2.0.0-beta.3.1
+    parcel-reporter-static-files-copy: ^1.3.0
     react: ^17.0.2
     react-dom: ^17.0.2
     sass: ^1.34.1
@@ -5272,6 +5297,15 @@ fsevents@~2.3.1:
   version: 1.0.11
   resolution: "pako@npm:1.0.11"
   checksum: 71c60150b68220ec52a404f3c39a4ed38f750e42452b88fe0eb2e6b5c98e91f73f706444359b097aca1e6db83ef8fef50b5a9ec100e30a606cda6da8d45e5439
+  languageName: node
+  linkType: hard
+
+"parcel-reporter-static-files-copy@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "parcel-reporter-static-files-copy@npm:1.3.0"
+  dependencies:
+    "@parcel/plugin": ^2.0.0-beta.1
+  checksum: 2131fe297d7dff23205b77dc797149553d1f19ef983c0cc5f78fe852ffac38753e9e4e82d904df2da8daca3f46049519226150651c52918f7d30fd5ca890f6e1
   languageName: node
   linkType: hard
 
