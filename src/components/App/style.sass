@@ -97,30 +97,3 @@ html
 body
   background-color: var(--color-bg)
   font-family: "IBMPlexSans-Regular"
-
-.control-panel
-  display: grid
-  grid-template-columns: repeat(5, 20%)
-  grid-template-rows: repeat(2, auto)
-  grid-row-gap: 6rem
-  padding: 6rem 0
-  +phone-portrait
-    grid-template-columns: repeat(3, auto)
-    grid-template-rows: auto
-
-.control-panel__item
-  justify-self: center
-  align-self: center
-  +phone-portrait
-    grid-column: initial
-
-.logo
-  grid-column: 3
-
-.file-loader
-  grid-column: 2
-  +phone-portrait
-    order: -1
-
-.midi-connector
-  grid-column: 4
