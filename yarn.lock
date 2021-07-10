@@ -1701,7 +1701,7 @@ __metadata:
     "@types/react": ^17.0.14
     "@types/react-dom": ^17.0.9
     "@types/sass": ^1.16.1
-    jszip: 3.5.0
+    jszip: 3.6.0
     parcel: ^2.0.0-beta.3.1
     parcel-reporter-static-files-copy: ^1.3.0
     react: ^17.0.2
@@ -4422,15 +4422,15 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"jszip@npm:3.5.0":
-  version: 3.5.0
-  resolution: "jszip@npm:3.5.0"
+"jszip@npm:3.6.0":
+  version: 3.6.0
+  resolution: "jszip@npm:3.6.0"
   dependencies:
     lie: ~3.3.0
     pako: ~1.0.2
     readable-stream: ~2.3.6
     set-immediate-shim: ~1.0.1
-  checksum: 6b5e86e7101b2162cedb88979fbb0c9bc83522d143bc29e582b9cc2dcfe9a12be299cbfa32a58b44a51df1621633dd15b5f0f8e9625c8d4070144d80d7489393
+  checksum: 7b6e31bbe30c22491830b29e45642e2c8aba3bc45e1ebe855ceee593bc80c2dafab5ba0457d8b8889f70c7e227626da4bdca6160b2e4d3fdf7003c1aee989b72
   languageName: node
   linkType: hard
 
