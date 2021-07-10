@@ -56,16 +56,15 @@ export const useRemoteFiles = () => {
     try {
       const response = await fetch(request);
       const blob = await response.blob();
-      const { files } = await JSZip.loadAsync(blob);
-
+      const files = await uncompress(blob);
       const remoteSamples = await Promise.all(
         Object.keys(files).map(
-          filename =>
+          fileName =>
             new Promise<Sample>(async resolve => {
-              const fileData = await files[filename].async('arraybuffer');
+              const arrayBuffer = await files[fileName].async('arraybuffer');
               resolve({
-                fileName: filename,
-                arrayBuffer: fileData,
+                fileName,
+                arrayBuffer,
               });
             })
         )
@@ -78,6 +77,17 @@ export const useRemoteFiles = () => {
     }
   };
   return { getRemoteSamples };
+};
+
+const uncompress = async (blob: Blob) => {
+  switch (blob.type) {
+    case 'application/zip':
+      const { files } = await JSZip.loadAsync(blob);
+      return files;
+
+    default:
+      throw new Error(`Unknown archive file format: ${blob.type}`);
+  }
 };
 
 const makeLocalSample = (file: File) =>
